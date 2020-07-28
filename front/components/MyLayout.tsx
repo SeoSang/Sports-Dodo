@@ -3,27 +3,15 @@ import { Drawer, Button, Row, Menu, Col, Popover, Layout } from "antd"
 import { useState } from "react"
 import styled from "styled-components"
 import { FC } from "react"
-import {
-  UserOutlined,
-  AppstoreOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  ContainerOutlined,
-  MailOutlined,
-} from "@ant-design/icons"
+import { UserOutlined, MenuUnfoldOutlined } from "@ant-design/icons"
 import Avatar from "antd/lib/avatar/avatar"
-import SubMenu from "antd/lib/menu/SubMenu"
+import { Background90Div } from "../styles/styled-components"
+import MainMenu from "./MainMenu"
 
 const dummy_me = {
   email: "scscsc@naver.com",
   nickname: "김건모",
 }
-
-export const BackgroundDiv = styled.div`
-  height: 90vh;
-`
 
 const TitleBarDiv = styled.div`
   border-bottom-width: 1px;
@@ -57,7 +45,7 @@ const MyLayout: FC<{ children: any }> = ({ children }) => {
             </Button>
           </Col>
           <Col style={{ textAlign: "center" }} span={16}>
-            <h1>LOGO</h1>
+            <h1 style={{ color: "#1890FF" }}>LOGO</h1>
           </Col>
           <Col
             style={{
@@ -74,41 +62,10 @@ const MyLayout: FC<{ children: any }> = ({ children }) => {
           </Col>
         </Row>
       </TitleBarDiv>
-      <div style={{ zIndex: 10, position: "absolute", width: 256, top: "70px" }}>
-        <Menu
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
-          mode='inline'
-          theme='dark'
-          inlineCollapsed={visible}
-        >
-          <Menu.Item key='1' icon={<DesktopOutlined />}>
-            매칭 보기
-          </Menu.Item>
-          <Menu.Item key='2' icon={<PieChartOutlined />}>
-            통계 보기
-          </Menu.Item>
-          <Menu.Item key='3' icon={<ContainerOutlined />}>
-            적중 내역보기
-          </Menu.Item>
-          <SubMenu key='sub1' icon={<AppstoreOutlined />} title='기타 메뉴'>
-            <Menu.Item key='5'>메뉴 1</Menu.Item>
-            <Menu.Item key='6'>메뉴 2</Menu.Item>
-            <Menu.Item key='7'>메뉴 3</Menu.Item>
-          </SubMenu>
-          <SubMenu key='sub2' icon={<MailOutlined />} title='커뮤니티'>
-            <Menu.Item key='9'>커뮤니티 1</Menu.Item>
-            <Menu.Item key='10'>커뮤니티 2</Menu.Item>
-            <SubMenu key='sub3' title='Submenu'>
-              <Menu.Item key='11'>기타 1</Menu.Item>
-              <Menu.Item key='12'>기타 2</Menu.Item>
-            </SubMenu>
-          </SubMenu>
-        </Menu>
-      </div>
-      <Row>
-        <BackgroundDiv>{children}</BackgroundDiv>
-      </Row>
+      <MainMenu visible={visible} />
+      <Background90Div style={{ backgroundColor: "#b2bec3", textAlign: "center" }}>
+        {children}
+      </Background90Div>
       <Layout.Footer style={{ textAlign: "center" }}>
         프로젝트 이름 ©2020 Created by ~~~
       </Layout.Footer>
