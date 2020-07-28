@@ -2,8 +2,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
@@ -13,4 +13,22 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.cursor-point {
+  cursor: pointer;
+}
+
+/* 세로 가운데 정렬 내부 요소 */
+.vertical-mid {
+  position: relative;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+
+/* 가로 가운데 정렬 내부 요소 */
+.horizantal-mid {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }
