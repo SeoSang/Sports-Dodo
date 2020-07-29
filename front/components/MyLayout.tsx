@@ -8,6 +8,7 @@ import Avatar from "antd/lib/avatar/avatar"
 import { Background90Div } from "../styles/styled-components"
 import MainMenu from "./MainMenu"
 import { dummy_me } from "../src/dummy.js"
+import Link from "next/link"
 
 const TitleBarDiv = styled.div`
   border-bottom-width: 1px;
@@ -47,7 +48,9 @@ const MyLayout: FC<{ children: any }> = ({ children }) => {
             </Button>
           </Col>
           <Col style={{ textAlign: "center" }} span={16}>
-            <h1 style={{ color: "#1890FF" }}>LOGO</h1>
+            <Link href='/'>
+              <a style={{ fontSize: "2em", color: "#1890FF" }}>LOGO</a>
+            </Link>
           </Col>
           <Col
             style={{
