@@ -1,7 +1,6 @@
 import React from "react"
 import { Drawer, Button, Row, Menu } from "antd"
 import { useState } from "react"
-import { NextPage, NextComponentType, NextPageContext } from "next"
 import styled from "styled-components"
 import { FC } from "react"
 
