@@ -18,7 +18,6 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
-          <title>My page</title>
           {/* 최종 : head에 뽑았던 스타일 태그들을 넣어준다. */}
           {(this.props as any).styleTags}
         </Head>

@@ -7,11 +7,7 @@ import { UserOutlined, MenuUnfoldOutlined } from "@ant-design/icons"
 import Avatar from "antd/lib/avatar/avatar"
 import { Background90Div } from "../styles/styled-components"
 import MainMenu from "./MainMenu"
-
-const dummy_me = {
-  email: "scscsc@naver.com",
-  nickname: "김건모",
-}
+import { dummy_me } from "../src/dummy.js"
 
 const TitleBarDiv = styled.div`
   border-bottom-width: 1px;
@@ -19,6 +15,12 @@ const TitleBarDiv = styled.div`
   background-color: #001529;
   padding: 2px;
 `
+
+const ContentDiv = styled.div`
+  background-color: #d1ccc0;
+  height: 80vh;
+`
+
 const MyProfile = (
   <div>
     <h2>{dummy_me?.email}</h2>
@@ -63,8 +65,8 @@ const MyLayout: FC<{ children: any }> = ({ children }) => {
         </Row>
       </TitleBarDiv>
       <MainMenu visible={visible} />
-      <Background90Div style={{ backgroundColor: "#b2bec3", textAlign: "center" }}>
-        {children}
+      <Background90Div style={{ textAlign: "center" }}>
+        <ContentDiv>{children}</ContentDiv>
       </Background90Div>
       <Layout.Footer style={{ textAlign: "center" }}>
         프로젝트 이름 ©2020 Created by ~~~
