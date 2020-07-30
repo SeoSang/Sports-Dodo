@@ -6,12 +6,26 @@ export const dummy_me = {
   nickname: "김건모",
 }
 
-export const dummy_match = {
+export const dummy_match_A = {
   teamA: "토트넘",
   teamB: "아스날",
   time: new Date(),
   battings: [],
 }
+export const dummy_match_B = {
+  teamA: "토트넘",
+  teamB: "아스날",
+  time: new Date(),
+  battings: [],
+}
+export const dummy_match_C = {
+  teamA: "토트넘",
+  teamB: "아스날",
+  time: new Date(),
+  battings: [],
+}
+
+export const dummy_main_mathes = [dummy_match_A, dummy_match_B, dummy_match_C]
 
 export const dummy_ranking_A = {
   event: "축구",

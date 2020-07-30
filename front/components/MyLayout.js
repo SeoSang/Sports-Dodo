@@ -2,7 +2,7 @@ import React from "react"
 import { Drawer, Button, Row, Menu, Col, Popover, Layout } from "antd"
 import { useState } from "react"
 import styled from "styled-components"
-import { UserOutlined, MenuUnfoldOutlined } from "@ant-design/icons"
+import { UserOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
 import Avatar from "antd/lib/avatar/avatar"
 import { Background90Div } from "../styles/styled-components"
 import MainMenu from "./MainMenu"
@@ -43,7 +43,7 @@ const MyLayout = ({ children }) => {
         <Row style={{ height: "50px" }}>
           <Col className='vertical-mid' span={4}>
             <Button onClick={toggleCollapsed}>
-              <MenuUnfoldOutlined />
+              {visible ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
             </Button>
           </Col>
           <Col style={{ textAlign: "center" }} span={16}>
