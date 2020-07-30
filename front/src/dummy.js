@@ -13,4 +13,17 @@ export const dummy_match = {
   battings: [],
 }
 
+export const dummy_ranking_A = {
+  event: "축구",
+  rankings: ["토트넘", "손흥민", "박지성", "김홍길", "동임꺽"],
+}
+export const dummy_ranking_B = {
+  event: "야구",
+  rankings: ["김현수", "야구의왕", "내이름", "은바로", "김상순"],
+}
+export const dummy_ranking_C = {
+  event: "농구",
+  rankings: ["마이클", "조던", "서장훈", "김홍길", "동임꺽"],
+}
+
 export const BACKEND_URL = "http://localhost:12312"
