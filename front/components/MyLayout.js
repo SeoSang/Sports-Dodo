@@ -2,7 +2,6 @@ import React from "react"
 import { Drawer, Button, Row, Menu, Col, Popover, Layout } from "antd"
 import { useState } from "react"
 import styled from "styled-components"
-import { FC } from "react"
 import { UserOutlined, MenuUnfoldOutlined } from "@ant-design/icons"
 import Avatar from "antd/lib/avatar/avatar"
 import { Background90Div } from "../styles/styled-components"
@@ -33,7 +32,7 @@ const MyProfile = (
   </div>
 )
 
-const MyLayout: FC<{ children: any }> = ({ children }) => {
+const MyLayout = ({ children }) => {
   const [visible, setVisible] = useState(false)
   const toggleCollapsed = () => {
     setVisible(!visible)

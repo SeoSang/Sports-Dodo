@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React from "react"
 import { Menu } from "antd"
 import SubMenu from "antd/lib/menu/SubMenu"
 import Link from "next/link"
@@ -11,7 +11,7 @@ import {
   MailOutlined,
 } from "@ant-design/icons"
 
-const MainMenu: FC<{ visible: boolean }> = ({ visible }) => {
+const MainMenu = ({ visible }) => {
   return (
     <div style={{ zIndex: 10, position: "absolute", width: 256, top: "70px" }}>
       <Menu

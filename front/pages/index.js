@@ -1,5 +1,5 @@
 import { Row, Col, Card, Progress } from "antd"
-import { dummy_match } from "../src/dummy.js"
+import { dummy_match } from "../src/dummy"
 
 const Home = () => {
   // TODO : 메인페이지 길이가 짧으면 오른쪽으로 붙는 버그 수정

@@ -5,8 +5,8 @@ import { Provider } from "react-redux"
 import createSagaMiddleware from "redux-saga"
 import withRedux from "next-redux-wrapper"
 import withReduxSaga from "next-redux-saga"
-import reducer from "../reducers"
 import { Middleware, applyMiddleware, compose, createStore, Store } from "redux"
+import reducer from "../reducers"
 import rootSaga from "../sagas"
 
 const MyApp = ({ Component, store, pageProps }) => {
@@ -46,7 +46,7 @@ const makeStore = (initialState, options) => {
   const store = createStore(reducer, initialState, applyMiddleware(sagaMiddleware))
 
   // 3: Run your sagas:
-  sagaMiddleware.run(rootSaga)
+  store.sagaTask = sagaMiddleware.run(rootSaga)
 
   // 4: now return the store:
   return store
