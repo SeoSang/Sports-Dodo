@@ -8,9 +8,9 @@ const BASEBALL_TRANSLATE = "-33.3%"
 const BASKETBALL_TRANSLATE = "-66.6%"
 
 const IMAGE_MAPPING = {
-  "축구": "/images/premier_league.png",
-  "야구": "/images/premier_league.png",
-  "농구": "/images/premier_league.png",
+  축구: "/images/premier_league.png",
+  야구: "/images/kbo.png",
+  농구: "/images/nba.jpg",
 }
 
 const Home = () => {
@@ -71,7 +71,6 @@ const Home = () => {
         <h2>실시간 랭킹</h2>
         <Row>
           {dummy_main_rankings.map((ranking) => {
-            console.log(ranking)
             return (
               <Col span={8}>
                 <List
