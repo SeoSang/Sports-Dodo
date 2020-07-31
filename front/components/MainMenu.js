@@ -16,7 +16,7 @@ const MainMenu = ({ visible }) => {
     <div style={{ zIndex: 10, position: "absolute", width: 256, top: "70px" }}>
       <Menu
         defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
+        defaultOpenKeys={[]}
         mode='inline'
         theme='dark'
         inlineCollapsed={!visible}
