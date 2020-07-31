@@ -1,17 +1,17 @@
 import { List, Row, Col, Card, Progress, Button, Layout } from "antd"
-import {
-  dummy_match_A,
-  dummy_ranking_A,
-  dummy_ranking_B,
-  dummy_ranking_C,
-  dummy_main_matches,
-} from "../src/dummy"
+import { dummy_match_A, dummy_main_rankings, dummy_main_matches } from "../src/dummy"
 import { UpperDiv, LowerDiv, SportCategories } from "../styles/styled-components"
 import { useState, useRef } from "react"
 
 const FOOTBALL_TRANSLATE = "-0"
 const BASEBALL_TRANSLATE = "-33.3%"
 const BASKETBALL_TRANSLATE = "-66.6%"
+
+const IMAGE_MAPPING = {
+  "축구": "/images/premier_league.png",
+  "야구": "/images/premier_league.png",
+  "농구": "/images/premier_league.png",
+}
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(1)
@@ -51,6 +51,8 @@ const Home = () => {
                   >
                     <h2>{`${match.teamA} VS ${match.teamB}`} </h2>
                     <Progress type='circle' percent={75} />
+                    <br></br>
+                    <Button style={{ marginTop: "15px" }}>자세히 보기</Button>
                   </Card>
                 ))}
               </div>
@@ -68,30 +70,24 @@ const Home = () => {
       <LowerDiv>
         <h2>실시간 랭킹</h2>
         <Row>
-          <Col span={8}>
-            <List
-              header={<h2>{dummy_ranking_A.event}</h2>}
-              bordered
-              dataSource={dummy_ranking_A.rankings}
-              renderItem={(item, i) => <List.Item>{`${i + 1}위 - ${item}`}</List.Item>}
-            ></List>
-          </Col>
-          <Col span={8}>
-            <List
-              header={<h2>{dummy_ranking_B.event}</h2>}
-              bordered
-              dataSource={dummy_ranking_B.rankings}
-              renderItem={(item, i) => <List.Item>{`${i + 1}위 - ${item}`}</List.Item>}
-            ></List>
-          </Col>
-          <Col span={8}>
-            <List
-              header={<h2>{dummy_ranking_C.event}</h2>}
-              bordered
-              dataSource={dummy_ranking_C.rankings}
-              renderItem={(item, i) => <List.Item>{`${i + 1}위 - ${item}`}</List.Item>}
-            ></List>
-          </Col>
+          {dummy_main_rankings.map((ranking) => {
+            console.log(ranking)
+            return (
+              <Col span={8}>
+                <List
+                  header={
+                    <img
+                      style={{ width: "60px", height: "30px" }}
+                      src={IMAGE_MAPPING[ranking.event]}
+                    ></img>
+                  }
+                  bordered
+                  dataSource={ranking.rankings}
+                  renderItem={(item, i) => <List.Item>{`${i + 1}위 - ${item}`}</List.Item>}
+                ></List>
+              </Col>
+            )
+          })}
         </Row>
       </LowerDiv>
     </>

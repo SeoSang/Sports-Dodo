@@ -27,7 +27,11 @@ const MyProfile = (
     <h3>{dummy_me?.nickname + "님"}</h3>
     <p>Point : 356p</p>
     <p>랭킹 : 777위</p>
-    <Button style={{ margin: "5px" }}>자세히</Button>
+    <Button style={{ margin: "5px" }}>
+      <Link href='./profile'>
+        <a>자세히</a>
+      </Link>
+    </Button>
     <Button style={{ margin: "5px" }}>로그아웃</Button>
   </div>
 )

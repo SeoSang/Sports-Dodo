@@ -47,4 +47,6 @@ export const dummy_ranking_C = {
   rankings: ["마이클", "조던", "서장훈", "김홍길", "동임꺽"],
 }
 
+export const dummy_main_rankings = [dummy_ranking_A, dummy_ranking_B, dummy_ranking_C]
+
 export const BACKEND_URL = "http://localhost:12312"
