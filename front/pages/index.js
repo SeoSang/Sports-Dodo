@@ -47,7 +47,7 @@ const Home = () => {
                   <Card
                     title={dummy_main_matches.event}
                     bordered={false}
-                    style={{ margin: "3px 5px", width: "11%" }}
+                    style={{ margin: "3px 5px", width: "11%", height: "100%" }}
                   >
                     <h2>{`${match.teamA} VS ${match.teamB}`} </h2>
                     <Progress type='circle' percent={75} />
