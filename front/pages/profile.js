@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Avatar } from 'antd';
 import { dummy_profile } from '../src/dummy';
 import styled from 'styled-components';
+import { LOAD_USER_REQUEST } from '../sagas/user';
 
 const profileCardStye = {
   backgroundColor: '#c8d6e5',
@@ -17,6 +18,7 @@ const BattingsCard = styled.div`
 `;
 
 const profile = () => {
+  const { me } = useSelector((state) => state.user);
   return (
     <>
       <Row style={{ marginBottom: '20px' }}>
@@ -78,6 +80,14 @@ const profile = () => {
       </BattingsCard>
     </>
   );
+};
+
+profile.getInitialProps = async (context) => {
+  context.store.dispatch({
+    type: LOAD_USER_REQUEST,
+    data: { me: true, id: 0 },
+  });
+  return;
 };
 
 export default profile;
