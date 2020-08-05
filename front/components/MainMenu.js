@@ -30,7 +30,7 @@ const MainMenu = ({ visible }) => {
         </Menu.Item>
         <SubMenu key="sub1" icon={<DesktopOutlined />} title="매칭 보기">
           <Menu.Item key="1">
-            <Link href="/matching">
+            <Link href="/matchings">
               <a>축구</a>
             </Link>
           </Menu.Item>
@@ -43,7 +43,7 @@ const MainMenu = ({ visible }) => {
           </Link>
         </Menu.Item>
         <Menu.Item key="5" icon={<PieChartOutlined />}>
-          <Link href="/ranking">
+          <Link href="../pages/ranking">
             <a>전체 랭킹</a>
           </Link>
         </Menu.Item>

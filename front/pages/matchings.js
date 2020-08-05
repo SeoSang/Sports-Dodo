@@ -2,9 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import axios from "axios";
 import Match from "./Match";
 
-import { Route } from "react-router-dom";
 import Link from "next/link";
-
 import { Table, Tag, Space } from "antd";
 
 import { AlignCenterOutlined } from "@ant-design/icons";
@@ -58,27 +56,34 @@ function matching() {
       {users.map((data) => {
         return (
           <Match
-            key={data.matchid}
-            matchid={data.matchid}
-            teamA={data.teamA}
-            teamB={data.teamB}
-            match_date={data.match_date}
+            key={data._id}
+            _id={data._id}
+            homeTeam={data.homeTeam}
+            awayTeam={data.awayTeam}
+            totalPoint={data.totalPoint}
+            startTime={data.startTime}
+            result={data.result}
           />
         );
       })}
       <Table dataSource={users}>
+        <Column title="matchid" dataIndex="_id" key="_id" align="center" />
         <Column
-          title="matchid"
-          dataIndex="matchid"
-          key="matchid"
+          title="homeTeam"
+          dataIndex="homeTeam"
+          key="homeTeam"
           align="center"
         />
-        <Column title="teamA" dataIndex="teamA" key="teamA" align="center" />
-        <Column title="teamB" dataIndex="teamB" key="teamB" align="center" />
         <Column
-          title="match_date"
-          dataIndex="match_date"
-          key="match_date"
+          title="awayTeam"
+          dataIndex="awayTeam"
+          key="awayTeam"
+          align="center"
+        />
+        <Column
+          title="startTime"
+          dataIndex="startTime"
+          key="startTime"
           align="center"
         />
 
@@ -90,7 +95,8 @@ function matching() {
             <Space size="middle">
               {/* 나중에 승무패 대신 배팅 비율 */}
 
-              <Link href="./Match">
+              <Link href="`./Match`">
+                {/* <Link href="`./Match/:${users.matchid}`"> */}
                 <a>승 </a>
               </Link>
               {/* <a Link="/Match/:1">승 {record.lastName}</a> */}
@@ -104,6 +110,7 @@ function matching() {
           dataIndex="totalPoint"
           sorter={(a, b) => a.totalPoint - b.totalPoint}
         />
+        <Column title="result" dataIndex="result" key="result" />
         <Column title="자세히보기" dataIndex="asdf">
           {/* <Route path="/matching/:matchid" Component={matching}></Route> */}
         </Column>
