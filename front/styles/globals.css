@@ -32,3 +32,8 @@ a {
   left: 50%;
   transform: translate(-50%, 0%);
 }
+.site-layout-content {
+  background: #fff;
+  padding: 24px;
+  min-height: 280px;
+}

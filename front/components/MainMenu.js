@@ -34,7 +34,11 @@ const MainMenu = ({ visible }) => {
               <a>축구</a>
             </Link>
           </Menu.Item>
-          <Menu.Item key="2">야구</Menu.Item>
+          <Menu.Item key="2">
+            <Link href="/test">
+              <a>야구</a>
+            </Link>
+          </Menu.Item>
           <Menu.Item key="3">농구</Menu.Item>
         </SubMenu>
         <Menu.Item key="4" icon={<ContainerOutlined />}>
@@ -43,7 +47,7 @@ const MainMenu = ({ visible }) => {
           </Link>
         </Menu.Item>
         <Menu.Item key="5" icon={<PieChartOutlined />}>
-          <Link href="../pages/ranking">
+          <Link href="/ranking">
             <a>전체 랭킹</a>
           </Link>
         </Menu.Item>

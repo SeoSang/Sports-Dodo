@@ -95,7 +95,7 @@ function matching() {
             <Space size="middle">
               {/* 나중에 승무패 대신 배팅 비율 */}
 
-              <Link href="`./Match`">
+              <Link href="`./test`">
                 {/* <Link href="`./Match/:${users.matchid}`"> */}
                 <a>승 </a>
               </Link>
