@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import createSagaMiddleware from "redux-saga";
 import withRedux from "next-redux-wrapper";
 import withReduxSaga from "next-redux-saga";
+import "antd/dist/antd.css";
 import {
   Middleware,
   applyMiddleware,
@@ -23,11 +24,7 @@ const MyApp = ({ Component, store, pageProps }) => {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css"
         ></link>
-        {/* material ui 폰트 불러오기 로보토 폰트 */}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        ></link>
+
         <link
           rel="stylesheet"
           type="text/css"
