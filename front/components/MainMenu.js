@@ -14,7 +14,7 @@ import {
 
 const MainMenu = ({ visible }) => {
   return (
-    <div style={{ zIndex: 10, position: "absolute", width: 256, top: "70px" }}>
+    <div style={{ zIndex: 9, position: "absolute", width: 256, top: "70px" }}>
       <Menu
         defaultSelectedKeys={["1"]}
         defaultOpenKeys={[]}

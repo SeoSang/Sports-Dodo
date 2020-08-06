@@ -19,16 +19,18 @@ const { Header, Footer, Sider, Content } = Layout;
 const test = () => {
   return (
     <>
-      <Row style={{ height: "50px" }}>
-        <Col span={8}>game</Col>
-        <Col span={8} offset={8}>
-          승 무 패
-        </Col>
-        <Col></Col>
-      </Row>
+      <UpperDiv>
+        <Row style={{ height: "50px" }}>
+          <Col span={8}>game</Col>
+          <Col span={8} offset={8}>
+            승 무 패
+          </Col>
+          <Col></Col>
+        </Row>
+      </UpperDiv>
 
       <LowerDiv>
-        <h2>랭커들의 배팅</h2>
+        <h2 className="ranking">랭커들의 배팅</h2>
         <Row>
           {/* {dummy_ranking_A?.map((ranking) => {
             return (

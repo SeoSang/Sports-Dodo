@@ -37,3 +37,20 @@ a {
   padding: 24px;
   min-height: 280px;
 }
+
+.rankings {
+  text-align: left;
+}
+.footer {
+  text-align: center;
+}
+.match_table {
+  z-index: 10;
+  margin-left: 1px;
+  margin-right: 1px;
+
+  width: 100%;
+  height: 60%;
+
+  padding-top: 1;
+}

@@ -40,7 +40,8 @@ const Home = () => {
     <>
       <Row style={{ textAlign: "center" }} justify="space-around" gutter={16}>
         <UpperDiv>
-          <Col span={20}>
+          {/* flex 가로 비율 설정 */}
+          <Col flex="1000px" span={20}>
             <div style={{ overflow: "hidden" }}>
               <div
                 ref={slideRef}
@@ -66,7 +67,7 @@ const Home = () => {
               </div>
             </div>
           </Col>
-          <Col span={4} style={{ height: "100%" }}>
+          <Col flex="auto" span={4} style={{ height: "100%" }}>
             <Layout style={{ height: "100%" }}>
               <SportCategories onClick={onClickFootball}>축구</SportCategories>
               <SportCategories onClick={onClickBaseball}>야구</SportCategories>

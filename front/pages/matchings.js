@@ -46,14 +46,8 @@ function matching() {
   console.log(users);
 
   return (
-    <div
-      style={{
-        marginLeft: 50,
-        marginRight: 50,
-        paddingTop: 100,
-      }}
-    >
-      {users.map((data) => {
+    <div className="match_table">
+      {/* {users.map((data) => {
         return (
           <Match
             key={data._id}
@@ -65,29 +59,40 @@ function matching() {
             result={data.result}
           />
         );
-      })}
+      })} */}
       <Table dataSource={users}>
-        <Column title="matchid" dataIndex="_id" key="_id" align="center" />
         <Column
+          witdh="1px"
+          title="matchid"
+          dataIndex="_id"
+          key="_id"
+          align="center"
+        />
+        <Column
+          width="10px"
           title="homeTeam"
           dataIndex="homeTeam"
           key="homeTeam"
           align="center"
         />
         <Column
+          width="10px"
           title="awayTeam"
           dataIndex="awayTeam"
           key="awayTeam"
           align="center"
         />
         <Column
+          witdh="10px"
           title="startTime"
           dataIndex="startTime"
           key="startTime"
+          sorter={(a, b) => a.totalPoint - b.totalPoint}
           align="center"
         />
 
         <Column
+          width="1px"
           title="Odds"
           key="odds"
           align="center"
@@ -106,12 +111,13 @@ function matching() {
           )}
         />
         <Column
-          title="배팅 총 포인트"
+          width="100px"
+          title="Total Point"
           dataIndex="totalPoint"
           sorter={(a, b) => a.totalPoint - b.totalPoint}
         />
-        <Column title="result" dataIndex="result" key="result" />
-        <Column title="자세히보기" dataIndex="asdf">
+        <Column width="10px" title="result" dataIndex="result" key="result" />
+        <Column width="10px" title="Details" dataIndex="asdf">
           {/* <Route path="/matching/:matchid" Component={matching}></Route> */}
         </Column>
       </Table>

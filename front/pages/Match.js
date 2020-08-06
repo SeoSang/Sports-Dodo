@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 function Match({ _id, homeTeam, awayTeam, startTime, totalPoint, result }) {
   const [test, getTest] = useState([]);
-  return <div></div>;
+  return; // <div></div>
 }
 
 Match.propTypes = {
