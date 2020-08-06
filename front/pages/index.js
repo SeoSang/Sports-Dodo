@@ -25,6 +25,7 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(1);
   const slideRef = useRef(null);
 
+<<<<<<< HEAD
   const onClickFootball = e => {
     // 슬라이드 애니메이션
     setCurrentSlide(FOOTBALL_TRANSLATE);
@@ -33,6 +34,16 @@ const Home = () => {
     setCurrentSlide(BASEBALL_TRANSLATE);
   };
   const onClickBasketball = e => {
+=======
+  const onClickFootball = (e) => {
+    // 슬라이드 애니메이션
+    setCurrentSlide(FOOTBALL_TRANSLATE);
+  };
+  const onClickBaseball = (e) => {
+    setCurrentSlide(BASEBALL_TRANSLATE);
+  };
+  const onClickBasketball = (e) => {
+>>>>>>> 0d0d66aa37d4af35280109ea812ca09a0fd7063b
     setCurrentSlide(BASKETBALL_TRANSLATE);
   };
 
@@ -51,7 +62,11 @@ const Home = () => {
                   transform: `translateX(${currentSlide}`,
                 }}
               >
+<<<<<<< HEAD
                 {dummy_main_matches.map(match => (
+=======
+                {dummy_main_matches.map((match) => (
+>>>>>>> 0d0d66aa37d4af35280109ea812ca09a0fd7063b
                   <Card
                     title={dummy_main_matches.category}
                     bordered={false}
@@ -62,7 +77,16 @@ const Home = () => {
                     }}
                   >
                     <h2>{`${match.teamA} VS ${match.teamB}`} </h2>
+<<<<<<< HEAD
                     <Progress type="circle" percent={75} />
+=======
+                    <label>승 : 100p</label>
+                    <Progress percent={30} size="small" />
+                    <label>무 : 350p</label>
+                    <Progress strokeColor={'green'} percent={50} size="small" />
+                    <label>패 : 80p</label>
+                    <Progress strokeColor={'red'} percent={20} size="small" />
+>>>>>>> 0d0d66aa37d4af35280109ea812ca09a0fd7063b
                     <br></br>
                     <Button style={{ marginTop: '15px' }}>자세히 보기</Button>
                   </Card>
@@ -84,7 +108,11 @@ const Home = () => {
       <LowerDiv>
         <h2>실시간 랭킹</h2>
         <Row>
+<<<<<<< HEAD
           {dummy_main_rankings.map(ranking => {
+=======
+          {dummy_main_rankings.map((ranking) => {
+>>>>>>> 0d0d66aa37d4af35280109ea812ca09a0fd7063b
             return (
               <Col span={8}>
                 <List
