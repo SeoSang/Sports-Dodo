@@ -68,13 +68,7 @@ __Response__
 ```
 {
     "success": true,
-    "data": {
-        "_id": "asdfhlk68242jklshdklfdsfrehwe",
-        "email": "jordan@gamil.com",
-        "password": "123123",
-        "name": "michel jordan",
-        "nickname": "basketballgot"
-    }
+    "token: "token value"
 }
 ```
 <br>
