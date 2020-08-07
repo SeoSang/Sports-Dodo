@@ -9,7 +9,15 @@ const battingRouter = require('./routes/batting');
 const resultRouter = require('./routes/result');
 const { upcoming } = require('./api/upcoming');
 
-require('dotenv').config(); // .env -> 중요정보 보호. (gitignore 해둬서 git에는 안감.)
+const connectDB = require('./config/db');
+
+
+//require('dotenv').config(); // .env -> 중요정보 보호. (gitignore 해둬서 git에는 안감.)
+// 밑에껄로 바꿀게요 !
+const dotenv = require('dotenv');
+dotenv.config({ path: './config/config.env'});
+
+connectDB();
 
 const app = express();
 
@@ -36,7 +44,7 @@ app.use('/', (req, res) => {
 });
 
 const port = process.env.PORT || 1337;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`실행됨 : http://localhost:${port}`);
   // 모든 리그 아이디 써보기.
   // upcoming();
