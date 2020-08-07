@@ -1,8 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const errorHandler = require('./middlewares/error');
 const userRouter = require('./routes/user');
 const matchRouter = require('./routes/match');
 const battingRouter = require('./routes/batting');
@@ -20,6 +22,12 @@ dotenv.config({ path: './config/config.env'});
 connectDB();
 
 const app = express();
+
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+app.use(bodyParser.json());
+
 
 // api를 위한 라우터들
 app.use('/api/user', userRouter);
@@ -39,9 +47,11 @@ app.use(
 app.use(express.json()); // form 데이터나 ajax 요청을 파싱해줌.
 
 // 서버 처리관련
-app.use('/', (req, res) => {
-  res.status(200).json('서버 메인입니다');
-});
+// app.use('/', (req, res) => {
+//   res.status(200).json('서버 메인입니다');
+// });
+
+app.use(errorHandler);
 
 const port = process.env.PORT || 1337;
 const server = app.listen(port, () => {
@@ -49,3 +59,5 @@ const server = app.listen(port, () => {
   // 모든 리그 아이디 써보기.
   // upcoming();
 });
+
+module.exports = app;

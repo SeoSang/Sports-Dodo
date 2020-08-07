@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs')
 
 var UserSchema = mongoose.Schema({
     email:{
@@ -14,13 +16,13 @@ var UserSchema = mongoose.Schema({
     name:{
         type: String,
         required: true,
-        minlength: 3,
         maxlength: 50
     },
     nickname: {
         type: String,
         maxlength:50,
-        default:this.name,
+        minlength: 3,
+        required: true,
         unique: true,
     },
     point: {
@@ -33,9 +35,20 @@ var UserSchema = mongoose.Schema({
     }
 });
 
-UserSchema.methods.getSignedJwtToken = function() {
+UserSchema.pre('save', async function(next) {
+    if (!this.isModified('password')) {
+        next();
+    }
 
-}
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+});
+
+UserSchema.methods.getSignedJwtToken = function() {
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRE
+    });
+};
 
 
 module.exports = mongoose.model('User', UserSchema);

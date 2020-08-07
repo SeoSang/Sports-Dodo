@@ -2,7 +2,7 @@
 ```
 POST    "/api/user"                            회원 등록
 DELETE  "/api/user"                            회원 탈퇴
-GET     "/api/users"                           유저 읽기 (복수) // docu 작성하슈
+GET     "/api/user"                            유저 읽기 (복수) // docu 작성하슈
 GET     "/api/user/:id"                        유저 디테일
 PUT     "/api/user/:id"                        유저 디테일 변경
 GET     "/api/user/profile"                    내 정보
