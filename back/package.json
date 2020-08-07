@@ -4,6 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "test": "mocha -timeout 1000000",
         "build": "node index.js",
         "dev": "nodemon --watch src --delay 1 index.js"
     },
@@ -22,6 +23,8 @@
         "unirest": "^0.6.0"
     },
     "devDependencies": {
-        "nodemon": "^2.0.3"
+        "chai": "^4.2.0",
+        "nodemon": "^2.0.3",
+        "supertest": "^4.0.2"
     }
 }

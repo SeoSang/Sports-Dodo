@@ -1,6 +1,6 @@
 var request = require('request');
 var expect = require('chai').expect;
-var app = require('설정혀~');
+var app = require('../index');
 const User = require('../models/User');
 
 // predefined user

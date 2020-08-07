@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
- var UserSchema = mongoose.Schema({
+var UserSchema = mongoose.Schema({
     email:{
         type: String,
         required: true,
@@ -31,6 +32,10 @@ var mongoose = require('mongoose');
         ref: 'Batting'
     }
 });
+
+UserSchema.methods.getSignedJwtToken = function() {
+
+}
 
 
 module.exports = mongoose.model('User', UserSchema);

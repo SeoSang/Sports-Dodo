@@ -5,4 +5,13 @@ router.get('/', (req, res, next) => {
     res.json('user');
 });
 
+
+
+router
+    .route("/")
+    .post()
+
+
+
+
 module.exports = router;
