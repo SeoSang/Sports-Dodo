@@ -15,10 +15,10 @@ module.exports = {
         useQueryString: true,
       },
     })
-      .then(response => {
+      .then((response) => {
         console.table(response.data.api.leagues);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   },
