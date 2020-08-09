@@ -19,8 +19,8 @@ const {
 
 router
     .route("/")
-    .post(register);
-    // .delete(withdrawal)
+    .post(register)
+    .delete(withdrawal);
     // .get(getUsers);
 
 // router

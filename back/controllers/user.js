@@ -8,7 +8,7 @@ const User = require('../models/User');
 // @route   POST /api/user/register
 // @access  Public
 exports.register = asyncHandler(async (req, res, next) => {
-    console.log(req.body)
+
     // const { email, password, name, nickname } = req.body;
     const email = req.body.email;
     const password = req.body.password;
@@ -28,7 +28,10 @@ exports.register = asyncHandler(async (req, res, next) => {
     sendTokenResponse(user, 201, res);
 });
 
-// exports.withdrawal
+// 토큰 해재하는 거부터 필요함 ! 프로텍트 미들웨어만들기.
+exports.withdrawal = asyncHandler(async (req, res, next) => {
+    const user = await User.findByIdAndDelete()
+})
 // exports.getUsers
 // exports.getUser
 // exports.editUser
