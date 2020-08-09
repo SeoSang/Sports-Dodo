@@ -24,15 +24,17 @@ router
     .delete(protect, withdrawal);
     // .get(getUsers);
 
-// router
-//     .route("/:id")
-//     .get(getUser)
-//     .put(editUser)
 
 router
     .route("/profile")
     .get(protect, myProfile)
     .put(protect, editMyProfile);
+
+router
+    .route("/:id")
+    .get(getUser);
+//     .put(editUser)
+
 
 router.post("/login", login);
 // router.get("/logout", logout);

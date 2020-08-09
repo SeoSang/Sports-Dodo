@@ -72,9 +72,18 @@ exports.login = asyncHandler(async (req, res, next) => {
 });
 
 // exports.getUsers
-// exports.getUser
 // exports.editUser
 // exports.logout
+
+exports.getUser = asyncHandler(async (req, res, next) => {
+    console.log('111' + req.params.id)
+    let user = await User.findOne({_id: req.params.id});
+    console.log(user.body);
+    return res.status(200).json({ 
+        success: true,
+        data: user
+    });
+});
 
 exports.myProfile = asyncHandler(async (req, res, next) => {
     return res.json({

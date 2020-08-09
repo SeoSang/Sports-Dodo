@@ -156,31 +156,31 @@ describe("USER API TEST", () => {
             const res = await request(app)
                 .get("/api/user/profile")
                 .set('x-access-token', "WrongTokenValueInput");
-
+            
             expect(res.status).to.be.equal(401);
             expect(res.body.error).to.be.equal('Not authorized to access this route')
         });
     });
 
-    // describe("GET /api/user/getUserDetail/:userId", () => {
-    //     it("[Success] got user detail", async () => {
-    //         const res = await request(app)
-    //             .get(`/api/user/getUserDetail/${request.globalUser2_id}`);
-                
-    //         expect(res.status).to.be.equal(200);
-    //         expect(res.body.data).to.have.property("email");
-    //         expect(res.body.data).to.have.property("name");
-    //         expect(res.body.data).to.have.property("nickname");
-    //         expect(res.body.data).to.have.property("point");
-    //     });
+    describe("GET /api/user/:id", () => {
+        it("[Success] got user detail", async () => {
+            const res = await request(app)
+                .get(`/api/user/${request.globalUser2_id}`);
+            
+            expect(res.status).to.be.equal(200);
+            expect(res.body.data).to.have.property("email");
+            expect(res.body.data).to.have.property("name");
+            expect(res.body.data).to.have.property("nickname");
+            expect(res.body.data).to.have.property("point");
+        });
 
-    //     it("[Fail] wrong userId inputed", async () => {
-    //         const res = await request(app)
-    //             .get(`/api/user/getUserDetail/${wrongValue}`);
-    //         expect(res.status).to.be.equal(404);
-    //         // expect(res.body.message).to.be.equal('Not found') // 정확한 메시지 확인 및 정의
-    //     });
-    // });
+        it("[Fail] wrong userId inputed", async () => {
+            const res = await request(app)
+                .get("/api/user/wrongValue");
+            expect(res.status).to.be.equal(404);
+            expect(res.body.error).to.be.equal('Resource not found') // 정확한 메시지 확인 및 정의
+        });
+    });
 
     // describe("PUT /api/user/editProfile/:userId", () => {
     //     it("[Success] edited myProfile", async () => {
