@@ -15,9 +15,9 @@ router
 
 router
     .route("/:id")
-    .get(getMatch);
-//     .put(editMatch)
-//     .delete(deleteMatch);
+    .get(getMatch)
+    .put(editMatch)
+    .delete(deleteMatch);
 
 module.exports = router;
 

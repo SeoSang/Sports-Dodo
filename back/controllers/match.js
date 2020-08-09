@@ -38,6 +38,41 @@ exports.getMatch = asyncHandler(async (req, res, next) => {
     })
 });
 
+exports.editMatch = asyncHandler(async (req, res, next) => {
+    let match = await Match.findById(req.params.id);
 
-// exports.editMatch
-// exports.deleteMatch
+    if (!match) {
+        return next(
+            new ErrorResponse(`No Match with the id of ${req.params.id}`, 404)
+        );
+    }
+    
+    match = await Match.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true
+    });
+
+    match.save();
+
+    res.status(200).json({
+        success: true,
+        data: match
+    });
+})
+
+exports.deleteMatch = asyncHandler(async (req, res, next) => {
+    let match = Match.findById(req.params.id);
+
+    if (!match) {
+        return next(
+            new ErrorResponse(`No match with the id of ${req.params.id}`, 404)
+        )
+    }
+
+    await match.remove();
+
+    res.status(200).json({
+        success: true,
+        data: {}
+    });
+});

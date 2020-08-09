@@ -153,24 +153,38 @@ describe("login for tests", () => {
         })
     })     
 
-//     describe("PUT /api/match/:id", () => {
-//         it("[Success] editted match detail", async () => {
-//             const res = await request(app)
-//                 .put(`/api/match/${request.testMatch1_id}`)
-//                 .set('x-access-token', request.globalUser1Token)
-//                 .send({ awayTeam: "Lakers" });
-//             expect(res.status).to.be.equal(200);
-//             expect(res.body.data.homeTeam).to.be.equal("Lakers");
-//         })
-//     })
+    describe("PUT /api/match/:id", () => {
+        it("[Success] editted match detail", async () => {
+            const res = await request(app)
+                .put(`/api/match/${request.testMatch1_id}`)
+                .send({ awayTeam: "Lakers" });
+            expect(res.status).to.be.equal(200);
+            expect(res.body.data.awayTeam).to.be.equal("Lakers");
+        });
+
+        it("[Fail] wrong parameter id", async () => {
+            const res = await request(app)
+                .put(`/api/match/wrongMatch_id`)
+                .send({ awayTeam: "Lakers" });
+            expect(res.status).to.be.equal(404);
+            expect(res.body.error).to.be.equal(`Resource not found`)
+        });
+
+
+    })
     
-//     describe("DELETE /api/match/:id", () => {
-//         it("[Success] deleted a match well", async () => {
-//             const res = await request(app)
-//                 .delete(`/api/match/${testMatch2_id}`)
-//                 .set('x-access-token', `${request.globalUser1Token}`);
-//             expect(res.status).to.be.equal(200);
-//             expect(res.body.data).to.be.equal('delet success');
-//         })
-//     })     
+    describe("DELETE /api/match/:id", () => {
+        it("[Success] deleted a match well", async () => {
+            const res = await request(app)
+                .delete(`/api/match/${request.testMatch2_id}`)
+            expect(res.status).to.be.equal(200);
+        });
+
+        it("[Fail] Wrong parameter inputed", async () => {
+            const res = await request(app)
+                .delete(`/api/match/wrongMatch_id`)
+            expect(res.status).to.be.equal(404);
+            expect(res.body.error).to.be.equal('Resource not found');
+        });
+    })     
 })
