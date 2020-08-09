@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const router = Router();
+const { protect } = require('../middlewares/auth');
 
 const {
     register,
@@ -20,7 +21,7 @@ const {
 router
     .route("/")
     .post(register)
-    .delete(withdrawal);
+    .delete(protect, withdrawal);
     // .get(getUsers);
 
 // router
@@ -33,7 +34,7 @@ router
 //     .get(myProfile)
 //     .put(editMyProfile);
 
-// router.post("/login", login);
+router.post("/login", login);
 // router.get("/logout", logout);
 
 module.exports = router;

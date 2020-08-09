@@ -28,25 +28,49 @@ exports.register = asyncHandler(async (req, res, next) => {
     sendTokenResponse(user, 201, res);
 });
 
-// 토큰 해재하는 거부터 필요함 ! 프로텍트 미들웨어만들기.
+//   !! 잠시 멈춤. login 기능부터 만들고 
 exports.withdrawal = asyncHandler(async (req, res, next) => {
     const user = await User.findByIdAndDelete()
 })
+
+// @desc    Login a user
+// @route   POST /api/user/login
+// @access  Public
+exports.login = asyncHandler(async (req, res, next) => {
+    const { email, password } = req.body;
+
+    //Validate email & password
+    if (!email || !password) {
+        return next(new ErrorResponse("Please provide an email and password", 400))
+    }
+
+    //Check for user
+    const user = await User.findOne({ email }).select('+password');
+
+    if (!user) {
+        return next(new ErrorResponse('Invalid credentials', 401));
+    }
+
+    // Check if password matches
+    const isMatch = await user.matchPassword(password);
+
+    if(!isMatch) {
+        return next(new ErrorResponse('Invalid credentials', 401));
+    }
+
+    sendTokenResponse(user, 200, res);
+});
+
 // exports.getUsers
 // exports.getUser
 // exports.editUser
 // exports.myProfile
 // exports.editMyProfle
-// exports.login = asyncHandler((req, res, next) => {
-//     res.json({
-//         message: 'logined'
-//     })
-// })
 // exports.logout
 
 const sendTokenResponse = (user, statusCode, res) => {
     // Create token
-    const token = user.getSignedJwtToken(); // 함수 만들기 !!
+    const token = user.getSignedJwtToken(); // 지금까진 token엔 user._id 만 저장되어있음.
 
     const options = {
         expires: new Date(

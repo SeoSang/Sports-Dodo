@@ -1,7 +1,7 @@
 const asyncHandler = require('./async');
 const ErrorResponse = require('../utils/errorResponse');
 const User = require('../models/User');
-const jwt = requrie('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 exports.protect = asyncHandler(async (req, res, next) => {
     var token = req.headers['x-access-token'];

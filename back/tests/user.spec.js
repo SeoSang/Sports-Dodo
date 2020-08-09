@@ -31,26 +31,26 @@ describe("USER API TEST", () => {
         const globalUser2Created = await User.create(globalUser2);
         const globalUser3Created = await User.create(globalUser3);
 
-        const globalUser1Res = await request(app)
-            .post("/api/user/login")
-            .send({ email: "globalUser1@gamil.com", password:"123123" })
-            .expect(200);
+        // const globalUser1Res = await request(app)
+        //     .post("/api/user/login")
+        //     .send({ email: "globalUser1@gamil.com", password:"123123" })
+        //     .expect(200);
 
-        const globalUser2Res = await request(app)
-            .post("/api/user/login")
-            .send({ email: "globalUser2@gamil.com", password:"123123" })
-            .expect(200);
+        // const globalUser2Res = await request(app)
+        //     .post("/api/user/login")
+        //     .send({ email: "globalUser2@gamil.com", password:"123123" })
+        //     .expect(200);
         
-        const globalUser3Res = await request(app)
-            .post("/api/user/login")
-            .send({ email: "globalUser3@gamil.com", password:"123123" })
-            .expect(200);
+        // const globalUser3Res = await request(app)
+        //     .post("/api/user/login")
+        //     .send({ email: "globalUser3@gamil.com", password:"123123" })
+        //     .expect(200);
         
 
-        // Pass token to ITs
-        request.globalUser1Token = globalUser1Res.body.token;
-        request.globalUser2Token = globalUser2Res.body.token;
-        request.globalUser3Token = globalUser3Res.body.token;
+        // // Pass token to ITs
+        // request.globalUser1Token = globalUser1Res.body.token;
+        // request.globalUser2Token = globalUser2Res.body.token;
+        // request.globalUser3Token = globalUser3Res.body.token;
 
         // Pass id  to Its
         request.globalUser2_id = globalUser2Created._id; 
@@ -95,48 +95,44 @@ describe("USER API TEST", () => {
     //     });
     // });
 
-    // describe("POST /api/user/login", () => {
-    //     before("register a user before login test", async () => {
-    //         let testUser = {
-    //             email: "test1@gmail.com", 
-    //             password: "123123", 
-    //             name: "testName1",
-    //             nickname: "testnickname1",
-    //         };
+    describe("POST /api/user/login", () => {
+        before("register a user before login test", async () => {
+            let testUser = {
+                email: "test1@gmail.com", 
+                password: "123123", 
+                name: "testName1",
+                nickname: "testnickname1",
+            };
         
-    //         await User.create(testUser);
-    //     })
-
-    //     after("delete after individual test", async () => {
-    //         await User.deleteOne({ email: "test1@gmail.com" })
-    //     })
+            await User.create(testUser);
+        })
         
-    //     let loginInput = {
-    //         email:"test1@gmail.com",
-    //         password: "123123"
-    //     };
+        let loginInput = {
+            email:"test1@gmail.com",
+            password: "123123"
+        };
 
-    //     let wrongPasswordInput = {
-    //         email: "test1@gmail.com",
-    //         password: "wrongpassword"
-    //     };
+        let wrongPasswordInput = {
+            email: "test1@gmail.com",
+            password: "wrongpassword"
+        };
 
-    //     it("[Success] login success", async () => {
-    //         const res = await request(app)
-    //             .post("/api/user/login")
-    //             .send(loginInput);
-    //         expect(res.status).to.be.equal(200);
-    //         expect(res.body.data).to.have.property('token');
-    //     });
+        it("[Success] login success", async () => {
+            const res = await request(app)
+                .post("/api/user/login")
+                .send(loginInput);
+            expect(res.status).to.be.equal(200);
+            expect(res.body).to.have.property('token');
+        });
 
-    //     it("[Fail] login failed", async () => {
-    //         const res = await request(app)
-    //             .post("/api/user/login")
-    //             .send(wrongPasswordInput);
-    //         expect(res.status).to.be.equal(400);
-    //         expect(res.body.data.message).to.be.equal("Wrong password inputed")  // 
-    //     });
-    // });
+        it("[Fail] login failed", async () => {
+            const res = await request(app)
+                .post("/api/user/login")
+                .send(wrongPasswordInput);
+            expect(res.status).to.be.equal(401);
+            expect(res.body.error).to.be.equal("Invalid credentials")
+        });
+    });
 
 
     // describe("GET /api/user/logout", () => {
@@ -207,11 +203,11 @@ describe("USER API TEST", () => {
     //     });
     // });
 
-    describe("GET /api/user/withdrawal", () => {
-        it("[Success] withdrawaled well", async () => {
-            const res = await request(app)
-                .get("/api/user/withdrawal")
-                .set('x-access-token', `${globalUser3Token}`)
-        });
-    })
+    // describe("GET /api/user/withdrawal", () => {
+    //     it("[Success] withdrawaled well", async () => {
+    //         const res = await request(app)
+    //             .get("/api/user/withdrawal")
+    //             .set('x-access-token', `${globalUser3Token}`)
+    //     });
+    // })
 })
