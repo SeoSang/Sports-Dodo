@@ -20,7 +20,7 @@ var UserSchema = mongoose.Schema({
     },
     nickname: {
         type: String,
-        maxlength:50,
+        maxlength:100,
         minlength: 3,
         required: true,
         unique: true,

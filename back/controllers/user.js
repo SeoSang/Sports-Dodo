@@ -72,17 +72,27 @@ exports.login = asyncHandler(async (req, res, next) => {
 });
 
 // exports.getUsers
-// exports.editUser
 // exports.logout
 
 exports.getUser = asyncHandler(async (req, res, next) => {
-    console.log('111' + req.params.id)
     let user = await User.findOne({_id: req.params.id});
-    console.log(user.body);
+    
     return res.status(200).json({ 
         success: true,
         data: user
     });
+});
+
+exports.editUser = asyncHandler(async (req, res, next) => {
+    let user = await User.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true
+    });
+
+    res.status(200).json({
+        success: true,
+        data: user
+    })
 });
 
 exports.myProfile = asyncHandler(async (req, res, next) => {
@@ -93,8 +103,29 @@ exports.myProfile = asyncHandler(async (req, res, next) => {
 })
 
 
+
+
+// exports.editMyProfile = asyncHandler(async (req, res, next) => {
+//     console.log(req.user);
+//     console.log(req.body);
+//     let user1 = await User.findByIdAndUpdate(req.user._id, req.body, {
+//         new: true,
+//         runValidators: true
+//     });
+
+//     console.log(user1);
+//     res.status(200).json({
+//         success: true,
+//         data: user1
+//     })
+// })
+
 exports.editMyProfile = asyncHandler(async (req, res, next) => {
-    let user = await User.findByIdAndUpdate(req.user._id, req.body, {
+    console.log(req.user._id);
+    let tmp = await User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true});
+    console.log(tmp);
+    
+    let user = await User.findOneAndUpdate({_id: req.user._id}, req.body, {
         new: true,
         runValidators: true
     });
@@ -103,7 +134,7 @@ exports.editMyProfile = asyncHandler(async (req, res, next) => {
         success: true,
         data: user
     })
-})
+});
 
 const sendTokenResponse = (user, statusCode, res) => {
     // Create token

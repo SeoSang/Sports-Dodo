@@ -32,8 +32,8 @@ router
 
 router
     .route("/:id")
-    .get(getUser);
-//     .put(editUser)
+    .get(getUser)
+    .put(protect, editUser);
 
 
 router.post("/login", login);

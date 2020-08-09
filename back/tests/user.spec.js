@@ -61,44 +61,43 @@ describe("USER API TEST", () => {
         await User.deleteMany({ });
     });
 
-    // // [o]
-    // describe("POST /api/user/register", () => {
-    //     let inputData = { 
-    //         email: "test1@gmail.com", 
-    //         password: "123123", 
-    //         name: "testName1",
-    //         nickname: "testNickName1",
-    //     };
+    describe("POST /api/user/register", () => {
+        let inputData = { 
+            email: "test1@gmail.com", 
+            password: "123123", 
+            name: "testName1",
+            nickname: "testNickName1",
+        };
 
-    //     let wrongNicknameData = {
-    //         email: "test3@gmail.com", 
-    //         password: "123123", 
-    //         name: "testName2",
-    //         nickname: 's'
-    //     } 
+        let wrongNicknameData = {
+            email: "test3@gmail.com", 
+            password: "123123", 
+            name: "testName2",
+            nickname: 's'
+        } 
 
-    //     it("[Success] register a user", async () => {       // 비밀번호 jwt 추가 !!
-    //         const res = await request(app)
-    //             .post("/api/user")
-    //             .send(inputData);
+        it("[Success] register a user", async () => {       // 비밀번호 jwt 추가 !!
+            const res = await request(app)
+                .post("/api/user")
+                .send(inputData);
 
-    //         expect(res.status).to.be.equal(201);
-    //         expect(res.body).to.have.property("token")
-    //     });
+            expect(res.status).to.be.equal(201);
+            expect(res.body).to.have.property("token")
+        });
 
-    //     it("[Fail] mongoose error", async () => {
-    //         const res = await request(app)
-    //             .post("/api/user")
-    //             .send(wrongNicknameData);
-    //         expect(res.status).to.be.equal(400);
-    //         expect(res.body.error).to.be.equal("Invalid data inputed")
-    //     });
-    // });
+        it("[Fail] mongoose error", async () => {
+            const res = await request(app)
+                .post("/api/user")
+                .send(wrongNicknameData);
+            expect(res.status).to.be.equal(400);
+            expect(res.body.error).to.be.equal("Invalid data inputed")
+        });
+    });
 
     describe("POST /api/user/login", () => {
         before("register a user before login test", async () => {
             let testUser = {
-                email: "test1@gmail.com", 
+                email: "test5@gmail.com", 
                 password: "123123", 
                 name: "testName1",
                 nickname: "testnickname1",
@@ -108,12 +107,12 @@ describe("USER API TEST", () => {
         })
         
         let loginInput = {
-            email:"test1@gmail.com",
+            email:"test5@gmail.com",
             password: "123123"
         };
 
         let wrongPasswordInput = {
-            email: "test1@gmail.com",
+            email: "test5@gmail.com",
             password: "wrongpassword"
         };
 
@@ -178,40 +177,40 @@ describe("USER API TEST", () => {
             const res = await request(app)
                 .get("/api/user/wrongValue");
             expect(res.status).to.be.equal(404);
-            expect(res.body.error).to.be.equal('Resource not found') // 정확한 메시지 확인 및 정의
+            expect(res.body.error).to.be.equal('Resource not found')
         });
     });
 
-    // describe("PUT /api/user/editProfile/:userId", () => {
-    //     it("[Success] edited myProfile", async () => {
-    //         const res = await request(app)
-    //             .put(`/api/user/editProfile/${request.globalUser2_id}`)
-    //             .set('x-access-token', `${globalUser1Token}`)
-    //             .send({ nickname: "changedNickname" });
-
-    //         expect(res.status).to.be.equal(200);
-    //         expect(res.body.data.nickname).to.be.equal('changedNickname');
-    //     });
-
-    //     it("[Fail] wrong token inputed", async () => {
-    //         const res = await request(app)
-    //             .put(`/api/user/editProfile/${request.globalUser2_id}`)
-    //             .set('x-access-token', `${wrongToken}`)
-    //             .send({ nickname: "changedNickname" });
-
-    //         expect(res.status).to.be.equal(401);
-    //     });
-    // });
-
-    describe("PUT /api/user/profile/", () => {
-        it("[Success] edited myProfile", async () => {
+    describe("PUT /api/user/:id", () => {
+        it("[Success] edited user detail", async () => {
             const res = await request(app)
-                .put(`/api/user/profile`)
+                .put(`/api/user/${request.globalUser2_id}`)
                 .set('x-access-token', `${request.globalUser1Token}`)
                 .send({ nickname: "changedNickname" });
 
             expect(res.status).to.be.equal(200);
             expect(res.body.data.nickname).to.be.equal('changedNickname');
+        });
+
+        it("[Fail] wrong token inputed", async () => {
+            const res = await request(app)
+                .put(`/api/user/${request.globalUser2_id}`)
+                .set('x-access-token', 'wrongToken')
+                .send({ nickname: "changedNickname" });
+
+            expect(res.status).to.be.equal(401);
+        });
+    });
+
+    describe("PUT /api/user/profile/", () => {
+        it("[Success] edited myProfile", async () => {
+            const res = await request(app)
+                .put('/api/user/profile')
+                .set('x-access-token', `${request.globalUser1Token}`)
+                .send({ nickname: "changed" });
+
+            expect(res.status).to.be.equal(200);
+            expect(res.body.data.nickname).to.be.equal('changed');
         });
 
         it("[Fail] wrong token inputed", async () => {
@@ -224,14 +223,12 @@ describe("USER API TEST", () => {
         });
     });
 
-
-    // [0]
-    // describe("GET /api/user/withdrawal", () => {
-    //     it("[Success] withdrawaled well", async () => {
-    //         const res = await request(app)
-    //             .delete("/api/user/")
-    //             .set('x-access-token', `${request.globalUser2Token}`)
-    //         expect(res.status).to.be.equal(200);
-    //     });
-    // })
+    describe("GET /api/user/withdrawal", () => {
+        it("[Success] withdrawaled well", async () => {
+            const res = await request(app)
+                .delete("/api/user/")
+                .set('x-access-token', `${request.globalUser2Token}`)
+            expect(res.status).to.be.equal(200);
+        });
+    })
 })
