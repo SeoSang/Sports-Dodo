@@ -20,7 +20,6 @@ router
     .delete(protect, withdrawal)
     .get(getUsers);
 
-
 router
     .route("/profile")
     .get(protect, myProfile)
@@ -30,7 +29,6 @@ router
     .route("/:id")
     .get(getUser)
     .put(protect, editUser);
-
 
 router.post("/login", login);
 // router.get("/logout", logout);

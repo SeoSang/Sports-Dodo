@@ -1,8 +1,23 @@
 const { Router } = require('express');
 const router = Router();
+const { 
+    createMatch,
+    getMatch,
+    getMatchs,
+    editMatch,
+    deleteMatch 
+} = require('../controllers/match');
 
-router.get('/', (req, res, next) => {
-    res.json('batting');
-});
+router
+    .route("/")
+    .post(createMatch);
+    // .get(getMatchs);
+
+router
+    .route("/:id")
+    .get(getMatch);
+//     .put(editMatch)
+//     .delete(deleteMatch);
 
 module.exports = router;
+

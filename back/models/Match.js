@@ -14,11 +14,9 @@ var MatchSchema = mongoose.Schema({
         ref: 'Result'
     },
     startTime: {
-        type: Date,
+        type: String,
         required: true
-    },
-    // info 는 더 논의해봐야할듯함.
-    // infos: 
+    }
 }); 
 
 

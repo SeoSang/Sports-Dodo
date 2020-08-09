@@ -1,7 +1,7 @@
 # APIS
 ```
 POST "/api/match"             매치 생성
-GET  "/api/matchs"            매치 읽기 (복수)
+GET  "/api/match"             매치 읽기 (복수)
 GET  "/api/match/:id"         매치 읽기 (단일)
 PUT  "/api/match/:id"         매치 수정
 DELETE "/api/match/:id"       매치 삭제
@@ -67,13 +67,13 @@ __Response__
 
 <br>
 
-## __매치 읽기 (복수)__ GET "/api/matchs"
+## __매치 읽기 (복수)__ GET "/api/match"
 - 파라미터 여러 종류 들어갈 예정.! (pagination, limit, +++) / 일단 home에서는 3개씩.
 
 __Request__
 ```
 method: GET
-url: "/api/matchs"
+url: "/api/match"
 header: { 
     "Content-Type": "application/json" 
 }

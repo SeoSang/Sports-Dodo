@@ -88,6 +88,12 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
 exports.getUser = asyncHandler(async (req, res, next) => {
     let user = await User.findOne({_id: req.params.id});
     
+    if (!user) {
+        return next(
+            new ErrorResponse(`No user with the id of ${req.params.id}`, 404)
+        )
+    }
+
     return res.status(200).json({ 
         success: true,
         data: user
@@ -102,6 +108,12 @@ exports.editUser = asyncHandler(async (req, res, next) => {
         new: true,
         runValidators: true
     });
+
+    if (!user) {
+        return next(
+          new ErrorResponse(`No user with the id of ${req.params.id}`, 404)
+        );
+      }
 
     res.status(200).json({
         success: true,
