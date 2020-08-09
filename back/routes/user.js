@@ -29,9 +29,9 @@ router
 //     .get(getUser)
 //     .put(editUser)
 
-// router
-//     .route("/profile")
-//     .get(myProfile)
+router
+    .route("/profile")
+    .get(protect, myProfile)
 //     .put(editMyProfile);
 
 router.post("/login", login);

@@ -139,28 +139,28 @@ describe("USER API TEST", () => {
     //     // 로그아웃은 프론트에서 세션만 지우는 거라서 여기서 할 필요는 없을 듯.
     // });
 
-    // describe("GET /api/user/getMyProfile", () => {
-    //     it("[Success] got my profile", async () => {
-    //         const res = await request(app)
-    //             .get("/api/user/getMyProfile")
-    //             .set('x-access-token', `${request.globalUser1Token}`);
+    describe("GET /api/user/profile", () => {
+        it("[Success] got my profile", async () => {
+            const res = await request(app)
+                .get("/api/user/profile")
+                .set('x-access-token', `${request.globalUser1Token}`);
 
-    //         expect(res.status).to.be.equal(200);
-    //         expect(res.body.data).to.have.property("_id");
-    //         expect(res.body.data).to.have.property("email");
-    //         expect(res.body.data).to.have.property("name");
-    //         expect(res.body.data).to.have.property("nickname");
-    //     });
+            expect(res.status).to.be.equal(200);
+            expect(res.body.data).to.have.property("_id");
+            expect(res.body.data).to.have.property("email");
+            expect(res.body.data).to.have.property("name");
+            expect(res.body.data).to.have.property("nickname");
+        });
 
-    //     it("[Fail] Wrong token inputed", async () => {
-    //         const res = await request(app)
-    //             .get("/api/user/getMyProfile")
-    //             .set('x-access-token', "WrongTokenValueInput");
+        it("[Fail] Wrong token inputed", async () => {
+            const res = await request(app)
+                .get("/api/user/profile")
+                .set('x-access-token', "WrongTokenValueInput");
 
-    //         expect(res.status).to.be.equal(401);
-    //         expect(res.body.message).to.be.equal('Not authorized')
-    //     });
-    // });
+            expect(res.status).to.be.equal(401);
+            expect(res.body.error).to.be.equal('Not authorized to access this route')
+        });
+    });
 
     // describe("GET /api/user/getUserDetail/:userId", () => {
     //     it("[Success] got user detail", async () => {
@@ -203,12 +203,14 @@ describe("USER API TEST", () => {
     //     });
     // });
 
-    describe("GET /api/user/withdrawal", () => {
-        it("[Success] withdrawaled well", async () => {
-            const res = await request(app)
-                .delete("/api/user/")
-                .set('x-access-token', `${request.globalUser2Token}`)
-            expect(res.status).to.be.equal(200);
-        });
-    })
+
+    // [0]
+    // describe("GET /api/user/withdrawal", () => {
+    //     it("[Success] withdrawaled well", async () => {
+    //         const res = await request(app)
+    //             .delete("/api/user/")
+    //             .set('x-access-token', `${request.globalUser2Token}`)
+    //         expect(res.status).to.be.equal(200);
+    //     });
+    // })
 })

@@ -74,9 +74,15 @@ exports.login = asyncHandler(async (req, res, next) => {
 // exports.getUsers
 // exports.getUser
 // exports.editUser
-// exports.myProfile
 // exports.editMyProfle
 // exports.logout
+
+exports.myProfile = asyncHandler(async (req, res, next) => {
+    return res.json({
+        success: true, 
+        data: req.user 
+    });
+})
 
 const sendTokenResponse = (user, statusCode, res) => {
     // Create token
