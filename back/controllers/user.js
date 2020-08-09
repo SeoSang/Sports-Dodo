@@ -74,7 +74,6 @@ exports.login = asyncHandler(async (req, res, next) => {
 // exports.getUsers
 // exports.getUser
 // exports.editUser
-// exports.editMyProfle
 // exports.logout
 
 exports.myProfile = asyncHandler(async (req, res, next) => {
@@ -82,6 +81,19 @@ exports.myProfile = asyncHandler(async (req, res, next) => {
         success: true, 
         data: req.user 
     });
+})
+
+
+exports.editMyProfile = asyncHandler(async (req, res, next) => {
+    let user = await User.findByIdAndUpdate(req.user._id, req.body, {
+        new: true,
+        runValidators: true
+    });
+
+    res.status(200).json({
+        success: true,
+        data: user
+    })
 })
 
 const sendTokenResponse = (user, statusCode, res) => {

@@ -203,6 +203,27 @@ describe("USER API TEST", () => {
     //     });
     // });
 
+    describe("PUT /api/user/profile/", () => {
+        it("[Success] edited myProfile", async () => {
+            const res = await request(app)
+                .put(`/api/user/profile`)
+                .set('x-access-token', `${request.globalUser1Token}`)
+                .send({ nickname: "changedNickname" });
+
+            expect(res.status).to.be.equal(200);
+            expect(res.body.data.nickname).to.be.equal('changedNickname');
+        });
+
+        it("[Fail] wrong token inputed", async () => {
+            const res = await request(app)
+                .put(`/api/user/profile`)
+                .set('x-access-token', `${request.wrongToken}`)
+                .send({ nickname: "changedNickname" });
+
+            expect(res.status).to.be.equal(401);
+        });
+    });
+
 
     // [0]
     // describe("GET /api/user/withdrawal", () => {

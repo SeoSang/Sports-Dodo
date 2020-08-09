@@ -32,7 +32,7 @@ router
 router
     .route("/profile")
     .get(protect, myProfile)
-//     .put(editMyProfile);
+    .put(protect, editMyProfile);
 
 router.post("/login", login);
 // router.get("/logout", logout);
