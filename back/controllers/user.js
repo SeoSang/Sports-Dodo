@@ -28,9 +28,19 @@ exports.register = asyncHandler(async (req, res, next) => {
     sendTokenResponse(user, 201, res);
 });
 
-//   !! 잠시 멈춤. login 기능부터 만들고 
+// @desc Withdrawal a user
+// @route GET /api/user/withdrawal
+// @access Protect
 exports.withdrawal = asyncHandler(async (req, res, next) => {
-    const user = await User.findByIdAndDelete()
+
+    const userId = req.user._id
+
+    const user = await User.deleteOne({_id: req.user._id });
+
+    res.status(200).json({
+        message: "지금까지 이용해주셔서 감사합니다. :)",
+        data: {}
+    });
 })
 
 // @desc    Login a user
