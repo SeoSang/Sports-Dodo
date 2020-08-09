@@ -14,15 +14,11 @@ const {
     logout
 } = require('../controllers/user');
 
-// router.get('/', (req, res, next) => {
-//     res.json('user');
-// });
-
 router
     .route("/")
     .post(register)
-    .delete(protect, withdrawal);
-    // .get(getUsers);
+    .delete(protect, withdrawal)
+    .get(getUsers);
 
 
 router

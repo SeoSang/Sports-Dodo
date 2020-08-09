@@ -71,9 +71,20 @@ exports.login = asyncHandler(async (req, res, next) => {
     sendTokenResponse(user, 200, res);
 });
 
-// exports.getUsers
+exports.getUsers = asyncHandler(async (req, res, next) => {
+    let users = await User.find({});
+
+    res.status(200).json({
+        success: true,
+        data: users
+    });
+})
+
 // exports.logout
 
+// @desc    get a single user
+// @route   GET /api/user
+// @access  Public
 exports.getUser = asyncHandler(async (req, res, next) => {
     let user = await User.findOne({_id: req.params.id});
     
@@ -83,6 +94,9 @@ exports.getUser = asyncHandler(async (req, res, next) => {
     });
 });
 
+// @desc    Edit a user detail
+// @route   PUT /api/user/:id
+// @access  Private
 exports.editUser = asyncHandler(async (req, res, next) => {
     let user = await User.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
@@ -95,6 +109,9 @@ exports.editUser = asyncHandler(async (req, res, next) => {
     })
 });
 
+// @desc    Get my profile
+// @route   GET /api/user/profile
+// @access  Private
 exports.myProfile = asyncHandler(async (req, res, next) => {
     return res.json({
         success: true, 
@@ -102,24 +119,9 @@ exports.myProfile = asyncHandler(async (req, res, next) => {
     });
 })
 
-
-
-
-// exports.editMyProfile = asyncHandler(async (req, res, next) => {
-//     console.log(req.user);
-//     console.log(req.body);
-//     let user1 = await User.findByIdAndUpdate(req.user._id, req.body, {
-//         new: true,
-//         runValidators: true
-//     });
-
-//     console.log(user1);
-//     res.status(200).json({
-//         success: true,
-//         data: user1
-//     })
-// })
-
+// @desc    Edit my profile
+// @route   PUT /api/user/profile
+// @access  Private
 exports.editMyProfile = asyncHandler(async (req, res, next) => {
     console.log(req.user._id);
     let tmp = await User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true});
@@ -135,6 +137,7 @@ exports.editMyProfile = asyncHandler(async (req, res, next) => {
         data: user
     })
 });
+
 
 const sendTokenResponse = (user, statusCode, res) => {
     // Create token

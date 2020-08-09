@@ -161,6 +161,19 @@ describe("USER API TEST", () => {
         });
     });
 
+    //
+    // query 추가하기 !!
+    describe("GET /api/users", () => {
+        // it("[Success] got users", async () => {
+            // const res = await request(app)
+            //     .get("/api/users")
+
+            // expect(res.status).to.be.equal(200);
+            //expect querys 추가.
+
+        // })
+    })
+
     describe("GET /api/user/:id", () => {
         it("[Success] got user detail", async () => {
             const res = await request(app)
