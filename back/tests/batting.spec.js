@@ -1,6 +1,6 @@
-var request = require('request');
+var request = require('supertest');
 var expect = require('chai').expect;
-var app = require('설정혀~');
+var app = require('../index');
 var User = require('../models/User');
 var Match = require('../models/Match');
 var Batting = require('../models/Batting');
@@ -32,17 +32,17 @@ describe("Batting Test Codes", () => {
 
         const testUser1Res = await request(app)
             .post("/api/user/login")
-            .send({ email: "testUser1@gamil.com", password:"123123" })
+            .send({ email: "testUser1@gmail.com", password:"123123" })
             .expect(200);
 
         const testUser2Res = await request(app)
             .post("/api/user/login")
-            .send({ email: "testUser2@gamil.com", password:"123123" })
+            .send({ email: "testUser2@gmail.com", password:"123123" })
             .expect(200);
         
         const testUser3Res = await request(app)
             .post("/api/user/login")
-            .send({ email: "testUser3@gamil.com", password:"123123" })
+            .send({ email: "testUser3@gmail.com", password:"123123" })
             .expect(200);
         
 
@@ -93,10 +93,18 @@ describe("Batting Test Codes", () => {
             battingPoint: 10,
             description: "today is mine"
         }
-
+        let testBatting3Data = {
+            user: `${request.testUser2_id}`,
+            match: `${request.testMatch2_id}`,
+            chooseHomeAwayDraw: "Draw",
+            battingPoint: 100,
+            description: "God bless me"
+        }
         const testBatting2 = await Batting.create(testBatting2Data);
-
+        const testBatting3 = await Batting.create(testBatting3Data);
+        
         request.testBatting2_id = testBatting2._id;
+        request.testBatting3_id = testBatting3._id;
     })
 
     after("Delete test datas", async () => {
@@ -107,26 +115,26 @@ describe("Batting Test Codes", () => {
 
     describe("POST /api/batting", () => {
         let testBatting1Data = {
-            user: `${request.testUser1_id}`,
-            match: `${request.testMatch1_id}`,
+            // user: `${request.testUser1_id}`,
+            // match: `${request.testMatch1_id}`,
             chooseHomeAwayDraw: "Home",
             battingPoint: 10,
             description: "today is mine"
         }
 
         let testWrongBattingData = {
-            user: `${request.testUser1_id}`,
-            match: `${request.testMatch1_id}`,
+            // user: `${request.testUser1_id}`,
+            // match: `${request.testMatch1_id}`,
             chooseHomeAwayDraw: "Home",
             description: "today is mine"
         }
 
         it("[Success] created batting well", async () => {
             const res = await request(app)
-                .post("/api/batting")
+                .post(`/api/match/${request.testMatch1_id}/batting`)
                 .set('x-access-token', `${request.testUser1Token}`)
                 .send(testBatting1Data);
-            expect(res.status).to.be.equal(200);
+            expect(res.status).to.be.equal(201);
             expect(res.body.data.match).to.be.equal(`${request.testMatch1_id}`);
             expect(res.body.data.chooseHomeAwayDraw).to.be.equal("Home");
             expect(res.body.data.battingPoint).to.be.equal(10);
@@ -138,20 +146,20 @@ describe("Batting Test Codes", () => {
                 .set('x-access-token', `wrong token value`)
                 .send(testBatting1Data); 
             expect(res.status).to.be.equal(401);
-            expect(res.body.message).to.be.equal("추후에 설정");
+            expect(res.body.error).to.be.equal("Not authorized to access this route");
         });
 
-        it("[Fail] Invalid Token passed", async () => {
+        it("[Fail] Invalid data inputed", async () => {
             const res = await request(app)
                 .post("/api/batting")
                 .set('x-access-token', `${request.testUser1Token}`)
                 .send(testWrongBattingData); 
             expect(res.status).to.be.equal(400);
-            expect(res.body.message).to.be.equal("mongoose type error");
+            expect(res.body.error).to.be.equal("Invalid data inputed");
         });
     })
 
-    describe("GET /api/battings", () => {
+    describe("GET /api/batting", () => {
         it("[Success] got battings well", async () => {
             const res = await request(app)
                 .get("/api/batting");
@@ -165,6 +173,14 @@ describe("Batting Test Codes", () => {
         it("[Success] got a batting", async () => {
             const res = await request(app)
                 .get(`/api/batting/${request.testBatting2_id}`)
+            expect(res.status).to.be.equal(200);
+        })
+
+        it("[Fail] wrong prameter inputed", async () => {
+            const res = await request(app)
+                .get('/api/batting/wrong_batting_id')
+            expect(res.status).to.be.equal(404);
+            expect(res.body.error).to.be.equal('Resource not found')
         })
     })
 
@@ -186,20 +202,20 @@ describe("Batting Test Codes", () => {
             const res = await request(app)
                 .put(`/api/batting/${request.testBatting2_id}`)
                 .set('x-access-token', `${request.testUser1Token}`)  // 타인의 토큰
-                .send(chaningData);
+                .send(changingData);
 
             expect(res.status).to.be.equal(401);
-            expect(res.data.message).to.be.equal("Only onwer of this batting can edit")
+            expect(res.body.error).to.be.equal(`You are not owner of this batting`)
         });
 
         it("[Fail] Invalid token passed", async () => {
             const res = await request(app)
                 .put(`/api/batting/${request.testBatting2_id}`)
                 .set('x-access-token', 'wrong token value')
-                .send(chaningData);
+                .send(changingData);
 
             expect(res.status).to.be.equal(401);
-            expect(res.data.message).to.be.equal("메시지 입력 !!")
+            expect(res.body.error).to.be.equal('Not authorized to access this route')
         });
     });
   
@@ -208,16 +224,15 @@ describe("Batting Test Codes", () => {
             const res = await request(app)
                 .delete(`/api/batting/${request.testBatting2_id}`)
                 .set('x-access-token', `${request.testUser2Token}`);
-            expect(res.status).to.be.equal(200);
-            expect(res.body.message).to.be.equal("deleted well");
+            expect(res.status).to.be.equal(200);;
         });
 
         it("[Fail] Only onwer of this batting can delete", async () => {
             const res = await request(app)
-                .delete(`/api/batting/${request.testBatting2_id}`)
+                .delete(`/api/batting/${request.testBatting3_id}`)
                 .set('x-access-token', `${request.testUser1Token}`);
             expect(res.status).to.be.equal(401);
-            expect(res.body.message).to.be.equal("Only onwer of thie batting can delete");
+            expect(res.body.error).to.be.equal("You are not owner of this batting");
         });
     })
 })

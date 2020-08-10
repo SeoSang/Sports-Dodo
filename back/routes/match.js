@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const router = Router();
+const router = Router({mergeParams: true});
 const { 
     createMatch,
     getMatch,
@@ -8,8 +8,14 @@ const {
     deleteMatch 
 } = require('../controllers/match');
 
+
+// Include other resource routers
+const battingRouter = require('./batting');
+// Re-route into other resource routers
+router.use('/:id/batting', battingRouter);
+
 router
-    .route("/")
+    .route("/") 
     .post(createMatch);
     // .get(getMatchs);
 

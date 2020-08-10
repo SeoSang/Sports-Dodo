@@ -11,14 +11,14 @@ var BattingSchema = mongoose.Schema({
     },
     chooseHomeAwayDraw: {
         type: String,
-        enum: [Home, Away, Draw], 
+        enum: ['Home', 'Away', 'Draw'], 
         required: true
     },
     battingPoint: {
         type: Number,
         required: true
     },
-    createdAt: {
+    createdAt: {    
         type: Date,
         default: Date.now
     },
