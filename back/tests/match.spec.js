@@ -122,18 +122,18 @@ describe("login for tests", () => {
     })
 
 
-    // // querys 추가 요망 !
-    // describe("GET /api/match", () => {  // 추후 params 추가합니다~
-    //     it("[Success] get matches well", async () => {
-    //         const res = await request(app)
-    //             .get("/api/match")
+    // querys 추가 요망 !
+    describe("GET /api/match", () => {  // 추후 params 추가합니다~
+        it("[Success] get matches well", async () => {
+            const res = await request(app)
+                .get("/api/match")
             
-    //         expect(res.status).to.be.equal(200);
-    //         // expect(res.body.data.length).to.be.equal("limit 정한 수");
-    //         // ! important !
-    //         // query 에 따라 expect 설정하는게 달라진다. 
-    //     });
-    // })     
+            expect(res.status).to.be.equal(200);
+            // expect(res.body.data.length).to.be.equal("limit 정한 수");
+            // ! important !
+            // query 에 따라 expect 설정하는게 달라진다. 
+        });
+    })     
 //
 // 여기부터 새 api명들로 작성했씀.
     describe("GET /api/match/:id", () => {

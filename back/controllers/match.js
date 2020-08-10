@@ -18,8 +18,13 @@ exports.createMatch = asyncHandler(async (req, res, next) => {
     })
 })
 
-exports.getmatchs = asyncHandler(async(req, res, next) => {
+exports.getMatchs = asyncHandler(async(req, res, next) => {
     const matchs = await Match.find({}); // query 추가~~
+
+    res.status(200).json({
+        success: true,
+        data: matchs
+    })
 })
 
 
@@ -69,7 +74,7 @@ exports.deleteMatch = asyncHandler(async (req, res, next) => {
         )
     }
 
-    await match.remove();
+    await Match.deleteOne({ _id: req.params.id});
 
     res.status(200).json({
         success: true,
