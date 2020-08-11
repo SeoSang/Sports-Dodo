@@ -16,6 +16,11 @@ var MatchSchema = mongoose.Schema({
     startTime: {
         type: String,
         required: true
+    },
+    status: {
+        type: String,
+        enum: ['before', 'now', 'finished'],
+        required: true
     }
 }); 
 
