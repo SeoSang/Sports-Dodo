@@ -1,10 +1,11 @@
-import { all, call } from "redux-saga/effects"
-import userSaga from "./user"
-import axios from "axios"
-import { BACKEND_URL } from "../src/dummy.js"
+import { all, call } from 'redux-saga/effects';
+import userSaga from './user';
+import battingSaga from './batting';
+import axios from 'axios';
+import { BACKEND_URL } from '../src/dummy.js';
 
-axios.defaults.baseURL = `${BACKEND_URL}/api`
+axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
 export default function* rootSaga() {
-  yield all([call(userSaga)])
+  yield all([call(userSaga), call(battingSaga)]);
 }
