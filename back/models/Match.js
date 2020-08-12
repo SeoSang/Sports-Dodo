@@ -17,11 +17,11 @@ var MatchSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    status: {
-        type: String,
-        enum: ['before', 'now', 'finished'],
-        required: true
-    }
+    // status: {
+    //     type: String,
+    //     enum: ['before', 'now', 'finished'],
+    //     required: true
+    // }
 }); 
 
 
