@@ -35,3 +35,5 @@ yarn-error.log*
 
 # backend files
 /back/config/config.env
+# /back/package-lock.json
+gittest
