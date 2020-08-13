@@ -25,6 +25,6 @@ var BattingSchema = mongoose.Schema({
     description: {
         type: String,
     },
-}); 
+});
 
 module.exports = mongoose.model('Batting', BattingSchema);
