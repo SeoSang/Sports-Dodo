@@ -1,6 +1,6 @@
 # dependencies
 node_modules
-# package-lock.json
+package-lock.json
 /.pnp
 .pnp.js
 
@@ -35,5 +35,4 @@ yarn-error.log*
 
 # backend files
 /back/config/config.env
-# /back/package-lock.json
-gittest
+/back/package-lock.json
