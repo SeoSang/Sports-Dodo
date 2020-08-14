@@ -33,3 +33,6 @@ yarn-error.log*
 # vercel
 .vercel
 
+# backend files
+/back/config/config.env
+# /back/package-lock.json
