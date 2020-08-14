@@ -13,9 +13,12 @@ import {
 
 export const initialState = {
   isLoggingIn: false,
-  loginErrorReason: '',
   me: null,
+  isRegistering: false,
+  isRegistered: false,
   userInfo: null,
+  loginErrorReason: '',
+  registerErrorReason: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -41,10 +44,16 @@ const reducer = (state = initialState, action) => {
       case LOAD_USER_FAILURE:
         break;
       case REGISTER_REQUEST:
+        draft.isRegistering = true;
+        draft.isRegistered = false;
         break;
       case REGISTER_SUCCESS:
+        draft.isRegistering = false;
+        draft.isRegistered = true;
         break;
       case REGISTER_FAILURE:
+        draft.isRegistering = false;
+        draft.registerErrorReason = action.error;
         break;
       default:
         break;
