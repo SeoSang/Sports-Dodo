@@ -45,11 +45,11 @@ var BattingSchema = mongoose.Schema({
 
 # API spec
 
-## __베팅 생성__ POST "/api/batting" 
+## __베팅 생성__ POST "/api/match/:id/batting" 
 __Requset__
 ```
 method: POST
-url: "/api/batting"
+url: "/api/match/:id/batting"
 header: { 
     "Content-type": "application/json", 
     "x-access-token": "token value" 
