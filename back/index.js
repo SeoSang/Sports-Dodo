@@ -21,7 +21,7 @@ const dotenv = require('dotenv');
 dotenv.config({ path: './config/config.env'});
 
 connectDB();
-getMatchFromAPI('2','2018-8-11');
+// getMatchFromAPI('2','2018-8-11');
 
 const app = express();
 

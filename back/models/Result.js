@@ -7,7 +7,7 @@ var ResultSchema = mongoose.Schema({
     },
     homeAwayDraw: {
         type: String,
-        enum: [Home, Away, Draw],
+        enum: ['Home', 'Away', 'Draw'],
         required :true,
     },              
     homeScore: {

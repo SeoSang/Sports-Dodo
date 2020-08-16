@@ -25,6 +25,7 @@ var BattingSchema = mongoose.Schema({
     description: {
         type: String,
     },
+    // 인덱스 넣어주면 성능이 올라갈 듯함.
 });
 
 module.exports = mongoose.model('Batting', BattingSchema);
