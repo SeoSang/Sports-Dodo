@@ -79,13 +79,13 @@ __Response__
 ```
 <br>
 
-## __베팅 읽기 (복수)__ GET "/api/battings"
+## __베팅 읽기 (복수)__ GET "/api/batting"
 - Need query conditions                 /////!!
 
 __Requset__
 ```
 method: GET
-url: "/api/battings"
+url: "/api/batting"
 header: { 
     "Content-type": "application/json" 
 }
@@ -107,7 +107,12 @@ __Response__
         "chooseHomeAwayDraw": "Home",
         "battingPoint": "40",
         "description": "I feel bad"
-    }]
+    }],
+    "battingPoints": {
+        "homeTotalPoint": 50,
+        "awayTotalPoint": 0,
+        "drawTotalPoint": 0
+    }
 }
 ```
 <br>
