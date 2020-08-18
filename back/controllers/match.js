@@ -37,8 +37,6 @@ exports.getMatch = asyncHandler(async (req, res, next) => {
         )
     }
 
-    match.
-
     res.status(200).json({
         success: true,
         data: match
