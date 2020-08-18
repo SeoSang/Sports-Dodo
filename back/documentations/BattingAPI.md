@@ -79,13 +79,13 @@ __Response__
 ```
 <br>
 
-## __베팅 읽기 (복수)__ GET "/api/batting"
+## __베팅 읽기 (복수)__ GET "/api/match/:id/batting"
 - Need query conditions                 /////!!
 
 __Requset__
 ```
 method: GET
-url: "/api/batting"
+url: "/api/match/:id/batting"
 header: { 
     "Content-type": "application/json" 
 }
