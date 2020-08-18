@@ -28,7 +28,7 @@ exports.createBatting = asyncHandler(async (req, res, next) => {
 
 // model에 index 넣어주면 더 빨라질듯함.
 exports.getBattings = asyncHandler(async (req, res, next) => {
-    const battings = await Batting.find({match: '5f329ff585c956329416e310'});
+    const battings = await Batting.find({match: req.params.id});
 
     //homeTotal, awayTotal, drawTotal Point 계산하기
    let homeTotalPoint = 0;
