@@ -7,8 +7,8 @@ var Match = require('../models/Match');
 // get Token
 describe("login for tests", () => {
     before("Login and get token, infos for individual tests", async () => {
-        await Match.deleteMany({});
-        await User.deleteMany({});
+        // await Match.deleteMany({});
+        // await User.deleteMany({});
 
         let globalUser1 = {
             email: "globalUser1@gmail.com",
@@ -82,8 +82,8 @@ describe("login for tests", () => {
 
     
     after("delete prelogined user", async () => {
-        await User.deleteMany({});
-        await Match.deleteMany({});
+        // await User.deleteMany({});
+        // await Match.deleteMany({});
     });
 
 

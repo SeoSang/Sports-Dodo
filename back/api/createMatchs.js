@@ -30,7 +30,9 @@ async function getMatchFromAPI(league_id, date){
     console.log(newMatchs);
 
     const res = await Match.insertMany(newMatchs);
-    console.log(res)
+    console.log('print response');
+    console.log(res);
+
 
   } catch (error) {
     console.error(error);
