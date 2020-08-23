@@ -45,11 +45,11 @@ var BattingSchema = mongoose.Schema({
 
 # API spec
 
-## __베팅 생성__ POST "/api/batting" 
+## __베팅 생성__ POST "/api/match/:id/batting" 
 __Requset__
 ```
 method: POST
-url: "/api/batting"
+url: "/api/match/:id/batting"
 header: { 
     "Content-type": "application/json", 
     "x-access-token": "token value" 
@@ -79,13 +79,13 @@ __Response__
 ```
 <br>
 
-## __베팅 읽기 (복수)__ GET "/api/battings"
+## __베팅 읽기 (복수)__ GET "/api/match/:id/batting"
 - Need query conditions                 /////!!
 
 __Requset__
 ```
 method: GET
-url: "/api/battings"
+url: "/api/match/:id/batting"
 header: { 
     "Content-type": "application/json" 
 }
@@ -107,7 +107,12 @@ __Response__
         "chooseHomeAwayDraw": "Home",
         "battingPoint": "40",
         "description": "I feel bad"
-    }]
+    }],
+    "battingPoints": {
+        "homeTotalPoint": 50,
+        "awayTotalPoint": 0,
+        "drawTotalPoint": 0
+    }
 }
 ```
 <br>

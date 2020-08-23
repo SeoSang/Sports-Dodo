@@ -108,9 +108,9 @@ describe("Batting Test Codes", () => {
     })
 
     after("Delete test datas", async () => {
-        await User.deleteMany({});
-        await Match.deleteMany({});
-        await Batting.deleteMany({});
+        // await User.deleteMany({});
+        // await Match.deleteMany({});
+        // await Batting.deleteMany({});
     });
 
     describe("POST /api/batting", () => {

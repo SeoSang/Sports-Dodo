@@ -6,7 +6,7 @@ const User = require('../models/User');
 // predefined user
 describe("USER API TEST", () => {
     before("prelogin for test", async () => {
-        await User.deleteMany({});
+        // await User.deleteMany({});
 
         let globalUser1 = {
             email: "globalUser1@gmail.com",
@@ -58,7 +58,7 @@ describe("USER API TEST", () => {
     });
 
     after("delete test users", async () => {
-        await User.deleteMany({ });
+        // await User.deleteMany({ });
     });
 
     describe("POST /api/user/register", () => {
