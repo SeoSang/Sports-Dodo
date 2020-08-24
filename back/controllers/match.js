@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 const asyncHandler = require('../middlewares/async');
 const ErrorResponse = require('../utils/errorResponse');
 const Match = require('../models/Match');
@@ -18,15 +18,18 @@ exports.createMatch = asyncHandler(async (req, res, next) => {
     })
 })
 
-exports.getMatchs = asyncHandler(async(req, res, next) => {
-    const matchs = await Match.find({}); // query 추가~~
+// exports.getMatchs = asyncHandler(async (req, res, next) => {
+//     const matchs = await Match.find({}); // query 추가~~
 
-    res.status(200).json({
-        success: true,
-        data: matchs
-    })
-})
+//     res.status(200).json({
+//         success: true,
+//         data: matchs
+//     })
+// })
 
+exports.getMatchs = asyncHandler(async (req, res, next) => {
+    res.status(200).json(res.advancedResults);
+});
 
 exports.getMatch = asyncHandler(async (req, res, next) => {
     const match = await Match.findById(req.params.id);
@@ -51,7 +54,7 @@ exports.editMatch = asyncHandler(async (req, res, next) => {
             new ErrorResponse(`No Match with the id of ${req.params.id}`, 404)
         );
     }
-    
+
     match = await Match.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true
@@ -74,7 +77,7 @@ exports.deleteMatch = asyncHandler(async (req, res, next) => {
         )
     }
 
-    await Match.deleteOne({ _id: req.params.id});
+    await Match.deleteOne({ _id: req.params.id });
 
     res.status(200).json({
         success: true,

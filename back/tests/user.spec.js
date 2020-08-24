@@ -6,7 +6,7 @@ const User = require('../models/User');
 // predefined user
 describe("USER API TEST", () => {
     before("prelogin for test", async () => {
-        // await User.deleteMany({});
+        await User.deleteMany({});
 
         let globalUser1 = {
             email: "globalUser1@gmail.com",
@@ -33,19 +33,19 @@ describe("USER API TEST", () => {
 
         const globalUser1Res = await request(app)
             .post("/api/user/login")
-            .send({ email: "globalUser1@gmail.com", password:"123123" })
+            .send({ email: "globalUser1@gmail.com", password: "123123" })
             .expect(200);
 
         const globalUser2Res = await request(app)
             .post("/api/user/login")
-            .send({ email: "globalUser2@gmail.com", password:"123123" })
+            .send({ email: "globalUser2@gmail.com", password: "123123" })
             .expect(200);
-        
+
         const globalUser3Res = await request(app)
             .post("/api/user/login")
-            .send({ email: "globalUser3@gmail.com", password:"123123" })
+            .send({ email: "globalUser3@gmail.com", password: "123123" })
             .expect(200);
-        
+
 
         // Pass token to ITs
         request.globalUser1Token = globalUser1Res.body.token;
@@ -53,28 +53,28 @@ describe("USER API TEST", () => {
         request.globalUser3Token = globalUser3Res.body.token;
 
         // Pass id  to Its
-        request.globalUser2_id = globalUser2Created._id; 
+        request.globalUser2_id = globalUser2Created._id;
 
     });
 
     after("delete test users", async () => {
-        // await User.deleteMany({ });
+        await User.deleteMany({});
     });
 
     describe("POST /api/user/register", () => {
-        let inputData = { 
-            email: "test1@gmail.com", 
-            password: "123123", 
+        let inputData = {
+            email: "test1@gmail.com",
+            password: "123123",
             name: "testName1",
             nickname: "testNickName1",
         };
 
         let wrongNicknameData = {
-            email: "test3@gmail.com", 
-            password: "123123", 
+            email: "test3@gmail.com",
+            password: "123123",
             name: "testName2",
             nickname: 's'
-        } 
+        }
 
         it("[Success] register a user", async () => {       // 비밀번호 jwt 추가 !!
             const res = await request(app)
@@ -97,17 +97,17 @@ describe("USER API TEST", () => {
     describe("POST /api/user/login", () => {
         before("register a user before login test", async () => {
             let testUser = {
-                email: "test5@gmail.com", 
-                password: "123123", 
+                email: "test5@gmail.com",
+                password: "123123",
                 name: "testName1",
                 nickname: "testnickname1",
             };
-        
+
             await User.create(testUser);
         })
-        
+
         let loginInput = {
-            email:"test5@gmail.com",
+            email: "test5@gmail.com",
             password: "123123"
         };
 
@@ -155,7 +155,7 @@ describe("USER API TEST", () => {
             const res = await request(app)
                 .get("/api/user/profile")
                 .set('x-access-token', "WrongTokenValueInput");
-            
+
             expect(res.status).to.be.equal(401);
             expect(res.body.error).to.be.equal('Not authorized to access this route')
         });
@@ -165,11 +165,11 @@ describe("USER API TEST", () => {
     // query 추가하기 !!
     describe("GET /api/users", () => {
         // it("[Success] got users", async () => {
-            // const res = await request(app)
-            //     .get("/api/users")
+        // const res = await request(app)
+        //     .get("/api/users")
 
-            // expect(res.status).to.be.equal(200);
-            //expect querys 추가.
+        // expect(res.status).to.be.equal(200);
+        //expect querys 추가.
 
         // })
     })
@@ -178,7 +178,7 @@ describe("USER API TEST", () => {
         it("[Success] got user detail", async () => {
             const res = await request(app)
                 .get(`/api/user/${request.globalUser2_id}`);
-            
+
             expect(res.status).to.be.equal(200);
             expect(res.body.data).to.have.property("email");
             expect(res.body.data).to.have.property("name");

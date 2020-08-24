@@ -1,13 +1,16 @@
 const { Router } = require('express');
-const router = Router({mergeParams: true});
-const { 
+const router = Router({ mergeParams: true });
+const {
     createMatch,
     getMatch,
     getMatchs,
     editMatch,
-    deleteMatch 
+    deleteMatch
 } = require('../controllers/match');
 
+const Match = require('../models/Match');
+
+const advancedResults = require('../middlewares/advancedResults');
 
 // Include other resource routers
 const battingRouter = require('./batting');
@@ -15,9 +18,9 @@ const battingRouter = require('./batting');
 router.use('/:id/batting', battingRouter);
 
 router
-    .route("/") 
+    .route("/")
     .post(createMatch)
-    .get(getMatchs);
+    .get(advancedResults(Match), getMatchs);
 
 router
     .route("/:id")

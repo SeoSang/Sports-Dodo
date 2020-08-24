@@ -18,10 +18,10 @@ const { getMatchFromAPI } = require('./api/createMatchs');
 //require('dotenv').config(); // .env -> 중요정보 보호. (gitignore 해둬서 git에는 안감.)
 // 밑에껄로 바꿀게요 !
 const dotenv = require('dotenv');
-dotenv.config({ path: './config/config.env'});
+dotenv.config({ path: './config/config.env' });
 
 connectDB();
-getMatchFromAPI('2','2018-8-11');
+// getMatchFromAPI('2','2018-8-11');
 
 const app = express();
 

@@ -7,8 +7,8 @@ var Match = require('../models/Match');
 // get Token
 describe("login for tests", () => {
     before("Login and get token, infos for individual tests", async () => {
-        // await Match.deleteMany({});
-        // await User.deleteMany({});
+        await Match.deleteMany({});
+        await User.deleteMany({});
 
         let globalUser1 = {
             email: "globalUser1@gmail.com",
@@ -35,19 +35,19 @@ describe("login for tests", () => {
 
         const globalUser1Res = await request(app)
             .post("/api/user/login")
-            .send({ email: "globalUser1@gmail.com", password:"123123" })
+            .send({ email: "globalUser1@gmail.com", password: "123123" })
             .expect(200);
 
         const globalUser2Res = await request(app)
             .post("/api/user/login")
-            .send({ email: "globalUser2@gmail.com", password:"123123" })
+            .send({ email: "globalUser2@gmail.com", password: "123123" })
             .expect(200);
-        
+
         const globalUser3Res = await request(app)
             .post("/api/user/login")
-            .send({ email: "globalUser3@gmail.com", password:"123123" })
+            .send({ email: "globalUser3@gmail.com", password: "123123" })
             .expect(200);
-        
+
 
         // Pass "token" to ITs
         request.globalUser1Token = globalUser1Res.body.token;
@@ -57,7 +57,7 @@ describe("login for tests", () => {
         // Pass "_id" to Its
         request.globalUser1_id = globalUser1Created._id;
         request.globalUser2_id = globalUser2Created._id;
-        request.globalUser3_id = globalUser3Created._id; 
+        request.globalUser3_id = globalUser3Created._id;
     });
 
     before("Test Matchs for individual tests", async () => {
@@ -80,10 +80,10 @@ describe("login for tests", () => {
         request.testMatch2_id = testMatch2Created._id;
     });
 
-    
+
     after("delete prelogined user", async () => {
-        // await User.deleteMany({});
-        // await Match.deleteMany({});
+        await User.deleteMany({});
+        await Match.deleteMany({});
     });
 
 
@@ -97,13 +97,13 @@ describe("login for tests", () => {
         let noAwayTeamMatchInput = { // awayTeam 없는 데이터.
             homeTeam: "LA",
             startTime: "14:00" // 타입 정해지면 바꾸셔요.
-        } 
+        }
 
         it("[Success] make new match", async () => {
             const res = await request(app)
                 .post("/api/match")
                 .send(newMatchInput);
-            
+
             expect(res.status).to.be.equal(201);
             expect(res.body.data.homeTeam).to.be.equal("LA");
             expect(res.body.data.awayTeam).to.be.equal("Dallas");
@@ -127,15 +127,15 @@ describe("login for tests", () => {
         it("[Success] get matches well", async () => {
             const res = await request(app)
                 .get("/api/match")
-            
+
             expect(res.status).to.be.equal(200);
             // expect(res.body.data.length).to.be.equal("limit 정한 수");
             // ! important !
             // query 에 따라 expect 설정하는게 달라진다. 
         });
-    })     
-//
-// 여기부터 새 api명들로 작성했씀.
+    })
+    //
+    // 여기부터 새 api명들로 작성했씀.
     describe("GET /api/match/:id", () => {
         it("[Success] got a match with this match._id", async () => {
             const res = await request(app)
@@ -151,7 +151,7 @@ describe("login for tests", () => {
             expect(res.status).to.be.equal(404);
             expect(res.body.error).to.be.equal(`Resource not found`)
         })
-    })     
+    })
 
     describe("PUT /api/match/:id", () => {
         it("[Success] editted match detail", async () => {
@@ -172,7 +172,7 @@ describe("login for tests", () => {
 
 
     })
-    
+
     describe("DELETE /api/match/:id", () => {
         it("[Success] deleted a match well", async () => {
             const res = await request(app)
@@ -186,5 +186,5 @@ describe("login for tests", () => {
             expect(res.status).to.be.equal(404);
             expect(res.body.error).to.be.equal('Resource not found');
         });
-    })     
+    })
 })
