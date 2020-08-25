@@ -1,4 +1,5 @@
 import { FullDiv } from '../styles/styled-components';
+import { useDispatch } from 'react-redux';
 import { Button, Input, Checkbox, Form, message } from 'antd';
 import {
   UserOutlined,
@@ -6,9 +7,7 @@ import {
   MailOutlined,
   SmileOutlined,
 } from '@ant-design/icons';
-import Link from 'next/link';
-import axios from 'axios';
-import { BACKEND_URL } from '../src/dummy';
+import { REGISTER_REQUEST } from '../sagas/user';
 
 const layout = {
   labelCol: { span: 4 },
@@ -26,23 +25,35 @@ const registerFormStyle = {
 };
 
 const register = () => {
-  const onFinish = (values) => {
+  const dispatch = useDispatch();
+  const onFinish = values => {
     if (!values.agreement) {
       alert('이용약관에 동의해주세요!');
       return;
     }
+    if (values.name.length < 2 || values.name.length > 50) {
+      alert('이름 길이 제한에 어긋났습니다! \n (허용 범위 : 2글자 ~ 50글자');
+      return;
+    }
+    if (values.name.length < 3 || values.name.length > 100) {
+      alert('닉네임 길이 제한에 어긋났습니다! \n (허용 범위 : 3글자 ~ 100글자');
+      return;
+    }
+    const reqValues = {
+      email: values.email,
+      password: values.password,
+      name: values.name,
+      nickname: values.nickname,
+    };
     try {
-      axios
-        .post(`${BACKEND_URL}/api/user`, values)
-        .then((res) => console.log(res));
-      message.success('회원가입이 완료되었습니다!');
+      dispatch({ type: REGISTER_REQUEST, data: reqValues });
     } catch (e) {
       console.error(e);
-      message.error('회원가입이 완료되었습니다!');
+      message.error('회원가입이 실패했습니다!');
     }
-    console.log(values);
+    console.log(reqValues);
   };
-  const onFinishFailed = (values) => {
+  const onFinishFailed = values => {
     console.log(values);
   };
   return (

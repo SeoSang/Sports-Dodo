@@ -24,7 +24,7 @@ function* login(action) {
   try {
     const result = yield call(loginAPI, action.data); // call -> loginAPI(action.data)
     yield put({
-      // put -> Action 실행
+      // put -> Action lk실행
       type: LOG_IN_SUCCESS,
       data: result,
     });
@@ -42,7 +42,7 @@ function* watchLogin() {
 }
 
 function registerAPI(registerData) {
-  return axios.post('/user/register', registerData);
+  return axios.post('/user', registerData);
 }
 
 function* register(action) {
