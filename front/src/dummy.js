@@ -92,4 +92,4 @@ export const dummy_profile = {
   ],
 };
 
-export const BACKEND_URL = 'http://localhost:12312';
+export const BACKEND_URL = 'http://localhost:1337';

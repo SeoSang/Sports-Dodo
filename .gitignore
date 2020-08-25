@@ -11,6 +11,7 @@ package-lock.json
 .next
 /.next/
 /out/
+/front/.next/
 
 # production
 /build
@@ -25,7 +26,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-back/.env
+/back/.env
 .env
 .env.local
 .env.development.local
@@ -36,3 +37,6 @@ config/config.env
 # vercel
 .vercel
 
+# backend files
+/back/config/config.env
+# /back/package-lock.json
