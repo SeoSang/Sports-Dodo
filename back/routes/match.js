@@ -20,7 +20,7 @@ router.use('/:id/batting', battingRouter);
 router
     .route("/")
     .post(createMatch)
-    .get(advancedResults(Match), getMatchs);
+    .get(getMatchs);
 
 router
     .route("/:id")
