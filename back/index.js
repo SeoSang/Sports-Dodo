@@ -19,23 +19,25 @@ const { getMatchFromAPI } = require('./api/createMatchs');
 const dotenv = require('dotenv');
 dotenv.config({ path: './config/config.env' });
 
-connectDB();
 // getMatchFromAPI('2','2018-8-11');
 
 const app = express();
 
+// 접근 제어
 app.use(
-  // 접근 제어
   cors({
     origin: process.env.CORS_ORIGIN,
   })
 );
+
+connectDB();
 
 app.use(
   bodyParser.urlencoded({
     extended: false,
   })
 );
+
 app.use(bodyParser.json());
 
 // api를 위한 라우터들

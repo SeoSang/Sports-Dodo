@@ -2,6 +2,8 @@ import { FullDiv } from '../styles/styled-components';
 import { Button, Input, Checkbox, Form } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import { LOG_IN_REQUEST } from '../sagas/user';
 
 const layout = {
   labelCol: { span: 7 },
@@ -19,7 +21,9 @@ const loginFormStyle = {
 };
 
 const login = () => {
+  const dispatch = useDispatch();
   const onFinish = values => {
+    dispatch({ type: LOG_IN_REQUEST, data: values });
     console.log(values);
   };
   const onFinishFailed = values => {

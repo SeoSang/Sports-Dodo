@@ -15,9 +15,7 @@ export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
 axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
 function loginAPI(loginData) {
-  return axios.post('/user/login', loginData, {
-    withCredentials: true, // 쿠키 주고받기 위해 넣어준다.
-  });
+  return axios.post('/user/login', loginData);
 }
 
 function* login(action) {
