@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const router = Router({mergeParams: true});
+const router = Router({ mergeParams: true });
 const { protect } = require('../middlewares/auth');
 
 const {

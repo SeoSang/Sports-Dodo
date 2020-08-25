@@ -6,7 +6,7 @@
     "scripts": {
         "test": "mocha -timeout 1000000",
         "build": "node index.js",
-        "dev": "nodemon --watch src --delay 1 index.js"
+        "dev": "nodemon index.js"
     },
     "author": "",
     "license": "MIT",

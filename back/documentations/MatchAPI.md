@@ -68,9 +68,6 @@ __Response__
 <br>
 
 ## __매치 읽기 (복수)__ GET "/api/match"
-- 임박한 경기순서로 검색 'startTime[gt]=Date.now'
-- 보여주고 싶은 경기 개수 설정 'limit' ex) 3개 설정시 => "/api/match/?limit=3"
-- 정렬 방식 설정 'sort' ex) "/api/match?sort=startTime,_id"
 
 __Request__
 ```
@@ -110,10 +107,16 @@ __Response__
 }
 ```
 
-
-### 매치 읽기 (복수) 예시
+### 매치 읽기 (복수) 검색 조건
 - 가장 임박한 경기 10개 가져오기
 - 정렬 기준: startTime / 검색기준 : startTime > Date.now / 가져올 개수: limit = 10
+- query
+  - lasttime 
+  - lastid
+  - select  ex) ?select=homeTeam
+  - sort    ex) ?sort=_id  (default=startTime)
+  - limit   ex) ?limit=3
+  - directly query exact field ex) ?startTime[gt]=2018-08-11T16:33:00+00:00, homeTeam=Wanson
 
 __Request__
 ```

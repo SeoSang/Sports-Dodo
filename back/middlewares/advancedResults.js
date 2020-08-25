@@ -3,6 +3,7 @@
 
 // const advancedResults = (model, populate)
 const advancedResults = (model) => async (req, res, next) => {
+
     let query;
 
     // Copy req.query
@@ -14,11 +15,32 @@ const advancedResults = (model) => async (req, res, next) => {
     // Loop over removeFields and delete them from reqQuery
     removeFields.forEach(param => delete reqQuery[param]);
 
+    // query = model.find({ startTime: { $gt: reqQuery.lasttime }, _id: { $gt: reqQuery.lastid } })
+    console.log('22222');
+    console.log(reqQuery);
+    // console.log(query);
+
     // Create query string
     let queryStr = JSON.stringify(reqQuery);
-
+    console.log(queryStr);
     // Create operators ($gt, $gte, etc)
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
+    console.log('11111111111111111');
+    console.log(queryStr);
+    // queryStr = queryStr.replace(/\b()\b/g, match => ``)
+    /*
+&lasttime=2010~&lastid=dsfheklwj232
+
+if (lasttime) {
+    lasttime => startTime[gt]={value}
+}
+
+if (lastid) {
+    lastid => _id[gt]={value}
+}
+*/
+    //find( { qty: { $gt: 20 } } )
+    // query = model.find({ startTime : { $gt : reqQuery.lasttime } }, { _id: { $gt : reqQuery.lastid}})
 
     // Finding resource
     query = model.find(JSON.parse(queryStr));
@@ -29,6 +51,9 @@ const advancedResults = (model) => async (req, res, next) => {
         query = query.select(fields);
     }
 
+    // // Sort
+    // query = query.sort('startTime _id');  // ! index로 바꿀지 고민 !
+
     // Sort
     if (req.query.sort) {
         const sortBy = req.query.sort.split(',').join(' ');
@@ -38,8 +63,8 @@ const advancedResults = (model) => async (req, res, next) => {
     }
 
     // Pagination
-    // const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
+
     // const startIndex = (page - 1) * limit;
     // const endIndex = page * limit;
     const total = await model.countDocuments(JSON.parse(queryStr));
@@ -127,4 +152,5 @@ state._idOfLastContent = res.body.data[-1]._id;
 // http://localhost:1337/api/match?sort=-startTime&startTime[gt]=2018-08-11T14:00:00+00:00&limit=3&
 
 
-
+// 더보기
+// '/api/match?startTime[gt]=lcst&_id[gt]=lcid
