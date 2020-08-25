@@ -72,10 +72,12 @@ __Response__
 __Request__
 ```
 method: GET
-url: "/api/match"
+url: "/api/match" 
 header: { 
     "Content-Type": "application/json" 
 }
+
+ex) "/api/match?startindex=10&sort=startTime,_id&limit=3"
 ```
 
 __Response__
@@ -111,9 +113,6 @@ __Response__
 - 가장 임박한 경기 10개 가져오기
 - 정렬 기준: startTime / 검색기준 : startTime > Date.now / 가져올 개수: limit = 10
 - query
-  - lasttime 
-  - lastid
-  - select  ex) ?select=homeTeam
   - sort    ex) ?sort=_id  (default=startTime)
   - limit   ex) ?limit=3
   - directly query exact field ex) ?startTime[gt]=2018-08-11T16:33:00+00:00, homeTeam=Wanson
