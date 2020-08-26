@@ -73,7 +73,7 @@ __Request__
 ```
 // 첫번째 request
 method: GET
-url: "/api/match"
+url: "/api/match"   "/api/match?startTime[gt]={Date.now}"
 header: { 
     "Content-Type": "application/json" 
 }
@@ -94,6 +94,11 @@ header: {
   - sort        ex) ?sort=_id  (default=startTime,_id)
   - limit       ex) ?limit=3
 
+__Request__
+```
+
+```
+
 __Response__
 ```
 {
@@ -106,7 +111,7 @@ __Response__
         "_id": "dsfhewikotiewjoir22bsdfnlewnf",
         "homeTeam": "Chicago",
         "awayTeam": "SA",
-        "startTime": "06:23:24/09/12/2020",
+        "startTime": "06:10:24/09/12/2020",
         "result": ""
     },
     {
@@ -120,7 +125,7 @@ __Response__
         "_id": "sdhflkjkle35dklfsjdflk22dshfkl",
         "homeTeam": "LA",
         "awayTeam": "Taxas",
-        "startTime": "06:20:22/10/12/2020",
+        "startTime": "06:20:23/10/12/2020",
         "result": ""
     }]
 }

@@ -7,6 +7,8 @@ var Batting = require('../models/Batting');
 
 describe("Batting Test Codes", () => {
     before("Make Test Users", async () => {
+        await User.deleteMany({});
+
         let testUser1Data = {
             email: "testUser1@gmail.com",
             password: "123123",

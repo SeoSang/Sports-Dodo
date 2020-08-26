@@ -41,6 +41,8 @@ app.use(
   })
 );
 
+// console.log(app.get('env'));
+
 app.use(bodyParser.json());
 
 // api를 위한 라우터들
@@ -58,6 +60,7 @@ app.use(express.json()); // form 데이터나 ajax 요청을 파싱해줌.
 // app.use('/', (req, res) => {
 //   res.status(200).json('서버 메인입니다');
 // });
+
 
 app.use(errorHandler);
 

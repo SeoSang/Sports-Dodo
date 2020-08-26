@@ -25,9 +25,6 @@ const advancedResults = (model) => async (req, res, next) => {
     console.log(queryStr);
     // Create operators ($gt, $gte, etc)
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
-    console.log('11111111111111111');
-    console.log(queryStr);
-    // queryStr = queryStr.replace(/\b()\b/g, match => ``)
     /*
 &lasttime=2010~&lastid=dsfheklwj232
 
