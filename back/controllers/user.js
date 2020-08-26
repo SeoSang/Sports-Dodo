@@ -71,7 +71,10 @@ exports.login = asyncHandler(async (req, res, next) => {
 });
 
 exports.getUsers = asyncHandler(async (req, res, next) => {
-    let users = await User.find({});
+    let users = await User
+        .find({})
+        .sort({ "point": -1 })
+        .limit(20);
 
     res.status(200).json({
         success: true,

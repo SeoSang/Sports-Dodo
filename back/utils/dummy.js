@@ -17,7 +17,8 @@ let user2 = {
     email: "user2@naver.com",
     password: "123123",
     name: "user2",
-    nickname: "user2"
+    nickname: "user2",
+    point: 101
 };
 
 let user3 = {
