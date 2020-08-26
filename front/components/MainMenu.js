@@ -1,7 +1,7 @@
-import React from "react";
-import { Menu } from "antd";
-import SubMenu from "antd/lib/menu/SubMenu";
-import Link from "next/link";
+import React from 'react';
+import { Menu } from 'antd';
+import SubMenu from 'antd/lib/menu/SubMenu';
+import Link from 'next/link';
 
 import {
   HomeOutlined, //홈 아이콘 추가
@@ -10,13 +10,13 @@ import {
   DesktopOutlined,
   ContainerOutlined,
   MailOutlined,
-} from "@ant-design/icons";
+} from '@ant-design/icons';
 
 const MainMenu = ({ visible }) => {
   return (
-    <div style={{ zIndex: 10, position: "absolute", width: 256, top: "70px" }}>
+    <div style={{ zIndex: 10, position: 'absolute', width: 256, top: '70px' }}>
       <Menu
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={['1']}
         defaultOpenKeys={[]}
         mode="inline"
         theme="dark"
@@ -30,7 +30,7 @@ const MainMenu = ({ visible }) => {
         </Menu.Item>
         <SubMenu key="sub1" icon={<DesktopOutlined />} title="매칭 보기">
           <Menu.Item key="1">
-            <Link href="/matching">
+            <Link href="/matchs">
               <a>축구</a>
             </Link>
           </Menu.Item>
