@@ -8,8 +8,6 @@ const {
     deleteMatch
 } = require('../controllers/match');
 
-const Match = require('../models/Match');
-
 const advancedResults = require('../middlewares/advancedResults');
 
 // Include other resource routers
@@ -20,7 +18,7 @@ router.use('/:id/batting', battingRouter);
 router
     .route("/")
     .post(createMatch)
-    .get(advancedResults(Match), getMatchs);
+    .get(getMatchs);
 
 router
     .route("/:id")
