@@ -1,14 +1,10 @@
-import { List, Row, Col, Card, Progress, Button, Layout } from 'antd';
+import { List, Row, Col, Card, Progress, Button, Layout, BackTop } from 'antd';
 import {
   dummy_match_A,
   dummy_main_rankings,
   dummy_main_matches,
 } from '../src/dummy';
-import {
-  UpperDiv,
-  LowerDiv,
-  SportCategories,
-} from '../styles/styled-components';
+import { LowerDiv, SportCategories } from '../styles/styled-components';
 import { useState, useRef } from 'react';
 import styled from 'styled-components';
 
@@ -22,6 +18,11 @@ const IMAGE_MAPPING = {
   농구: '/images/nba.jpg',
 };
 
+export const MainRow = styled(Row)`
+  height: 100vh;
+  background-color: #e8e8e8;
+`;
+
 export const UpperCol = styled(Col)`
   padding: 3px;
   margin: 0.2vh 1vw;
@@ -31,9 +32,16 @@ export const UpperCol = styled(Col)`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;
 
+const MessiContainer = styled.div`
+  height: 93vh;
+  overflow: hidden;
+  opacity: 90%;
+`;
+
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(1);
   const slideRef = useRef(null);
+  const messiRef = useRef(null);
 
   const onClickFootball = e => {
     // 슬라이드 애니메이션
@@ -46,79 +54,98 @@ const Home = () => {
     setCurrentSlide(BASKETBALL_TRANSLATE);
   };
 
+  const scrollToBottom = () => {
+    messiRef.current.scrollIntoView({ behavior: 'smooth' });
+    messiRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <>
-      <Row style={{ textAlign: 'center' }} justify="space-around" gutter={16}>
-        <UpperCol span={19}>
-          <div style={{ overflow: 'hidden' }}>
-            <div
-              ref={slideRef}
-              style={{
-                width: '300%',
-                display: 'flex',
-                transition: 'all 0.5s ease-in-out',
-                transform: `translateX(${currentSlide}`,
-              }}
-            >
-              {dummy_main_matches.map(match => (
-                <Card
-                  title={dummy_main_matches.category}
-                  bordered={true}
-                  style={{
-                    margin: '3px 5px',
-                    width: '11%',
-                    height: '100%',
-                  }}
-                >
-                  <h2>{`${match.teamA} VS ${match.teamB}`} </h2>
-                  <label>승 : 100p</label>
-                  <Progress percent={30} size="small" />
-                  <label>무 : 350p</label>
-                  <Progress strokeColor={'green'} percent={50} size="small" />
-                  <label>패 : 80p</label>
-                  <Progress strokeColor={'red'} percent={20} size="small" />
-                  <br></br>
-                  <Button style={{ marginTop: '15px' }}>자세히 보기</Button>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </UpperCol>
-        <UpperCol span={3}>
-          <Layout style={{ height: '100%' }}>
-            <SportCategories onClick={onClickFootball}>축구</SportCategories>
-            <SportCategories onClick={onClickBaseball}>야구</SportCategories>
-            <SportCategories onClick={onClickBasketball}>농구</SportCategories>
-          </Layout>
-        </UpperCol>
+      <Row style={{ zIndex: 20 }}>
+        <MessiContainer onClick={scrollToBottom}>
+          <img style={{ minWidth: '100%' }} src="/images/messi.jpg"></img>
+        </MessiContainer>
       </Row>
-      <LowerDiv>
-        <h2>실시간 랭킹</h2>
-        <Row>
-          {dummy_main_rankings.map(ranking => {
-            return (
-              <Col span={8}>
-                <List
-                  header={
-                    <img
-                      style={{
-                        width: '60px',
-                        height: '30px',
-                      }}
-                      src={IMAGE_MAPPING[ranking.category]}
-                    ></img>
-                  }
-                  bordered
-                  dataSource={ranking.rankings}
-                  renderItem={(item, i) => (
-                    <List.Item>{`${i + 1}위 - ${item}`}</List.Item>
-                  )}
-                ></List>
-              </Col>
-            );
-          })}
+      <MainRow style={{ height: '100vh' }}>
+        <Row
+          style={{ marginTop: '5vh', textAlign: 'center' }}
+          justify="space-around"
+          gutter={16}
+        >
+          <UpperCol span={19}>
+            <div style={{ overflow: 'hidden' }}>
+              <div
+                ref={slideRef}
+                style={{
+                  width: '300%',
+                  display: 'flex',
+                  transition: 'all 0.5s ease-in-out',
+                  transform: `translateX(${currentSlide}`,
+                }}
+              >
+                {dummy_main_matches.map(match => (
+                  <Card
+                    title={dummy_main_matches.category}
+                    bordered={true}
+                    style={{
+                      margin: '3px 5px',
+                      width: '11%',
+                      height: '100%',
+                    }}
+                  >
+                    <h2>{`${match.teamA} VS ${match.teamB}`} </h2>
+                    <label>승 : 100p</label>
+                    <Progress percent={30} size="small" />
+                    <label>무 : 350p</label>
+                    <Progress strokeColor={'green'} percent={50} size="small" />
+                    <label>패 : 80p</label>
+                    <Progress strokeColor={'red'} percent={20} size="small" />
+                    <br></br>
+                    <Button style={{ marginTop: '15px' }}>자세히 보기</Button>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </UpperCol>
+          <UpperCol span={3}>
+            <Layout style={{ height: '100%' }}>
+              <SportCategories onClick={onClickFootball}>축구</SportCategories>
+              <SportCategories onClick={onClickBaseball}>야구</SportCategories>
+              <SportCategories onClick={onClickBasketball}>
+                농구
+              </SportCategories>
+            </Layout>
+          </UpperCol>
         </Row>
-      </LowerDiv>
+        <LowerDiv>
+          <h2>실시간 랭킹</h2>
+          <Row>
+            {dummy_main_rankings.map(ranking => {
+              return (
+                <Col span={8}>
+                  <List
+                    header={
+                      <img
+                        style={{
+                          width: '60px',
+                          height: '30px',
+                        }}
+                        src={IMAGE_MAPPING[ranking.category]}
+                      ></img>
+                    }
+                    bordered
+                    dataSource={ranking.rankings}
+                    renderItem={(item, i) => (
+                      <List.Item>{`${i + 1}위 - ${item}`}</List.Item>
+                    )}
+                  ></List>
+                </Col>
+              );
+            })}
+          </Row>
+        </LowerDiv>
+      </MainRow>
+      <div style={{ float: 'left', clear: 'both' }} ref={messiRef}></div>
     </>
   );
 };

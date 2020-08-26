@@ -20,10 +20,20 @@ const MyLayout = ({ children }) => {
   const toggleCollapsed = () => {
     setVisible(!visible);
   };
+
+  const handleMouseEnter = e => {
+    setVisible(true);
+    console.log('handleMouseEnter');
+  };
+
+  const handleMouseLeave = e => {
+    setVisible(false);
+  };
+
   return (
     <>
       <TitleBarDiv>
-        <Row style={{ height: '50px' }}>
+        <Row style={{ height: '7vh' }}>
           <Col className="vertical-mid" span={4}>
             <Button onClick={toggleCollapsed}>
               {visible ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
@@ -54,13 +64,17 @@ const MyLayout = ({ children }) => {
           </Col>
         </Row>
       </TitleBarDiv>
-      <MainMenu visible={visible} />
+      <MainMenu
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        visible={visible}
+      />
       <Background90Div style={{ textAlign: 'center' }}>
         <ContentDiv>{children}</ContentDiv>
       </Background90Div>
-      <Layout.Footer style={{ textAlign: 'center' }}>
+      {/* <Layout.Footer style={{ height: '3vh', textAlign: 'center' }}>
         프로젝트 이름 ©2020 Created by ~~~
-      </Layout.Footer>
+      </Layout.Footer> */}
     </>
   );
 };
