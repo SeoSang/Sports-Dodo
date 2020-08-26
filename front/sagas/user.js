@@ -15,16 +15,14 @@ export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
 axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
 function loginAPI(loginData) {
-  return axios.post('/user/login', loginData, {
-    withCredentials: true, // 쿠키 주고받기 위해 넣어준다.
-  });
+  return axios.post('/user/login', loginData);
 }
 
 function* login(action) {
   try {
     const result = yield call(loginAPI, action.data); // call -> loginAPI(action.data)
     yield put({
-      // put -> Action 실행
+      // put -> Action lk실행
       type: LOG_IN_SUCCESS,
       data: result,
     });
@@ -42,7 +40,7 @@ function* watchLogin() {
 }
 
 function registerAPI(registerData) {
-  return axios.post('/user/register', registerData);
+  return axios.post('/user', registerData);
 }
 
 function* register(action) {
