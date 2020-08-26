@@ -35,8 +35,6 @@ app.use(
   })
 );
 
-connectDB();
-
 app.use(
   bodyParser.urlencoded({
     extended: false,

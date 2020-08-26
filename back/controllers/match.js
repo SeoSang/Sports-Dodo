@@ -73,7 +73,7 @@ exports.getMatchs = asyncHandler(async (req, res, next) => {
     res.status(200).json({
         success: true,
         count: results.length,
-        indexForLoadMore: endIndex,
+        nextStartIndex: endIndex,
         hasNext: hasNext,
         data: results
     });

@@ -78,10 +78,19 @@ header: {
 }
 ```
 
+### 매치 읽기 (복수) 검색 조건
+- query
+  - startindex  ex) ?startindex=3  : 3번째 객체부터 보여줌. default=0 
+  - sort        ex) ?sort=_id  (default=startTime,_id)
+  - limit       ex) ?limit=3
+
 __Response__
 ```
 {
     "success": true,
+    "count": 10
+    "nextStartIndex": 10,           //state 저장 !
+    "hasNext": true,                //state 저장 !
     "data": [
     {
         "_id": "dsfhewikotiewjoir22bsdfnlewnf",
@@ -104,89 +113,6 @@ __Response__
         "startTime": "06:20:22/10/12/2020",
         "result": ""
     }]
-}
-```
-
-### 매치 읽기 (복수) 검색 조건
-- 가장 임박한 경기 10개 가져오기
-- 정렬 기준: startTime / 검색기준 : startTime > Date.now / 가져올 개수: limit = 10
-- query
-  - lasttime 
-  - lastid
-  - select  ex) ?select=homeTeam
-  - sort    ex) ?sort=_id  (default=startTime)
-  - limit   ex) ?limit=3
-  - directly query exact field ex) ?startTime[gt]=2018-08-11T16:33:00+00:00, homeTeam=Wanson
-
-__Request__
-```
-"/api/match?sort=startTime&startTime[gt]=Date.now&limit=10"
-```
-
-__Response__
-```
-{
-    "success": true,
-    "count": 10,
-    "data": [
-        {
-            "_id": "5f4343b4df4b39448893e1d9",
-            "homeTeam": "TeamC",
-            "awayTeam": "TeamB",
-            "startTime": "2018-08-11T16:33:00+00:00",
-            "__v": 0
-        },
-        {
-            "_id": "5f4343c0df4b39448893e1da",
-            "homeTeam": "TeamA",
-            "awayTeam": "TeamD",
-            "startTime": "2018-08-11T16:34:00+00:00",
-            "__v": 0
-        },
-        {},
-        ~,
-        {
-            "_id": "5f4343c5df4b39448893e1db",      // 더보기 할 때 필요합니다.
-            "homeTeam": "TeamA",
-            "awayTeam": "TeamD",
-            "startTime": "2018-08-11T16:35:00+00:00",    // 더보기 할 때 필요합니다.
-            "__v": 0
-        }
-    ]
-}
-```
-
-### 매치 더보기 "loadMore" 예시
-- 정렬 기준: startTime / 검색기준 : startTime > startTimeOfLastContent, _id > _idOfLastContent / 가져올 개수 : limit = 10
-- 동일 시간에 여러 경기가 있을 수 있어 _id 도 검색 조건에 들어갸야함.(_id가 디폴트로 설정된 두번째 정렬조건입니다.)
-- 위 임박한 경기 10개 가져오는 쿼리의 response 에서 마지막 content의 startTime과 _id를 이용해야합니다.
-
-__Request__
-```
-"/api/match?sort=startTime&startTime[gt]=startTimeOfLastContent&_id[gt]=_idOfLastContent&limit=10
-```
-
-__Response__
-```
-{
-    "success": true,
-    "count": 2,
-    "data": [
-        {
-            "_id": "5f3b6f872e0ff61fac3c7745",
-            "homeTeam": "Fulham",
-            "awayTeam": "Crystal Palace",
-            "startTime": "2018-08-11T14:00:00+00:00",
-            "__v": 0
-        },
-        {
-            "_id": "5f3b6f872e0ff61fac3c7746",
-            "homeTeam": "Huddersfield",
-            "awayTeam": "Chelsea",
-            "startTime": "2018-08-11T14:00:00+00:00",
-            "__v": 0
-        }
-    ]
 }
 ```
 
