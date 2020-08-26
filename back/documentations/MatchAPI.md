@@ -71,6 +71,7 @@ __Response__
 
 __Request__
 ```
+// 첫번째 request
 method: GET
 url: "/api/match"
 header: { 
@@ -78,9 +79,18 @@ header: {
 }
 ```
 
+```
+// 더보기 request
+method: GET
+url: "/api/match?startindex={startIndex}"
+header: { 
+    "Content-Type": "application/json" 
+}
+```
+
 ### 매치 읽기 (복수) 검색 조건
 - query
-  - startindex  ex) ?startindex=3  : 3번째 객체부터 보여줌. default=0 
+  - startindex  ex) ?startindex=3  => 3번째 객체부터 보여줌. default=0 
   - sort        ex) ?sort=_id  (default=startTime,_id)
   - limit       ex) ?limit=3
 
