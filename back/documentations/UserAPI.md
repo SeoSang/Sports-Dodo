@@ -100,7 +100,7 @@ __Request__
 ```
 method: GEt
 url: "/api/user"
-header: {"Content-Type": "application/json" 
+header: {"Content-Type": "application/json"  }
 }
 ```
 

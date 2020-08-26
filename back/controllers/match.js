@@ -11,7 +11,7 @@ exports.createMatch = asyncHandler(async (req, res, next) => {
     // const result = req.body.result; // 경기 시작전에는 "undefined"
 
     const match = await Match.create(req.body);
-    console.log(match);
+
     return res.status(201).json({
         success: true,
         data: match
@@ -40,8 +40,14 @@ exports.getMatchs = asyncHandler(async (req, res, next) => {
     // Loop over removeFields and delete them from reqQuery
     removeFields.forEach(param => delete reqQuery[param]);
 
+    // Create query string
+    let queryStr = JSON.stringify(reqQuery);
+
+    // Create operators ($gt, $gte, etc)
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
+
     // Finding resource
-    query = Match.find(reqQuery);
+    query = Match.find(JSON.parse(queryStr));
 
     // Sort
     if (req.query.sort) {
@@ -56,7 +62,7 @@ exports.getMatchs = asyncHandler(async (req, res, next) => {
     const limit = parseInt(req.query.limit, 10) || 3;
     const startIndex = parseInt(req.query.startindex);
     const endIndex = startIndex + 10;
-    const total = await Match.countDocuments(reqQuery);
+    const total = await Match.countDocuments(JSON.parse(queryStr));
 
     query = query.skip(startIndex - 1).limit(limit);
 
