@@ -32,19 +32,19 @@ describe("Batting Test Codes", () => {
 
         const testUser1Res = await request(app)
             .post("/api/user/login")
-            .send({ email: "testUser1@gmail.com", password:"123123" })
+            .send({ email: "testUser1@gmail.com", password: "123123" })
             .expect(200);
 
         const testUser2Res = await request(app)
             .post("/api/user/login")
-            .send({ email: "testUser2@gmail.com", password:"123123" })
+            .send({ email: "testUser2@gmail.com", password: "123123" })
             .expect(200);
-        
+
         const testUser3Res = await request(app)
             .post("/api/user/login")
-            .send({ email: "testUser3@gmail.com", password:"123123" })
+            .send({ email: "testUser3@gmail.com", password: "123123" })
             .expect(200);
-        
+
 
         // Pass "token" to ITs
         request.testUser1Token = testUser1Res.body.token;
@@ -52,9 +52,9 @@ describe("Batting Test Codes", () => {
         request.testUser3Token = testUser3Res.body.token;
 
         // Pass "_id" to Its
-        request.testUser1_id = testUser1._id; 
-        request.testUser2_id = testUser2._id; 
-        request.testUser3_id = testUser3._id; 
+        request.testUser1_id = testUser1._id;
+        request.testUser2_id = testUser2._id;
+        request.testUser3_id = testUser3._id;
     });
 
     before("Make Test Matchs", async () => {
@@ -102,15 +102,15 @@ describe("Batting Test Codes", () => {
         }
         const testBatting2 = await Batting.create(testBatting2Data);
         const testBatting3 = await Batting.create(testBatting3Data);
-        
+
         request.testBatting2_id = testBatting2._id;
         request.testBatting3_id = testBatting3._id;
     })
 
     after("Delete test datas", async () => {
-        // await User.deleteMany({});
-        // await Match.deleteMany({});
-        // await Batting.deleteMany({});
+        await User.deleteMany({});
+        await Match.deleteMany({});
+        await Batting.deleteMany({});
     });
 
     describe("POST /api/batting", () => {
@@ -144,7 +144,7 @@ describe("Batting Test Codes", () => {
             const res = await request(app)
                 .post("/api/batting")
                 .set('x-access-token', `wrong token value`)
-                .send(testBatting1Data); 
+                .send(testBatting1Data);
             expect(res.status).to.be.equal(401);
             expect(res.body.error).to.be.equal("Not authorized to access this route");
         });
@@ -153,7 +153,7 @@ describe("Batting Test Codes", () => {
             const res = await request(app)
                 .post("/api/batting")
                 .set('x-access-token', `${request.testUser1Token}`)
-                .send(testWrongBattingData); 
+                .send(testWrongBattingData);
             expect(res.status).to.be.equal(400);
             expect(res.body.error).to.be.equal("Invalid data inputed");
         });
@@ -163,11 +163,11 @@ describe("Batting Test Codes", () => {
         it("[Success] got battings well", async () => {
             const res = await request(app)
                 .get("/api/batting");
-                //.query()   컨트롤러 만들면 추가.
+            //.query()   컨트롤러 만들면 추가.
             expect(res.status).to.be.equal(200);
             // params 에 따라 expect문 추가.
         });
-    })         
+    })
 
     describe("GET /api/batting/:id", () => {
         it("[Success] got a batting", async () => {
@@ -218,7 +218,7 @@ describe("Batting Test Codes", () => {
             expect(res.body.error).to.be.equal('Not authorized to access this route')
         });
     });
-  
+
     describe("DELETE /api/batting/:id", () => {
         it("[Success] Deleted a batting", async () => {
             const res = await request(app)

@@ -68,7 +68,6 @@ __Response__
 <br>
 
 ## __매치 읽기 (복수)__ GET "/api/match"
-- 파라미터 여러 종류 들어갈 예정.! (pagination, limit, +++) / 일단 home에서는 3개씩.
 
 __Request__
 ```
@@ -79,10 +78,19 @@ header: {
 }
 ```
 
+### 매치 읽기 (복수) 검색 조건
+- query
+  - startindex  ex) ?startindex=3  : 3번째 객체부터 보여줌. default=0 
+  - sort        ex) ?sort=_id  (default=startTime,_id)
+  - limit       ex) ?limit=3
+
 __Response__
 ```
 {
     "success": true,
+    "count": 10
+    "nextStartIndex": 10,           //state 저장 !
+    "hasNext": true,                //state 저장 !
     "data": [
     {
         "_id": "dsfhewikotiewjoir22bsdfnlewnf",
@@ -107,6 +115,7 @@ __Response__
     }]
 }
 ```
+
 <br>
 
 ## __매치 읽기 (단일)__  GET  "/api/match/:id"

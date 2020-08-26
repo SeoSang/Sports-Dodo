@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 const asyncHandler = require('../middlewares/async');
 const ErrorResponse = require('../utils/errorResponse');
 const Match = require('../models/Match');
@@ -18,15 +18,66 @@ exports.createMatch = asyncHandler(async (req, res, next) => {
     })
 })
 
-exports.getMatchs = asyncHandler(async(req, res, next) => {
-    const matchs = await Match.find({}); // query 추가~~
+// exports.getMatchs = asyncHandler(async (req, res, next) => {
+//     const matchs = await Match.find({}); // query 추가~~
+
+//     res.status(200).json({
+//         success: true,
+//         data: matchs
+//     })
+// })
+
+exports.getMatchs = asyncHandler(async (req, res, next) => {
+    // '/api/match?startindex=7
+    let query;
+
+    // Copy req.query
+    const reqQuery = { ...req.query };
+
+    // Fields to exclude
+    const removeFields = ['select', 'sort', 'limit', 'startindex'];
+
+    // Loop over removeFields and delete them from reqQuery
+    removeFields.forEach(param => delete reqQuery[param]);
+
+    // Finding resource
+    query = Match.find(reqQuery);
+
+    // Sort
+    if (req.query.sort) {
+        const sortBy = req.query.sort.split(',').join(' ');
+        query = query.sort(sortBy);
+    } else {
+        query = query.sort('startTime _id');
+    }
+
+    // Pagination
+    // const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 3;
+    const startIndex = parseInt(req.query.startindex);
+    const endIndex = startIndex + 10;
+    const total = await Match.countDocuments(reqQuery);
+
+    query = query.skip(startIndex - 1).limit(limit);
+
+    // Executing query
+    const results = await query;
+
+    //check can load more
+    let hasNext = false;
+
+    if (endIndex < total) {
+        hasNext = true;
+    }
 
     res.status(200).json({
         success: true,
-        data: matchs
-    })
-})
-
+        count: results.length,
+        nextStartIndex: endIndex,
+        hasNext: hasNext,
+        data: results
+    });
+});
 
 exports.getMatch = asyncHandler(async (req, res, next) => {
     const match = await Match.findById(req.params.id);
@@ -51,7 +102,7 @@ exports.editMatch = asyncHandler(async (req, res, next) => {
             new ErrorResponse(`No Match with the id of ${req.params.id}`, 404)
         );
     }
-    
+
     match = await Match.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true
@@ -74,7 +125,7 @@ exports.deleteMatch = asyncHandler(async (req, res, next) => {
         )
     }
 
-    await Match.deleteOne({ _id: req.params.id});
+    await Match.deleteOne({ _id: req.params.id });
 
     res.status(200).json({
         success: true,

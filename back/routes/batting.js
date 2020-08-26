@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const router = Router({mergeParams: true});
+const router = Router({ mergeParams: true });
 const {
     createBatting,
     getBattings,
@@ -18,6 +18,6 @@ router
     .route("/:id")
     .get(getBatting)
     .put(protect, checkIsOnwerThisBatting, editBatting)
-    .delete(protect, checkIsOnwerThisBatting ,deleteBatting);
+    .delete(protect, checkIsOnwerThisBatting, deleteBatting);
 
 module.exports = router;
