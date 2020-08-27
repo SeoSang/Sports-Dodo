@@ -1,19 +1,15 @@
-import "../styles/globals.css";
-import Head from "next/head";
-import MyLayout from "../components/MyLayout";
-import { Provider } from "react-redux";
-import createSagaMiddleware from "redux-saga";
-import withRedux from "next-redux-wrapper";
-import withReduxSaga from "next-redux-saga";
-import {
-  Middleware,
-  applyMiddleware,
-  compose,
-  createStore,
-  Store,
-} from "redux";
-import reducer from "../reducers";
-import rootSaga from "../sagas";
+import '../styles/globals.css';
+import Head from 'next/head';
+import MyLayout from '../components/MyLayout';
+import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
+import withRedux from 'next-redux-wrapper';
+import withReduxSaga from 'next-redux-saga';
+import { applyMiddleware, createStore } from 'redux';
+import reducer from '../reducers';
+import rootSaga from '../sagas';
+import logger from 'redux-logger';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const MyApp = ({ Component, store, pageProps }) => {
   return (
@@ -57,7 +53,7 @@ const makeStore = (initialState, options) => {
   const store = createStore(
     reducer,
     initialState,
-    applyMiddleware(sagaMiddleware)
+    composeWithDevTools(applyMiddleware(sagaMiddleware, logger))
   );
 
   // 3: Run your sagas:

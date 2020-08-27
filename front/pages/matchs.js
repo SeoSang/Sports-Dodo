@@ -2,10 +2,8 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import styled from 'styled-components';
 import MatchLine from '../components/MatchLine';
-
-const FlexDiv = styled.div`
-  display: flex;
-`;
+import { useSelector } from 'react-redux';
+import { LOAD_MATCHS_REQUEST } from '../sagas/match';
 
 const MatchsTitleRow = styled(Row)`
   background-color: #b6dbf2;
@@ -27,6 +25,8 @@ const dummy_matchLine = {
 };
 
 const matchs = () => {
+  const state = useSelector(state => state.match);
+  console.log(state);
   return (
     <Row
       style={{ textAlign: 'center', padding: '20px' }}
@@ -72,5 +72,12 @@ const matchs = () => {
     </Row>
   );
 };
+
+// matchs.getStaticProps = async context => {
+//   context.store.dispatch({
+//     type: LOAD_MATCHS_REQUEST,
+//   });
+//   return;
+// };
 
 export default matchs;
