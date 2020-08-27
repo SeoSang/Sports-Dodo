@@ -1,4 +1,5 @@
 const axios = require('axios');
+const schedule = require('node-schedule');
 const Match = require('../models/Match');
 
 
@@ -39,4 +40,20 @@ async function bringMatchFromAPI(league_id, date) {
   }
 }
 
+let bringThreeDayLaterMatchs = () => {
+  let TODAY = new Date();
+  let threeDayLaterDate = TODAY.getFullYear() + '-' + (TODAY.getMonth() + 1) + '-' + (TODAY.getDate() + 3)
+
+  var rule = new schedule.RecurrenceRule();
+
+  rule.hour = 11;
+  rule.minute = 0;
+
+  schedule.scheduleJob(rule, function () {
+    bringMatchFromAPI('2', threeDayLaterDate);
+    console.log('did bring 3days later matchs');
+  });
+}
+
 module.exports.bringMatchFromAPI = bringMatchFromAPI;
+module.exports.bringThreeDayLaterMatchs = bringThreeDayLaterMatchs;
