@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 const asyncHandler = require('../middlewares/async');
 const ErrorResponse = require('../utils/errorResponse');
 const Batting = require('../models/Batting');
@@ -28,31 +28,32 @@ exports.createBatting = asyncHandler(async (req, res, next) => {
 
 // model에 index 넣어주면 더 빨라질듯함.
 exports.getBattings = asyncHandler(async (req, res, next) => {
-    const battings = await Batting.find({match: req.params.id});
+    const battings = await Batting.find({ match: req.params.id });
 
     //homeTotal, awayTotal, drawTotal Point 계산하기
-   let homeTotalPoint = 0;
-   let drawTotalPoint = 0;
-   let awayTotalPoint = 0;
-      
-		for (let i=0; i< battings.length; i++) {
-			if (battings[i].chooseHomeAwayDraw === 'Home') {
-				homeTotalPoint += battings[i].battingPoint; 
-			} else if (battings[i].chooseHomeAwayDraw === 'Away') {
-				awayTotalPoint += battings[i].battingPoint;  
-			} else {
-				drawTotalPoint += battings[i].battingPoint;
-			}
-		}
-	
+    let homeTotalPoint = 0;
+    let drawTotalPoint = 0;
+    let awayTotalPoint = 0;
+
+    for (let i = 0; i < battings.length; i++) {
+        if (battings[i].chooseHomeAwayDraw === 'Home') {
+            homeTotalPoint += battings[i].battingPoint;
+        } else if (battings[i].chooseHomeAwayDraw === 'Away') {
+            awayTotalPoint += battings[i].battingPoint;
+        } else {
+            drawTotalPoint += battings[i].battingPoint;
+        }
+    }
+
     return res.status(200).json({
         success: true,
-        data: battings,
+        // data: battings,
         battingPoints: {
             homeTotalPoint: homeTotalPoint,
             awayTotalPoint: awayTotalPoint,
             drawTotalPoint: drawTotalPoint
-        }
+        },
+        howManyPeopleBatted: battings.length
     })
 })
 
@@ -104,7 +105,7 @@ exports.deleteBatting = asyncHandler(async (req, res, next) => {
         );
     }
 
-    await Batting.deleteOne({_id: req.params.id});
+    await Batting.deleteOne({ _id: req.params.id });
 
     res.status(200).json({
         success: true,
