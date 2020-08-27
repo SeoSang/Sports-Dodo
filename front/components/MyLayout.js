@@ -48,15 +48,6 @@ const MyLayout = ({ children }) => {
     setVisible(!visible);
   };
 
-  const handleMouseEnter = (e) => {
-    setVisible(true);
-    console.log('handleMouseEnter');
-  };
-
-  const handleMouseLeave = (e) => {
-    setVisible(false);
-  };
-
   return (
     <>
       <TitleBarDiv>
@@ -93,11 +84,7 @@ const MyLayout = ({ children }) => {
           </Col>
         </Row>
       </TitleBarDiv>
-      <MainMenu
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        visible={visible}
-      />
+      <MainMenu visible={visible} />
       <Background90Div style={{ textAlign: 'center' }}>
         <ContentDiv>{children}</ContentDiv>
       </Background90Div>
