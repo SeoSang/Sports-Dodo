@@ -12,7 +12,8 @@ const resultRouter = require('./routes/result');
 const { upcoming } = require('./api/upcoming');
 
 const connectDB = require('./config/db');
-const { getMatchFromAPI } = require('./api/createMatchs');
+const { bringMatchFromAPI } = require('./api/createMatchs');
+const { dummyDatas } = require('./utils/dummy');
 
 //require('dotenv').config(); // .env -> 중요정보 보호. (gitignore 해둬서 git에는 안감.)
 // 밑에껄로 바꿀게요 !
@@ -20,12 +21,15 @@ const dotenv = require('dotenv');
 dotenv.config({ path: './config/config.env' });
 
 connectDB();
-// getMatchFromAPI('2','2018-8-11');
+// bringMatchFromAPI('2', '2018-8-11');
+
+// ! 한번 하고 주석 처리 !
+// dummyDatas();
 
 const app = express();
 
+// 접근 제어
 app.use(
-  // 접근 제어
   cors({
     origin: process.env.CORS_ORIGIN,
   })
@@ -36,6 +40,9 @@ app.use(
     extended: false,
   })
 );
+
+// console.log(app.get('env'));
+
 app.use(bodyParser.json());
 
 // api를 위한 라우터들
@@ -53,6 +60,7 @@ app.use(express.json()); // form 데이터나 ajax 요청을 파싱해줌.
 // app.use('/', (req, res) => {
 //   res.status(200).json('서버 메인입니다');
 // });
+
 
 app.use(errorHandler);
 

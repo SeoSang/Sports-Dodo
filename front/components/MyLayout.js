@@ -1,7 +1,15 @@
 import React from 'react';
 import { Drawer, Button, Row, Menu, Col, Popover, Layout } from 'antd';
 import { useState } from 'react';
+<<<<<<< HEAD
 import { UserOutlined } from '@ant-design/icons';
+=======
+import {
+  UserOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+} from '@ant-design/icons';
+>>>>>>> 0a144aa79c093bc94b440b58725e6334b9f69e6b
 import Avatar from 'antd/lib/avatar/avatar';
 import { Background90Div } from '../styles/styled-components';
 import MainMenu from './MainMenu';
@@ -9,6 +17,7 @@ import { useSelector } from 'react-redux';
 import { MyProfile, NullProfile } from './LayoutProfile';
 import Link from 'next/link';
 import { ContentDiv, TitleBarDiv } from '../styles/styled-components';
+<<<<<<< HEAD
 import styled from 'styled-components';
 
 const MenuButton = styled.a`
@@ -40,17 +49,33 @@ const MenuButton = styled.a`
     top: 33px;
   }
 `;
+=======
+>>>>>>> 0a144aa79c093bc94b440b58725e6334b9f69e6b
 
 const MyLayout = ({ children }) => {
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector(state => state.user);
   const [visible, setVisible] = useState(false);
   const toggleCollapsed = () => {
     setVisible(!visible);
   };
+
+  const handleMouseEnter = e => {
+    setVisible(true);
+    console.log('handleMouseEnter');
+  };
+
+  const handleMouseLeave = e => {
+    setVisible(false);
+  };
+
   return (
     <>
       <TitleBarDiv>
+<<<<<<< HEAD
         <Row style={{ height: '50px' }}>
+=======
+        <Row style={{ height: '7vh' }}>
+>>>>>>> 0a144aa79c093bc94b440b58725e6334b9f69e6b
           <Col className="vertical-mid" span={4}>
             <MenuButton onClick={toggleCollapsed}>
               <span> </span>
@@ -60,7 +85,11 @@ const MyLayout = ({ children }) => {
           </Col>
           <Col style={{ textAlign: 'center' }} span={16}>
             <Link href="/">
+<<<<<<< HEAD
               <a style={{ fontSize: '2em', color: '#1890FF' }}>LOGO</a>
+=======
+              <a style={{ fontSize: '2em', color: '#1890FF' }}>스포츠도도</a>
+>>>>>>> 0a144aa79c093bc94b440b58725e6334b9f69e6b
             </Link>
           </Col>
           <Col
@@ -83,13 +112,25 @@ const MyLayout = ({ children }) => {
           </Col>
         </Row>
       </TitleBarDiv>
+<<<<<<< HEAD
       <MainMenu visible={visible} />
       <Background90Div style={{ textAlign: 'center' }}>
         <ContentDiv>{children}</ContentDiv>
       </Background90Div>
       <Layout.Footer style={{ textAlign: 'center' }}>
+=======
+      <MainMenu
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        visible={visible}
+      />
+      <Background90Div style={{ textAlign: 'center' }}>
+        <ContentDiv>{children}</ContentDiv>
+      </Background90Div>
+      {/* <Layout.Footer style={{ height: '3vh', textAlign: 'center' }}>
+>>>>>>> 0a144aa79c093bc94b440b58725e6334b9f69e6b
         프로젝트 이름 ©2020 Created by ~~~
-      </Layout.Footer>
+      </Layout.Footer> */}
     </>
   );
 };

@@ -36,9 +36,16 @@
 진행중
 ## Author
 
+[ehgks0000](https://github.com/ehgks0000)
+
+[moongq](https://github.com/moongq)
+
 [SeoSang](https://github.com/SeoSang)
 - Blog : programming119.tistory.com
 - E-mail : ddrrpg@naver.com
+
+[PaaD](https://github.com/Wearenotyourkind)
+- E-mail : quintuplets2000@gmail.com
 
 ## License
 

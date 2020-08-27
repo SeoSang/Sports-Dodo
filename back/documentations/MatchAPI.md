@@ -68,27 +68,50 @@ __Response__
 <br>
 
 ## __매치 읽기 (복수)__ GET "/api/match"
-- 파라미터 여러 종류 들어갈 예정.! (pagination, limit, +++) / 일단 home에서는 3개씩.
 
 __Request__
 ```
+// 첫번째 request
 method: GET
-url: "/api/match"
+url: "/api/match"   "/api/match?startTime[gt]={Date.now}"
 header: { 
     "Content-Type": "application/json" 
 }
+```
+
+```
+// 더보기 request
+method: GET
+url: "/api/match?startindex={startIndex}"
+header: { 
+    "Content-Type": "application/json" 
+}
+```
+
+### 매치 읽기 (복수) 검색 조건
+- query
+  - startindex  ex) ?startindex=3  => 3번째 객체부터 보여줌. default=0 
+  - sort        ex) ?sort=_id  (default=startTime,_id)
+  - limit       ex) ?limit=3
+
+__Request__
+```
+
 ```
 
 __Response__
 ```
 {
     "success": true,
+    "count": 10
+    "nextStartIndex": 10,           //state 저장 !
+    "hasNext": true,                //state 저장 !
     "data": [
     {
         "_id": "dsfhewikotiewjoir22bsdfnlewnf",
         "homeTeam": "Chicago",
         "awayTeam": "SA",
-        "startTime": "06:23:24/09/12/2020",
+        "startTime": "06:10:24/09/12/2020",
         "result": ""
     },
     {
@@ -102,11 +125,12 @@ __Response__
         "_id": "sdhflkjkle35dklfsjdflk22dshfkl",
         "homeTeam": "LA",
         "awayTeam": "Taxas",
-        "startTime": "06:20:22/10/12/2020",
+        "startTime": "06:20:23/10/12/2020",
         "result": ""
     }]
 }
 ```
+
 <br>
 
 ## __매치 읽기 (단일)__  GET  "/api/match/:id"
