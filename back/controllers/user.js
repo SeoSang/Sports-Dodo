@@ -82,6 +82,17 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
     });
 });
 
+exports.getRanking = asyncHandler(async (req, res, next) => {
+    let users = await User.find({}).sort({ "point": -1 });
+
+    let index = users.findIndex(i => i._id == req.params.id);
+
+    res.status(200).json({
+        success: true,
+        ranking: index + 1
+    });
+})
+
 // exports.logout
 
 // @desc    get a single user
