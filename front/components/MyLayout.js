@@ -51,7 +51,7 @@ const MyLayout = ({ children }) => {
   return (
     <>
       <TitleBarDiv>
-        <Row style={{ height: '7vh' }}>
+        <Row style={{ height: '50px' }}>
           <Col className="vertical-mid" span={4}>
             <MenuButton onClick={toggleCollapsed}>
               <span> </span>
@@ -88,9 +88,6 @@ const MyLayout = ({ children }) => {
       <Background90Div style={{ textAlign: 'center' }}>
         <ContentDiv>{children}</ContentDiv>
       </Background90Div>
-      {/* <Layout.Footer style={{ height: '3vh', textAlign: 'center' }}>
-        프로젝트 이름 ©2020 Created by ~~~
-      </Layout.Footer> */}
     </>
   );
 };

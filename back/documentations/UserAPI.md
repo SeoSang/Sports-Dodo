@@ -9,6 +9,7 @@ GET     "/api/user/profile"                    내 정보
 PUT     "/api/user/profile"                    내 정보 변경
 POST    "/api/user/login"                      로그인
 GET     "/api/user/logout"                     로그아웃
+GET     "/api/user/rank/:id"                   내 랭크
 ```
 <br>
 
@@ -282,5 +283,24 @@ __Response__
 {
     "success": true,
     "data": []
+}
+```
+
+## __내 랭크__ GET "/api/user/rank/:id"
+
+__Request__
+```
+method: GET
+url: "/api/user/rank/:id"
+header: {
+    "Content-Type": "application/json"
+}
+```
+
+__Response__
+```
+{
+    success: true,
+    ranking: 1
 }
 ```

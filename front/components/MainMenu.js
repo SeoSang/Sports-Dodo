@@ -13,15 +13,13 @@ import {
 } from '@ant-design/icons';
 
 const MainMenu = ({ visible }) => {
-  const [fold, setFold] = useState(true);
-
+  const [isFold, setFold] = useState(true);
   const handleMouseEnter = (e) => {
-    setFold(false);
-    console.log('handleMouseEnter');
+    setFold(true);
   };
 
   const handleMouseLeave = (e) => {
-    setFold(true);
+    setFold(false);
   };
 
   return (
@@ -32,7 +30,7 @@ const MainMenu = ({ visible }) => {
           defaultOpenKeys={[]}
           mode="inline"
           theme="dark"
-          inlineCollapsed={fold}
+          inlineCollapsed={!isFold}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
