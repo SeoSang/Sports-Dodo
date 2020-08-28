@@ -122,9 +122,9 @@ const Home = () => {
         <LowerDiv>
           <h2>실시간 랭킹</h2>
           <Row>
-            {dummy_main_rankings.map((ranking) => {
+            {dummy_main_rankings.map((ranking, i) => {
               return (
-                <Col span={8}>
+                <Col span={8} key={`col__${i}`}>
                   <List
                     header={
                       <img

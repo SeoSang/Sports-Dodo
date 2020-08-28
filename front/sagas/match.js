@@ -19,12 +19,12 @@ function loadMatchsAPI(index = -1) {
 
 function* loadMatchs(action) {
   try {
-    const result = yield call(loadMatchsAPI, action.data);
+    const result = yield call(loadMatchsAPI, action.index);
     yield call(console.log('@@@@@ loadMatchs result @@@@@'));
     yield call(console.log(result));
     yield put({
       type: LOAD_MATCHS_SUCCESS,
-      data: result.data,
+      data: result,
     });
   } catch (e) {
     console.error(e);
@@ -39,6 +39,6 @@ function* watchLoadMatchs() {
   return takeLatest(LOAD_MATCHS_REQUEST, loadMatchs);
 }
 
-export default function* Matchsaga() {
+export default function* matchSaga() {
   yield all([fork(watchLoadMatchs)]);
 }

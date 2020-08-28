@@ -10,9 +10,9 @@ axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
 export default function* rootSaga() {
   yield all([
+    call(matchSaga),
     call(userSaga),
     call(battingSaga),
     call(rankingSaga),
-    call(matchSaga),
   ]);
 }
