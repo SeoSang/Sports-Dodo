@@ -8,10 +8,11 @@ const {
     deleteBatting
 } = require('../controllers/batting');
 const { protect, checkIsOnwerThisBatting } = require('../middlewares/auth');
+const { timeChecker } = require('../middlewares/battingRestriction');
 
 router
     .route("/")
-    .post(protect, createBatting)   // checkTime 추가: 베팅할 수 있는 시간인지 확인해주는 미들웨어
+    .post(protect, timeChecker, createBatting)   // ! timeChecker TEST CODE 필요.
     .get(getBattings);
 
 router

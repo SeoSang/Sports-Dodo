@@ -16,6 +16,8 @@ const connectDB = require('./config/db');
 const { bringThreeDayLaterMatchs } = require('./api/bringNewMatchs');
 const { dummyDatas } = require('./utils/dummy');
 const { bringFinishedDataAndEditMatch, getTodaysMatchs, putResultToMatch, reservePutResultToMatch } = require('./api/setResultToMatch');
+const { checkTime } = require('./middlewares/battingRestriction');
+
 //require('dotenv').config(); // .env -> 중요정보 보호. (gitignore 해둬서 git에는 안감.)
 // 밑에껄로 바꿀게요 !
 const dotenv = require('dotenv');
