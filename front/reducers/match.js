@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { HYDRATE } from 'next-redux-wrapper';
 import {
   LOAD_MATCHS_REQUEST,
   LOAD_MATCHS_SUCCESS,
@@ -13,8 +14,11 @@ export const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  return produce(state, draft => {
+  return produce(state, (draft) => {
     switch (action.type) {
+      case HYDRATE:
+        draft = { ...state, ...action.payload };
+        break;
       case LOAD_MATCHS_REQUEST:
         draft.isLoadingMatchs = true;
         draft.isLoadedMatchs = false;

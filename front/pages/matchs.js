@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col } from 'antd';
 import styled from 'styled-components';
 import MatchLine from '../components/MatchLine';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { LOAD_MATCHS_REQUEST } from '../sagas/match';
+import { wrapper } from '../store';
+import { LOAD_USER_REQUEST } from '../sagas/user';
 
 const MatchsTitleRow = styled(Row)`
   background-color: #b6dbf2;
@@ -25,8 +27,12 @@ const dummy_matchLine = {
 };
 
 const matchs = () => {
-  const state = useSelector(state => state.match);
-  console.log(state);
+  const state = useSelector((state) => state.match);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: LOAD_MATCHS_REQUEST, index: -1 });
+    dispatch({ type: LOAD_USER_REQUEST });
+  }, []);
   return (
     <Row
       style={{ textAlign: 'center', padding: '20px' }}
@@ -73,11 +79,8 @@ const matchs = () => {
   );
 };
 
-// matchs.getStaticProps = async context => {
-//   context.store.dispatch({
-//     type: LOAD_MATCHS_REQUEST,
-//   });
-//   return;
-// };
+export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
+  store.dispatch({ type: LOAD_MATCHS_REQUEST });
+});
 
 export default matchs;

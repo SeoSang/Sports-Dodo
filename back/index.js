@@ -28,6 +28,8 @@ connectDB();
 
 const app = express();
 
+app.use(morgan('dev')); // 로그 찍어줌
+
 // 접근 제어
 app.use(
   cors({
@@ -50,7 +52,6 @@ app.use('/api/batting', battingRouter);
 app.use('/api/result', resultRouter);
 
 // 미들웨어들
-app.use(morgan('dev')); // 로그 찍어줌
 app.use(helmet()); // 코드 보호
 app.use(express.json()); // form 데이터나 ajax 요청을 파싱해줌.
 

@@ -36,6 +36,7 @@ const MessiContainer = styled.div`
   height: 93vh;
   overflow: hidden;
   opacity: 90%;
+  cursor: pointer;
 `;
 
 const Home = () => {
@@ -43,14 +44,14 @@ const Home = () => {
   const slideRef = useRef(null);
   const messiRef = useRef(null);
 
-  const onClickFootball = e => {
+  const onClickFootball = (e) => {
     // 슬라이드 애니메이션
     setCurrentSlide(FOOTBALL_TRANSLATE);
   };
-  const onClickBaseball = e => {
+  const onClickBaseball = (e) => {
     setCurrentSlide(BASEBALL_TRANSLATE);
   };
-  const onClickBasketball = e => {
+  const onClickBasketball = (e) => {
     setCurrentSlide(BASKETBALL_TRANSLATE);
   };
 
@@ -83,8 +84,9 @@ const Home = () => {
                   transform: `translateX(${currentSlide}`,
                 }}
               >
-                {dummy_main_matches.map(match => (
+                {dummy_main_matches.map((match, i) => (
                   <Card
+                    key={`${i}번째 카드`}
                     title={dummy_main_matches.category}
                     bordered={true}
                     style={{
@@ -120,9 +122,9 @@ const Home = () => {
         <LowerDiv>
           <h2>실시간 랭킹</h2>
           <Row>
-            {dummy_main_rankings.map(ranking => {
+            {dummy_main_rankings.map((ranking, i) => {
               return (
-                <Col span={8}>
+                <Col span={8} key={`col__${i}`}>
                   <List
                     header={
                       <img
