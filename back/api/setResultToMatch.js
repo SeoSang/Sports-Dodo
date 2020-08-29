@@ -17,10 +17,10 @@ async function bringFinishedDataAndEditMatch(idForFAPI) {
 		const { status, goalsHomeTeam, goalsAwayTeam } = response.data.api.fixtures[0];
 
 
-		// ! 110만에 안끝났으면 다시 실행하게끔 설정하는 부분.
-		// if( status !== "Match Finished") {
-		// 	return new rule = ~
-		// }
+		// * 110분만에 안끝났으면 다시 실행하게끔 설정하는 부분.
+		if (status !== "Match Finished") {
+			setTimeout(bringFinishedDataAndEditMatch, 1200000);
+		}
 
 		let result;
 
