@@ -46,6 +46,7 @@ async function bringFinishedDataAndEditMatch(idForFAPI) {
 	}
 }
 
+
 async function getTodaysMatchs() {
 	date = new Date();
 	gtTime = date.toISOString().slice(0, 11) + "00:00:00"
@@ -71,6 +72,7 @@ async function getTodaysMatchs() {
 	return matchs;
 }
 
+
 async function putResultToMatch() {
 
 	// Get today's matchs
@@ -80,12 +82,23 @@ async function putResultToMatch() {
 	for (let i = 0; i < todayMatchs.length; i++) {
 		let finishTime = new Date(todayMatchs[i].finishTime)
 
-		var date = new Date(
+		var dateForMatch = new Date(
 			2020,
 			finishTime.getMonth(),
 			finishTime.getDate(),
 			finishTime.getHours(),
 			finishTime.getMinutes()
+		)
+
+		// 결과가져오는 것과 결과를 베팅을 계산하는 데에 시간 텀을 주기 위해 1분 추가했습니다.
+		let battingTime = finishTime.setMinutes(this.finishTime.getMinutes() + 1);
+
+		var dateForBatting = new Date(
+			2020,
+			finishTime.getMonth(),
+			finishTime.getDate(),
+			finishTime.getHours(),
+			battingTime.getMinutes()
 		)
 
 		// * FOR TEST
@@ -94,24 +107,30 @@ async function putResultToMatch() {
 		// console.log(date);
 		// console.log(todayMatchs[i].idForFAPI);
 
-		schedule.scheduleJob(date, function () {
+		schedule.scheduleJob(dateForMatch, function () {
 			bringFinishedDataAndEditMatch(todayMatchs.idForFAPI);
 			// bringFinishedDataAndEditMatch(157215); // * FOR Test
 		})
+
+		// ! 매치 한개에 대한 결과를 가져 왔으니 결과가 생긴 매치에 대한 베팅을 여기서 부터 어찌 해야한다.
+		schedule.scheduleJob(dateForBatting, function () {
+			// 유저 베팅에 대한 결과를 처리하는 함수.
+		})
 	}
 }
+
 
 function reservePutResultToMatch() {
 	var rule = new schedule.RecurrenceRule();
 	rule.hour = 00;
 	rule.minute = 01;
 
-
 	schedule.scheduleJob(rule, function () {
 		putResultToMatch();
 	});
 	console.log('reserved getting result everyday 00:01:00');
 }
+
 
 module.exports.bringFinishedDataAndEditMatch = bringFinishedDataAndEditMatch;
 module.exports.getTodaysMatchs = getTodaysMatchs;

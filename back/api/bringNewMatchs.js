@@ -50,10 +50,11 @@ let bringThreeDayLaterMatchs = () => {
   var rule = new schedule.RecurrenceRule();
   rule.hour = 11;
   rule.minute = 00;
+  // rule.second = 20;
 
   schedule.scheduleJob(rule, function () {
     // bringMatchFromAPI('524', '2020-01-01');
-    bringMatchFromAPI('2', threeDayLaterDate);
+    bringMatchFromAPI('1336', threeDayLaterDate); // k leage :1336
     console.log('did bring 3days later matchs');
   });
   console.log('reserved bring3daylaterMatch')

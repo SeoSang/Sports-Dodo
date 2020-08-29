@@ -48,7 +48,6 @@ MatchSchema.pre('save', async function (next) {
     startTime = new Date(this.startTime);
     startTime = startTime.setMinutes(startTime.getMinutes() + 110);
     startTime = new Date(startTime);
-    console.log(startTime);
     this.finishTime = startTime.toISOString();
     next();
 });
