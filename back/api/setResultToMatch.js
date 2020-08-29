@@ -19,7 +19,7 @@ async function bringFinishedDataAndEditMatch(idForFAPI) {
 
 		// * 110분만에 안끝났으면 다시 실행하게끔 설정하는 부분.
 		if (status !== "Match Finished") {
-			setTimeout(bringFinishedDataAndEditMatch, 1200000);
+			setTimeout(() => bringFinishedDataAndEditMatch(idForFAPI), 1200000);
 		}
 
 		let result;
