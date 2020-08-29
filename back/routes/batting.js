@@ -11,7 +11,7 @@ const { protect, checkIsOnwerThisBatting } = require('../middlewares/auth');
 
 router
     .route("/")
-    .post(protect, createBatting)
+    .post(protect, createBatting)   // checkTime 추가: 베팅할 수 있는 시간인지 확인해주는 미들웨어
     .get(getBattings);
 
 router

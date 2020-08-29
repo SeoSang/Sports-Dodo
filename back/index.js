@@ -15,7 +15,7 @@ const schedule = require('node-schedule');
 const connectDB = require('./config/db');
 const { bringThreeDayLaterMatchs } = require('./api/bringNewMatchs');
 const { dummyDatas } = require('./utils/dummy');
-
+const { bringFinishedDataAndEditMatch, getTodaysMatchs, putResultToMatch, reservePutResultToMatch } = require('./api/setResultToMatch');
 //require('dotenv').config(); // .env -> 중요정보 보호. (gitignore 해둬서 git에는 안감.)
 // 밑에껄로 바꿀게요 !
 const dotenv = require('dotenv');
@@ -56,6 +56,10 @@ app.use(express.json()); // form 데이터나 ajax 요청을 파싱해줌.
 
 // it excute on 11am everyday.
 bringThreeDayLaterMatchs();
+// it excute on everyday 00:01:00.
+reservePutResultToMatch();
+// bringFinishedDataAndEditMatch("5f48e05e7d77d50fb0bd3ef4", 71);
+// getTodaysMatchs();
 
 app.use(errorHandler);
 

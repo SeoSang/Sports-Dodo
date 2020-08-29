@@ -63,19 +63,19 @@ describe("Batting Test Codes", () => {
         let testMatch1Data = {
             homeTeam: "LA",
             awayTeam: "Dallas",
-            startTime: "02:02:02/01/01/20"
+            startTime: "2020-01-01T14:20:00.000Z"
         };
 
         let testMatch2Data = {
             homeTeam: "Lakers",
             awayTeam: "Memphis",
-            startTime: "02:02:02/01/01/20"
+            startTime: "2020-01-01T15:20:00.000Z"
         };
 
         let testMatch3Data = {
             homeTeam: "Boston",
             awayTeam: "Dallas",
-            startTime: "02:02:02/01/01/20"
+            startTime: "2020-01-01T20:20:00.000Z"
         };
 
         let testMatch1 = await Match.create(testMatch1Data);

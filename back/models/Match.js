@@ -9,20 +9,61 @@ var MatchSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    result: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Result'
-    },
     startTime: {
         type: String,
         required: true
     },
+    finishTime: {
+        type: String,
+    },
+    idForFAPI: {
+        type: Number
+    },
     status: {
         type: String,
-        enum: ['notFinished', 'finished'],
-        default: 'notFinished'
+        enum: ['Not Started', 'Match Finished'],
+        default: 'Not Started'
+    },
+    goalsHomeTeam: {
+        type: Number,
+        default: 0
+    },
+    goalsAwayTeam: {
+        type: Number,
+        default: 0
+    },
+    result: {
+        type: String,
+        enum: ['HomeWin', 'AwayWin', 'Draw', 'Not Finished'],
+        default: 'Not Finished'
     }
+},
+    //  {
+    //     toJSON: { virtuals: true },
+    //     toObject: { virtuals: true }
+    // }
+);
+
+MatchSchema.pre('save', async function (next) {
+    startTime = new Date(this.startTime);
+    startTime = startTime.setMinutes(startTime.getMinutes() + 110);
+    startTime = new Date(startTime);
+    console.log(startTime);
+    this.finishTime = startTime.toISOString();
+    next();
 });
+
+// MatchSchema.virtual('battings', {
+//     ref: 'Batting',
+//     localField: '_id',
+//     foreignField: 'match'
+// });
+
+// MatchSchema.virtual('result', {
+//     ref: 'Result',
+//     localField: '_id',
+//     foreignField: 'match'
+// })
 
 
 module.exports = mongoose.model('Match', MatchSchema);
