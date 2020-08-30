@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 import { FullDiv } from '../styles/styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Input, Checkbox, Form, message } from 'antd';
 import {
   UserOutlined,
@@ -26,6 +27,15 @@ const registerFormStyle = {
 
 const register = () => {
   const dispatch = useDispatch();
+  const { isRegistering, isRegisterSuccess } = useSelector(state => state.user);
+
+  useEffect(() => {
+    if (isRegisterSuccess) {
+      alert('회원가입에 성공하였습니다!');
+      router.push('/');
+    }
+  }, [isRegisterSuccess, isRegistering]);
+
   const onFinish = values => {
     if (!values.agreement) {
       alert('이용약관에 동의해주세요!');

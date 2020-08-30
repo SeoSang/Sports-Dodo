@@ -14,16 +14,17 @@ import {
 
 export const initialState = {
   isLoggingIn: false,
+  isLoginSuccess: false,
   me: null,
   isRegistering: false,
-  isRegistered: false,
+  isRegisterSuccess: false,
   userInfo: null,
   loginErrorReason: '',
   registerErrorReason: '',
 };
 
 const reducer = (state = initialState, action) => {
-  return produce(state, (draft) => {
+  return produce(state, draft => {
     switch (action.type) {
       case HYDRATE:
         draft = { ...state, ...action.payload };
@@ -34,11 +35,13 @@ const reducer = (state = initialState, action) => {
         break;
       case LOG_IN_SUCCESS:
         draft.isLoggingIn = false;
-        draft.me = action.data;
+        draft.isLoginSuccess = true;
+        draft.me = action.data.data;
         break;
       case LOG_IN_FAILURE:
         draft.me = null;
         draft.isLoggingIn = false;
+        draft.isLoginSuccess = false;
         draft.loginErrorReason = action.error;
         break;
       case LOAD_USER_REQUEST:
@@ -49,11 +52,11 @@ const reducer = (state = initialState, action) => {
         break;
       case REGISTER_REQUEST:
         draft.isRegistering = true;
-        draft.isRegistered = false;
+        draft.isRegisterSuccess = false;
         break;
       case REGISTER_SUCCESS:
         draft.isRegistering = false;
-        draft.isRegistered = true;
+        draft.isRegisterSuccess = true;
         break;
       case REGISTER_FAILURE:
         draft.isRegistering = false;

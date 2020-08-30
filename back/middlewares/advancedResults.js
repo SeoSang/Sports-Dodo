@@ -2,30 +2,29 @@
 // '/api/match?limit=3&sort=startTime&startTime[gt]=lastContentStartTime&
 
 // const advancedResults = (model, populate)
-const advancedResults = (model) => async (req, res, next) => {
+const advancedResults = model => async (req, res, next) => {
+  let query;
 
-    let query;
+  // Copy req.query
+  const reqQuery = { ...req.query };
 
-    // Copy req.query
-    const reqQuery = { ...req.query };
+  // Fields to exclude
+  const removeFields = ['select', 'sort', 'page', 'limit'];
 
-    // Fields to exclude
-    const removeFields = ['select', 'sort', 'page', 'limit'];
+  // Loop over removeFields and delete them from reqQuery
+  removeFields.forEach(param => delete reqQuery[param]);
 
-    // Loop over removeFields and delete them from reqQuery
-    removeFields.forEach(param => delete reqQuery[param]);
+  // query = model.find({ startTime: { $gt: reqQuery.lasttime }, _id: { $gt: reqQuery.lastid } })
+  console.log('22222');
+  console.log(reqQuery);
+  // console.log(query);
 
-    // query = model.find({ startTime: { $gt: reqQuery.lasttime }, _id: { $gt: reqQuery.lastid } })
-    console.log('22222');
-    console.log(reqQuery);
-    // console.log(query);
-
-    // Create query string
-    let queryStr = JSON.stringify(reqQuery);
-    console.log(queryStr);
-    // Create operators ($gt, $gte, etc)
-    queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
-    /*
+  // Create query string
+  let queryStr = JSON.stringify(reqQuery);
+  console.log(queryStr);
+  // Create operators ($gt, $gte, etc)
+  queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
+  /*
 &lasttime=2010~&lastid=dsfheklwj232
 
 if (lasttime) {
@@ -36,70 +35,70 @@ if (lastid) {
     lastid => _id[gt]={value}
 }
 */
-    //find( { qty: { $gt: 20 } } )
-    // query = model.find({ startTime : { $gt : reqQuery.lasttime } }, { _id: { $gt : reqQuery.lastid}})
+  //find( { qty: { $gt: 20 } } )
+  // query = model.find({ startTime : { $gt : reqQuery.lasttime } }, { _id: { $gt : reqQuery.lastid}})
 
-    // Finding resource
-    query = model.find(JSON.parse(queryStr));
+  // Finding resource
+  query = model.find(JSON.parse(queryStr));
 
-    // Select Fields
-    if (req.query.select) {
-        const fields = req.query.select.split(',').join(' ');
-        query = query.select(fields);
-    }
+  // Select Fields
+  if (req.query.select) {
+    const fields = req.query.select.split(',').join(' ');
+    query = query.select(fields);
+  }
 
-    // // Sort
-    // query = query.sort('startTime _id');  // ! index로 바꿀지 고민 !
+  // // Sort
+  // query = query.sort('startTime _id');  // ! index로 바꿀지 고민 !
 
-    // Sort
-    if (req.query.sort) {
-        const sortBy = req.query.sort.split(',').join(' ');
-        query = query.sort(sortBy);
-    } else {
-        query = query.sort('startTime');
-    }
+  // Sort
+  if (req.query.sort) {
+    const sortBy = req.query.sort.split(',').join(' ');
+    query = query.sort(sortBy);
+  } else {
+    query = query.sort('startTime');
+  }
 
-    // Pagination
-    const limit = parseInt(req.query.limit, 10) || 10;
+  // Pagination
+  const limit = parseInt(req.query.limit, 10) || 10;
 
-    // const startIndex = (page - 1) * limit;
-    // const endIndex = page * limit;
-    const total = await model.countDocuments(JSON.parse(queryStr));
+  // const startIndex = (page - 1) * limit;
+  // const endIndex = page * limit;
+  const total = await model.countDocuments(JSON.parse(queryStr));
 
-    query = query.limit(limit);
+  query = query.limit(limit);
 
-    // if (populate) {
-    //   query = query.populate(populate);
-    // }
+  // if (populate) {
+  //   query = query.populate(populate);
+  // }
 
-    // Executing query
-    const results = await query;
+  // Executing query
+  const results = await query;
 
-    // Pagination result
-    // const pagination = {};
+  // Pagination result
+  // const pagination = {};
 
-    // if (endIndex < total) {
-    //   pagination.next = {
-    //     page: page + 1,
-    //     limit
-    //   };
-    // }
+  // if (endIndex < total) {
+  //   pagination.next = {
+  //     page: page + 1,
+  //     limit
+  //   };
+  // }
 
-    // if (startIndex > 0) {
-    //   pagination.prev = {
-    //     page: page - 1,
-    //     limit
-    //   };
-    // }
+  // if (startIndex > 0) {
+  //   pagination.prev = {
+  //     page: page - 1,
+  //     limit
+  //   };
+  // }
 
-    res.advancedResults = {
-        success: true,
-        count: results.length,
-        // pagination,
-        data: results
-    };
+  res.advancedResults = {
+    success: true,
+    count: results.length,
+    // pagination,
+    data: results,
+  };
 
-    next();
+  next();
 };
 
 module.exports = advancedResults;
@@ -147,7 +146,6 @@ state._idOfLastContent = res.body.data[-1]._id;
 */
 
 // http://localhost:1337/api/match?sort=-startTime&startTime[gt]=2018-08-11T14:00:00+00:00&limit=3&
-
 
 // 더보기
 // '/api/match?startTime[gt]=lcst&_id[gt]=lcid

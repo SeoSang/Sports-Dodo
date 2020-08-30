@@ -2,8 +2,10 @@ import { FullDiv } from '../styles/styled-components';
 import { Button, Input, Checkbox, Form } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LOG_IN_REQUEST } from '../sagas/user';
+import { useRouter } from 'next/dist/client/router';
+import { useEffect } from 'react';
 
 const layout = {
   labelCol: { span: 7 },
@@ -21,7 +23,17 @@ const loginFormStyle = {
 };
 
 const login = () => {
+  const { isLoginSuccess, isLoggingIn } = useSelector(state => state.user);
   const dispatch = useDispatch();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoginSuccess) {
+      alert('로그인에 성공하였습니다!');
+      router.push('/');
+    }
+  }, [isLoginSuccess, isLoggingIn]);
+
   const onFinish = values => {
     dispatch({ type: LOG_IN_REQUEST, data: values });
     console.log(values);

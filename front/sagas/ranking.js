@@ -29,7 +29,7 @@ function* loadRankings(action) {
 }
 
 function* watchLoadRankings() {
-  return takeLatest(LOAD_RANKINGS_REQUEST, loadRankings);
+  yield takeLatest(LOAD_RANKINGS_REQUEST, loadRankings);
 }
 
 export default function* rankingSaga() {

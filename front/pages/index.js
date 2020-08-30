@@ -36,7 +36,10 @@ const MessiContainer = styled.div`
   height: 93vh;
   overflow: hidden;
   opacity: 90%;
+<<<<<<< HEAD
+=======
   cursor: pointer;
+>>>>>>> 6ea4e0cd0cbe1842d5b1f9a51c534adf0029d0ca
 `;
 
 const Home = () => {
@@ -44,14 +47,14 @@ const Home = () => {
   const slideRef = useRef(null);
   const messiRef = useRef(null);
 
-  const onClickFootball = (e) => {
+  const onClickFootball = e => {
     // 슬라이드 애니메이션
     setCurrentSlide(FOOTBALL_TRANSLATE);
   };
-  const onClickBaseball = (e) => {
+  const onClickBaseball = e => {
     setCurrentSlide(BASEBALL_TRANSLATE);
   };
-  const onClickBasketball = (e) => {
+  const onClickBasketball = e => {
     setCurrentSlide(BASKETBALL_TRANSLATE);
   };
 
@@ -94,6 +97,7 @@ const Home = () => {
                       width: '11%',
                       height: '100%',
                     }}
+                    key={`card${i}`}
                   >
                     <h2>{`${match.teamA} VS ${match.teamB}`} </h2>
                     <label>승 : 100p</label>

@@ -24,7 +24,7 @@ function* login(action) {
     yield put({
       // put -> Action lk실행
       type: LOG_IN_SUCCESS,
-      data: result,
+      data: result.data,
     });
   } catch (e) {
     console.error(e);
@@ -66,9 +66,9 @@ function* watchRegister() {
 
 function loadUserAPI(userData) {
   if (userData.me) {
-    return axios.get('/user/get-my-profile');
+    return axios.get('/user');
   }
-  return axios.get(`user/get-user-detail/${userData.id}`);
+  return axios.get(`/user/${userData.id}`);
 }
 
 function* loadUser(action) {
@@ -77,7 +77,7 @@ function* loadUser(action) {
     yield put({
       // put -> Action 실행
       type: LOAD_USER_SUCCESS,
-      data: result,
+      data: result.data,
     });
   } catch (e) {
     console.error(e);

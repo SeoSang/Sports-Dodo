@@ -5,7 +5,7 @@ import logger from 'redux-logger';
 import rootReducer from '../reducers';
 import rootSaga from '../sagas';
 
-const bindMiddleware = (middleware) => {
+const bindMiddleware = middleware => {
   if (process.env.NODE_ENV !== 'production') {
     const { composeWithDevTools } = require('redux-devtools-extension');
     return composeWithDevTools(applyMiddleware(...middleware));
@@ -13,7 +13,7 @@ const bindMiddleware = (middleware) => {
   return applyMiddleware(...middleware);
 };
 
-export const makeStore = (context) => {
+export const makeStore = context => {
   const sagaMiddleware = createSagaMiddleware();
   const store = createStore(
     rootReducer,

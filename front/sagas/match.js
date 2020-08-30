@@ -11,7 +11,8 @@ export const LOAD_MATCHS_FAILURE = 'LOAD_MATCHS_FAILURE';
 
 function loadMatchsAPI(index = -1) {
   const limit = 10; // 받을 개수
-  const nowTime = moment.format();
+  const nowTime = moment().format();
+  console.log('nowTime => ', nowTime);
   return axios.get(
     `/match?startTime[gt]=${nowTime}&limit=${limit}&startindex=${index}`
   );
@@ -30,13 +31,13 @@ function* loadMatchs(action) {
     console.error(e);
     yield put({
       type: LOAD_MATCHS_FAILURE,
-      error: e,
+      error: JSON.stringify(e),
     });
   }
 }
 
 function* watchLoadMatchs() {
-  return takeLatest(LOAD_MATCHS_REQUEST, loadMatchs);
+  yield takeLatest(LOAD_MATCHS_REQUEST, loadMatchs);
 }
 
 export default function* matchSaga() {
