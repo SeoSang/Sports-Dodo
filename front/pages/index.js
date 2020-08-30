@@ -62,6 +62,7 @@ const Home = () => {
 
   return (
     <>
+<<<<<<< HEAD
       <Row style={{ zIndex: 20 }}>
         <MessiContainer onClick={scrollToBottom}>
           <img style={{ minWidth: '100%' }} src="/images/messi.jpg"></img>
@@ -75,6 +76,13 @@ const Home = () => {
         >
           <UpperCol span={19}>
             <div style={{ overflow: 'hidden' }}>
+=======
+      <Row style={{ textAlign: "center" }} justify="space-around" gutter={16}>
+        <UpperDiv>
+          {/* flex 가로 비율 설정 */}
+          <Col flex="1000px" span={20}>
+            <div style={{ overflow: "hidden" }}>
+>>>>>>> a4654feb147117dd091c69587335f0e17afb4a98
               <div
                 ref={slideRef}
                 style={{
@@ -109,9 +117,15 @@ const Home = () => {
                 ))}
               </div>
             </div>
+<<<<<<< HEAD
           </UpperCol>
           <UpperCol span={3}>
             <Layout style={{ height: '100%' }}>
+=======
+          </Col>
+          <Col flex="auto" span={4} style={{ height: "100%" }}>
+            <Layout style={{ height: "100%" }}>
+>>>>>>> a4654feb147117dd091c69587335f0e17afb4a98
               <SportCategories onClick={onClickFootball}>축구</SportCategories>
               <SportCategories onClick={onClickBaseball}>야구</SportCategories>
               <SportCategories onClick={onClickBasketball}>
