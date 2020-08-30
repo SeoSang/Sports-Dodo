@@ -106,6 +106,11 @@ exports.getRanking = asyncHandler(async (req, res, next) => {
 exports.getUser = asyncHandler(async (req, res, next) => {
     let user = await User.findOne({ _id: req.params.id }).populate('battings');
 
+
+    // get Ranking
+    let users = await User.find({}).sort({ point: -1 }).select("point");
+    let rank = users.findIndex(i => i._id == req.params.id) + 1;
+
     if (!user) {
         return next(
             new ErrorResponse(`No user with the id of ${req.params.id}`, 404)
@@ -114,6 +119,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 
     return res.status(200).json({
         success: true,
+        rank: rank,
         data: user,
     });
 });
@@ -145,10 +151,14 @@ exports.editUser = asyncHandler(async (req, res, next) => {
 exports.myProfile = asyncHandler(async (req, res, next) => {
     const battings = await Batting.find({ "user": req.user._id })
 
+    let users = await User.find({}).sort({ point: -1 }).select("point");
+    let rank = users.findIndex(i => i._id == req.user.id) + 1;
+
     req.user.battings = battings;
 
     return res.json({
         success: true,
+        rank: rank,
         data: req.user,
     });
 });

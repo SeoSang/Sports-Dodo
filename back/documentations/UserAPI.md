@@ -157,6 +157,7 @@ __Response__
 ```
 {
     "success": true,
+    "rank": 6
     "data": {
         "point": 100,
         "_id": "5f47a45a1b593145547abd33",
@@ -235,6 +236,7 @@ __Response__
 ```
 {
     "success": true,
+    "rank": 6,
     "data": {
         "point": 100,
         "_id": "5f47a45a1b593145547abd33",
@@ -243,30 +245,30 @@ __Response__
         "name": "kimmm",
         "nickname": "dsfhekl",
         "__v": 0,
+        "battings": [
+            {
+                "result": "Not Finished",
+                "_id": "5f47a4b31b593145547abd34",
+                "user": "5f47a45a1b593145547abd33",
+                "match": "5f47453c44a5554804a8387a",
+                "chooseHomeAwayDraw": "Home",
+                "battingPoint": 10,
+                "createdAt": "2020-08-27T12:18:59.241Z",
+                "__v": 0
+            },
+            {
+                "result": "Not Finished",
+                "_id": "5f4b496dc8ea5c0d0897ba87",
+                "user": "5f47a45a1b593145547abd33",
+                "match": "5f4a3e2d60d7215bd4bd3310",
+                "chooseHomeAwayDraw": "Home",
+                "battingPoint": 12,
+                "createdAt": "2020-08-30T06:38:37.650Z",
+                "__v": 0
+            }
+        ],
         "id": "5f47a45a1b593145547abd33"
-    },
-    "battings": [
-        {
-            "result": "Not Finished",
-            "_id": "5f47a4b31b593145547abd34",
-            "user": "5f47a45a1b593145547abd33",
-            "match": "5f47453c44a5554804a8387a",
-            "chooseHomeAwayDraw": "Home",
-            "battingPoint": 10,
-            "createdAt": "2020-08-27T12:18:59.241Z",
-            "__v": 0
-        },
-        {
-            "result": "Not Finished",
-            "_id": "5f4b496dc8ea5c0d0897ba87",
-            "user": "5f47a45a1b593145547abd33",
-            "match": "5f4a3e2d60d7215bd4bd3310",
-            "chooseHomeAwayDraw": "Home",
-            "battingPoint": 12,
-            "createdAt": "2020-08-30T06:38:37.650Z",
-            "__v": 0
-        }
-    ]
+    }
 }
 ```
 <br>
