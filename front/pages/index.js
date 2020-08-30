@@ -36,6 +36,10 @@ const MessiContainer = styled.div`
   height: 93vh;
   overflow: hidden;
   opacity: 90%;
+<<<<<<< HEAD
+=======
+  cursor: pointer;
+>>>>>>> 6ea4e0cd0cbe1842d5b1f9a51c534adf0029d0ca
 `;
 
 const Home = () => {
@@ -85,6 +89,7 @@ const Home = () => {
               >
                 {dummy_main_matches.map((match, i) => (
                   <Card
+                    key={`${i}번째 카드`}
                     title={dummy_main_matches.category}
                     bordered={true}
                     style={{
@@ -123,7 +128,7 @@ const Home = () => {
           <Row>
             {dummy_main_rankings.map((ranking, i) => {
               return (
-                <Col span={8} key={`ranking${i}`}>
+                <Col span={8} key={`col__${i}`}>
                   <List
                     header={
                       <img

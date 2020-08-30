@@ -1,10 +1,19 @@
+<<<<<<< HEAD
 import React from 'react';
+=======
+import React, { useEffect } from 'react';
+>>>>>>> 6ea4e0cd0cbe1842d5b1f9a51c534adf0029d0ca
 import { Row, Col } from 'antd';
 import styled from 'styled-components';
 import MatchLine from '../components/MatchLine';
 import { useSelector, useDispatch } from 'react-redux';
 import { LOAD_MATCHS_REQUEST } from '../sagas/match';
+<<<<<<< HEAD
 import { wrapper } from './_app';
+=======
+import { wrapper } from '../store';
+import { LOAD_USER_REQUEST } from '../sagas/user';
+>>>>>>> 6ea4e0cd0cbe1842d5b1f9a51c534adf0029d0ca
 
 const MatchsTitleRow = styled(Row)`
   background-color: #b6dbf2;
@@ -26,8 +35,17 @@ const dummy_matchLine = {
 };
 
 const matchs = () => {
+<<<<<<< HEAD
   const state = useSelector(state => state.match);
   console.log(state);
+=======
+  const state = useSelector((state) => state.match);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: LOAD_MATCHS_REQUEST, index: -1 });
+    dispatch({ type: LOAD_USER_REQUEST });
+  }, []);
+>>>>>>> 6ea4e0cd0cbe1842d5b1f9a51c534adf0029d0ca
   return (
     <Row
       style={{ textAlign: 'center', padding: '20px' }}
@@ -74,6 +92,7 @@ const matchs = () => {
   );
 };
 
+<<<<<<< HEAD
 // export const getStaticProps = wrapper.getStaticProps(({ store, preview }) => {
 //   console.log('2. Page.getStaticProps uses the store to dispatch things');
 //   store.dispatch({ type: LOAD_MATCHS_REQUEST });
@@ -83,5 +102,10 @@ matchs.getInitialProps = async ({ store }) => {
   store.dispatch({ type: LOAD_MATCHS_REQUEST });
   return;
 };
+=======
+export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
+  store.dispatch({ type: LOAD_MATCHS_REQUEST });
+});
+>>>>>>> 6ea4e0cd0cbe1842d5b1f9a51c534adf0029d0ca
 
 export default matchs;

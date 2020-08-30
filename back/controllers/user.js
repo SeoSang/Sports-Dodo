@@ -75,10 +75,28 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
         .find({})
         .sort({ "point": -1 })
         .limit(50);
+<<<<<<< HEAD
 
     res.status(200).json({
         success: true,
         data: users,
+=======
+
+    res.status(200).json({
+        success: true,
+        data: users,
+    });
+});
+
+exports.getRanking = asyncHandler(async (req, res, next) => {
+    let users = await User.find({}).sort({ "point": -1 });
+
+    let index = users.findIndex(i => i._id == req.params.id);
+
+    res.status(200).json({
+        success: true,
+        ranking: index + 1
+>>>>>>> 6ea4e0cd0cbe1842d5b1f9a51c534adf0029d0ca
     });
 });
 

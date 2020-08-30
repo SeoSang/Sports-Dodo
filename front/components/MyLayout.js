@@ -88,9 +88,6 @@ const MyLayout = ({ children }) => {
       <Background90Div style={{ textAlign: 'center' }}>
         <ContentDiv>{children}</ContentDiv>
       </Background90Div>
-      <Layout.Footer style={{ textAlign: 'center' }}>
-        프로젝트 이름 ©2020 Created by ~~~
-      </Layout.Footer>
     </>
   );
 };
