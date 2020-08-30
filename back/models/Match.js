@@ -34,7 +34,7 @@ var MatchSchema = mongoose.Schema({
     },
     result: {
         type: String,
-        enum: ['HomeWin', 'AwayWin', 'Draw', 'Not Finished'],
+        enum: ['Home', 'Away', 'Draw', 'Not Finished'],
         default: 'Not Finished'
     }
 },

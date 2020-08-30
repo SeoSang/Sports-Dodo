@@ -226,7 +226,7 @@ describe("Batting Test Codes", () => {
             const res = await request(app)
                 .delete(`/api/batting/${request.testBatting2_id}`)
                 .set('x-access-token', `${request.testUser2Token}`);
-            expect(res.status).to.be.equal(200);;
+            expect(res.status).to.be.equal(200);
         });
 
         it("[Fail] Only onwer of this batting can delete", async () => {
