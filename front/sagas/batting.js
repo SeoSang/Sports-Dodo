@@ -33,7 +33,7 @@ function* loadBatting(action) {
 }
 
 function* watchLoadBatting() {
-  return takeLatest(LOAD_BATTING_REQUEST, loadBatting);
+  yield takeLatest(LOAD_BATTING_REQUEST, loadBatting);
 }
 
 function loadBattingsAPI(userId, count) {
@@ -57,7 +57,7 @@ function* loadBattings(action) {
 }
 
 function* watchLoadBattings() {
-  return takeLatest(LOAD_BATTINGS_REQUEST, loadBattings);
+  yield takeLatest(LOAD_BATTINGS_REQUEST, loadBattings);
 }
 
 export default function* battingSaga() {

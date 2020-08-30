@@ -1,12 +1,11 @@
 import React from 'react';
-import { Drawer, Button, Row, Menu, Col, Popover, Layout } from 'antd';
+import { Drawer, Button, Row, Menu, Col, Popover } from 'antd';
 import { useState } from 'react';
 import { UserOutlined } from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar/avatar';
 import { Background90Div } from '../styles/styled-components';
 import MainMenu from './MainMenu';
 import { useSelector } from 'react-redux';
-import { MyProfile, NullProfile } from './LayoutProfile';
 import Link from 'next/link';
 import { ContentDiv, TitleBarDiv } from '../styles/styled-components';
 import styled from 'styled-components';
@@ -41,12 +40,47 @@ const MenuButton = styled.a`
   }
 `;
 
+const MyProfile = me => (
+  <div>
+    <h2>{me?.email}</h2>
+    <h3>{me?.nickname + '님'}</h3>
+    <p>Point : 356p</p>
+    <p>랭킹 : 777위</p>
+    <Button style={{ margin: '5px' }}>
+      <Link href="./profile">
+        <a>자세히</a>
+      </Link>
+    </Button>
+    <Button style={{ margin: '5px' }}>로그아웃</Button>
+  </div>
+);
+
+const NullProfile = (
+  <div>
+    <h2>로그인이</h2>
+    <h2>필요합니다</h2>
+    <div>
+      <Button style={{ margin: '5px' }}>
+        <Link href="./login">
+          <a>로그인</a>
+        </Link>
+      </Button>
+      <Button style={{ margin: '5px' }}>
+        <Link href="./register">
+          <a>회원가입</a>
+        </Link>
+      </Button>
+    </div>
+  </div>
+);
+
 const MyLayout = ({ children }) => {
   const { me } = useSelector(state => state.user);
   const [visible, setVisible] = useState(false);
   const toggleCollapsed = () => {
     setVisible(!visible);
   };
+  console.log(me);
 
   return (
     <>
@@ -75,7 +109,7 @@ const MyLayout = ({ children }) => {
           >
             <Popover
               className="cursor-point"
-              content={me ? MyProfile : NullProfile}
+              content={me ? MyProfile(me) : NullProfile}
               title="내 정보"
               trigger="click"
             >

@@ -28,11 +28,8 @@ connectDB();
 
 const app = express();
 
-<<<<<<< HEAD
-=======
 app.use(morgan('dev')); // 로그 찍어줌
 
->>>>>>> 6ea4e0cd0cbe1842d5b1f9a51c534adf0029d0ca
 // 접근 제어
 app.use(
   cors({
