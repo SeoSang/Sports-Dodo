@@ -212,12 +212,28 @@ __Response__
     "data": {
         "_id": "asdfhlk68242jklshdklfdsfrehwe",
         "email": "jordan@gamil.com",
-        "password": "hashedpasswrod",
         "name": "michel jordan",
-        "nickname": "basketballgot"
+        "nickname": "basketballgot",
+        "ranking" : 113",
+        "battings" : [
+            {
+            "user": user_id,
+            "batting": matchId, 
+            "chooseHomeAwayDraw": "Away",
+            "battingPoint": "15",
+            "description": "cause I feel good",
+            "result" : "pending",
+            },
+            {
+            "user":user_id
+            "batting": matchId, 
+            "chooseHomeAwayDraw": "Home",
+            "battingPoint": "10",
+            "description": "cause I feel good"
+            "result" : "win",
+            },
+        ]
     }
-    
-}
 ```
 <br>
 

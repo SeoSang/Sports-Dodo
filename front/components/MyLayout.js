@@ -44,7 +44,7 @@ const MyProfile = me => (
   <div>
     <h2>{me?.email}</h2>
     <h3>{me?.nickname + '님'}</h3>
-    <p>Point : 356p</p>
+    <p>Point : {me?.point}p</p>
     <p>랭킹 : 777위</p>
     <Button style={{ margin: '5px' }}>
       <Link href="./profile">

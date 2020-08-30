@@ -36,10 +36,7 @@ const MessiContainer = styled.div`
   height: 93vh;
   overflow: hidden;
   opacity: 90%;
-<<<<<<< HEAD
-=======
   cursor: pointer;
->>>>>>> 6ea4e0cd0cbe1842d5b1f9a51c534adf0029d0ca
 `;
 
 const Home = () => {
