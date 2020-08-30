@@ -81,6 +81,7 @@ __Response__
 
 ## __베팅 읽기 (복수)__ GET "/api/match/:id/batting"
 - Need query conditions                 /////!!
+- query: 
 
 __Requset__
 ```

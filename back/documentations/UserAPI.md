@@ -59,7 +59,7 @@ header: {
 }
 body: {
     "email": "jordan@gamil.com",
-    "password": "123123",
+    "password": "hashedpasswrod",
     "name": "michel jordan",
     "nickname": "basketballgot"
 }
@@ -93,6 +93,53 @@ __Response__
 <br>
 
 ## __유저 읽기 (복수)__ 
+- 보여주는 개수는 50개입니다.
+- point 높은 순으로 보여줍니다.
+
+__Request__
+```
+method: GEt
+url: "/api/user"
+header: {"Content-Type": "application/json"  }
+}
+```
+
+__Response__
+```
+{
+    "success": true,
+    "data": [
+        {
+            "point": 101,
+            "_id": "5f45f2538297404534899dfc",
+            "email": "user2@naver.com",
+            "password": "hashedpassword",
+            "name": "user2",
+            "nickname": "user2",
+            "__v": 0
+        },
+        {
+            "point": 100,
+            "_id": "5f45f2538297404534899dfb",
+            "email": "user1@naver.com",
+            "password": "hashedpassword",
+            "name": "user1",
+            "nickname": "user1",
+            "__v": 0
+        },
+        {
+            "point": 100,
+            "_id": "5f45f2538297404534899dfd",
+            "email": "user3@naver.com",
+            "password": "hashedpassword",
+            "name": "user3",
+            "nickname": "user3",
+            "__v": 0
+        },
+        ~~
+    ]
+}
+```
 
 <br>
 
@@ -112,7 +159,7 @@ __Response__
     "data": {
         "_id": "asdfhlk68242jklshdklfdsfrehwe",
         "email": "jordan@gamil.com",
-        "password": "123123",
+        "password": "hashedpasswrod",
         "name": "michel jordan",
         "nickname": "basketballgot"
     }    
@@ -138,7 +185,7 @@ __Response__
     "data": {
         "_id": "asdfhlk68242jklshdklfdsfrehwe",
         "email": "jordan@gamil.com",
-        "password": "123123",
+        "password": "hashedpasswrod",
         "name": "michel jordan",
         "nickname": "jason"    // changed from "basketballgot" to "jason"
     }    
@@ -164,7 +211,7 @@ __Response__
     "data": {
         "_id": "asdfhlk68242jklshdklfdsfrehwe",
         "email": "jordan@gamil.com",
-        "password": "123123",
+        "password": "hashedpasswrod",
         "name": "michel jordan",
         "nickname": "basketballgot"
     }
@@ -190,7 +237,7 @@ __Response__
     "data": {
         "_id": "asdfhlk68242jklshdklfdsfrehwe",
         "email": "jordan@gamil.com",
-        "password": "123123",
+        "password": "hashedpasswrod",
         "name": "michel jordan",
         "nickname": "jason"    // changed from "basketballgot" to "jason"
     }    
@@ -209,7 +256,7 @@ header: {
 }
 body: {
     "email": "jordan@gamil.com",
-    "password": "123123"
+    "password": "hashedpasswrod"
 }
 ```
 __Response__

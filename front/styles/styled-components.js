@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import { Button } from "antd"
+import styled from 'styled-components';
+import { Button } from 'antd';
 
 // _app 에서 쓰임
 export const TitleBarDiv = styled.div`
@@ -7,33 +7,34 @@ export const TitleBarDiv = styled.div`
   border-bottom-style: solid;
   background-color: #001529;
   padding: 2px;
-`
+`;
 
 export const ContentDiv = styled.div`
-  background-color: #d1ccc0;
-  height: 80vh;
-  border: 1px solid #d1ccc0;
-`
+  background-color: #e8e8e8;
+  min-height: 90vh;
+  border: 1px solid white;
+`;
 
 // 기타
 export const Background90Div = styled.div`
-  height: 90vh;
-  padding: 5vh;
-  background-color: #84817a;
-`
+  min-height: 90vh;
+  padding: 0vh;
+  background-color: white;
+`;
 export const UpperDiv = styled.div`
   padding: 3px;
-  margin: 1vh 3vw;
-  height: 32vh;
-  background-color: #dcdcdc;
+  margin: 0.2vh 1vw;
+  margin-top: 1vh;
+  height: 35vh;
+  background-color: #f6f5f5;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-`
+`;
 export const LowerDiv = styled.div`
   padding: 3px;
-  margin: 4vh 3vw;
-  background-color: #dcdcdc;
+  margin: 2vh 3vw;
+  background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-`
+`;
 
 export const FullDiv = styled.div`
   padding: 3px;
@@ -42,7 +43,7 @@ export const FullDiv = styled.div`
   background-color: #dcdcdc;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: center;
-`
+`;
 
 // TODO : 왜 important 안쓰면 적용이 안될까?
 export const SportCategories = styled(Button)`
@@ -51,4 +52,10 @@ export const SportCategories = styled(Button)`
   border-bottom: 2px solid;
   border-radius: 5px;
   height: 10vh !important;
-`
+`;
+
+export const COLOR_1 = '#64798C';
+export const COLOR_2 = '#2E3740';
+export const COLOR_3 = '#B6DBF2';
+export const COLOR_4 = '#CEE8F2';
+export const COLOR_5 = '#0D0D0D';

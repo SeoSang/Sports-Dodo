@@ -42,11 +42,12 @@ const MenuButton = styled.a`
 `;
 
 const MyLayout = ({ children }) => {
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector(state => state.user);
   const [visible, setVisible] = useState(false);
   const toggleCollapsed = () => {
     setVisible(!visible);
   };
+
   return (
     <>
       <TitleBarDiv>
@@ -60,7 +61,7 @@ const MyLayout = ({ children }) => {
           </Col>
           <Col style={{ textAlign: 'center' }} span={16}>
             <Link href="/">
-              <a style={{ fontSize: '2em', color: '#1890FF' }}>LOGO</a>
+              <a style={{ fontSize: '2em', color: '#1890FF' }}>스포츠도도</a>
             </Link>
           </Col>
           <Col
