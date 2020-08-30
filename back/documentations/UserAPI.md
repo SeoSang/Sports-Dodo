@@ -158,6 +158,7 @@ __Response__
 {
     "success": true,
     "data": {
+        "point": 100,
         "_id": "asdfhlk68242jklshdklfdsfrehwe",
         "email": "jordan@gamil.com",
         "password": "hashedpasswrod",
@@ -184,6 +185,7 @@ __Response__
 {
     "success": true,
     "data": {
+        "point": 100,
         "_id": "asdfhlk68242jklshdklfdsfrehwe",
         "email": "jordan@gamil.com",
         "password": "hashedpasswrod",
@@ -210,6 +212,7 @@ __Response__
 {
     "success": true,
     "data": {
+        "point": 100,
         "_id": "asdfhlk68242jklshdklfdsfrehwe",
         "email": "jordan@gamil.com",
         "password": "hashedpasswrod",
@@ -236,6 +239,7 @@ __Response__
 {
     "success": true,
     "data": {
+        "point": 100,
         "_id": "asdfhlk68242jklshdklfdsfrehwe",
         "email": "jordan@gamil.com",
         "password": "hashedpasswrod",
