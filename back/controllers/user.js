@@ -144,10 +144,12 @@ exports.editUser = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.myProfile = asyncHandler(async (req, res, next) => {
     const battings = await Batting.find({ "user": req.user._id })
+
+    req.user.battings = battings;
+
     return res.json({
         success: true,
         data: req.user,
-        battings: battings
     });
 });
 
