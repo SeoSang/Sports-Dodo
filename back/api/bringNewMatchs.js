@@ -9,7 +9,7 @@ async function bringMatchFromAPI(league_id, date) {
   try {
     const response = await axios({
       method: 'get',
-      url: `https://api-football-v1.p.rapidapi.com/v2/fixtures/league/${league_id}/${date}`,
+      url: `https://api-football-v1.p.rapidapi.com/v2/fixtures/league/${league_id}/${date}?timezone=Asia/Seoul`,
       headers: {
         'Content-Type': 'application/json',
         'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',

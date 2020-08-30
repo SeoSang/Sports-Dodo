@@ -6,7 +6,7 @@ async function bringFinishedDataAndEditMatch(idForFAPI) {
 	try {
 		const response = await axios({
 			method: 'get',
-			url: `https://api-football-v1.p.rapidapi.com/v2/fixtures/id/${idForFAPI}`,
+			url: `https://api-football-v1.p.rapidapi.com/v2/fixtures/id/${idForFAPI}?timezone=Asia/Seoul`,
 			headers: {
 				'Content-Type': 'application/json',
 				'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',

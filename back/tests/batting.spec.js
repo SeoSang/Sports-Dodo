@@ -63,19 +63,19 @@ describe("Batting Test Codes", () => {
         let testMatch1Data = {
             homeTeam: "LA",
             awayTeam: "Dallas",
-            startTime: "2020-01-01T14:20:00.000Z"
+            startTime: "2020-10-10T14:20:00.000Z"
         };
 
         let testMatch2Data = {
             homeTeam: "Lakers",
             awayTeam: "Memphis",
-            startTime: "2020-01-01T15:20:00.000Z"
+            startTime: "2020-09-30T15:20:00.000Z"
         };
 
         let testMatch3Data = {
             homeTeam: "Boston",
             awayTeam: "Dallas",
-            startTime: "2020-01-01T20:20:00.000Z"
+            startTime: "2020-09-30T20:20:00.000Z"
         };
 
         let testMatch1 = await Match.create(testMatch1Data);
@@ -115,7 +115,7 @@ describe("Batting Test Codes", () => {
         await Batting.deleteMany({});
     });
 
-    describe("POST /api/batting", () => {
+    describe("POST /api/match/:id/batting", () => {
         let testBatting1Data = {
             // user: `${request.testUser1_id}`,
             // match: `${request.testMatch1_id}`,
@@ -144,7 +144,7 @@ describe("Batting Test Codes", () => {
 
         it("[Fail] Invalid Token passed", async () => {
             const res = await request(app)
-                .post("/api/batting")
+                .post(`/api/match/${request.testMatch1_id}/batting`)
                 .set('x-access-token', `wrong token value`)
                 .send(testBatting1Data);
             expect(res.status).to.be.equal(401);
@@ -153,7 +153,7 @@ describe("Batting Test Codes", () => {
 
         it("[Fail] Invalid data inputed", async () => {
             const res = await request(app)
-                .post("/api/batting")
+                .post(`/api/match/${request.testMatch1_id}/batting`)
                 .set('x-access-token', `${request.testUser1Token}`)
                 .send(testWrongBattingData);
             expect(res.status).to.be.equal(400);
