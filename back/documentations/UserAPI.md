@@ -236,6 +236,7 @@ __Response__
 {
     "success": true,
     "data": {
+<<<<<<< HEAD
         "point": 100,
         "_id": "5f47a45a1b593145547abd33",
         "email": "user5@naver.com",
@@ -268,6 +269,32 @@ __Response__
         }
     ]
 }
+=======
+        "_id": "asdfhlk68242jklshdklfdsfrehwe",
+        "email": "jordan@gamil.com",
+        "name": "michel jordan",
+        "nickname": "basketballgot",
+        "ranking" : 113",
+        "battings" : [
+            {
+            "user": user_id,
+            "batting": matchId, 
+            "chooseHomeAwayDraw": "Away",
+            "battingPoint": "15",
+            "description": "cause I feel good",
+            "result" : "pending",
+            },
+            {
+            "user":user_id
+            "batting": matchId, 
+            "chooseHomeAwayDraw": "Home",
+            "battingPoint": "10",
+            "description": "cause I feel good"
+            "result" : "win",
+            },
+        ]
+    }
+>>>>>>> upstream/master
 ```
 <br>
 

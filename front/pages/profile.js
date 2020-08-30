@@ -1,7 +1,8 @@
 import React from 'react';
 import { Row, Col, Avatar } from 'antd';
-import { dummy_profile } from '../src/dummy';
+import { wrapper } from '../store';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import { LOAD_USER_REQUEST } from '../sagas/user';
 
 const profileCardStye = {
@@ -18,7 +19,7 @@ const BattingsCard = styled.div`
 `;
 
 const profile = () => {
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector(state => state.user);
   return (
     <>
       <Row style={{ marginBottom: '20px' }}>
@@ -28,8 +29,8 @@ const profile = () => {
               <Avatar size={100} src="/images/profile.jpg" />
             </Col>
             <Col span={16}>
-              <h2>{dummy_profile.name}</h2>
-              <h2>포인트 : {dummy_profile.point}점</h2>
+              <h2>{me?.name}</h2>
+              <h2>포인트 : {me?.point}점</h2>
               <h2>랭킹 : 3123위</h2>
             </Col>
           </Row>
@@ -54,7 +55,7 @@ const profile = () => {
               <h2>결과</h2>
             </Col>
           </Row>
-          {dummy_profile.battings.map((batting) => (
+          {me?.battings.map(batting => (
             <Row>
               <Col span={8}>
                 <h2>
@@ -82,12 +83,9 @@ const profile = () => {
   );
 };
 
-profile.getInitialProps = async (context) => {
-  context.store.dispatch({
-    type: LOAD_USER_REQUEST,
-    data: { me: true, id: 0 },
-  });
-  return;
-};
+export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
+  console.log(store);
+  store.dispatch({ type: LOAD_USER_REQUEST, me: true, id: 1 });
+});
 
 export default profile;
