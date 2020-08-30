@@ -159,12 +159,36 @@ __Response__
     "success": true,
     "data": {
         "point": 100,
-        "_id": "asdfhlk68242jklshdklfdsfrehwe",
-        "email": "jordan@gamil.com",
-        "password": "hashedpasswrod",
-        "name": "michel jordan",
-        "nickname": "basketballgot"
-    }    
+        "_id": "5f47a45a1b593145547abd33",
+        "email": "user5@naver.com",
+        "password": "$2a$10$yNQm6Imqg4fz.6taUQk/cutZn7ftdBIVwAu2DnELdQ9vWm41m3dwu",
+        "name": "kimmm",
+        "nickname": "dsfhekl",
+        "__v": 0,
+        "battings": [
+            {
+                "result": "Not Finished",
+                "_id": "5f47a4b31b593145547abd34",
+                "user": "5f47a45a1b593145547abd33",
+                "match": "5f47453c44a5554804a8387a",
+                "chooseHomeAwayDraw": "Home",
+                "battingPoint": 10,
+                "createdAt": "2020-08-27T12:18:59.241Z",
+                "__v": 0
+            },
+            {
+                "result": "Not Finished",
+                "_id": "5f4b496dc8ea5c0d0897ba87",
+                "user": "5f47a45a1b593145547abd33",
+                "match": "5f4a3e2d60d7215bd4bd3310",
+                "chooseHomeAwayDraw": "Home",
+                "battingPoint": 12,
+                "createdAt": "2020-08-30T06:38:37.650Z",
+                "__v": 0
+            }
+        ],
+        "id": "5f47a45a1b593145547abd33"
+    }
 }
 ```
 <br>
@@ -213,13 +237,36 @@ __Response__
     "success": true,
     "data": {
         "point": 100,
-        "_id": "asdfhlk68242jklshdklfdsfrehwe",
-        "email": "jordan@gamil.com",
-        "password": "hashedpasswrod",
-        "name": "michel jordan",
-        "nickname": "basketballgot"
-    }
-    
+        "_id": "5f47a45a1b593145547abd33",
+        "email": "user5@naver.com",
+        "password": "$2a$10$yNQm6Imqg4fz.6taUQk/cutZn7ftdBIVwAu2DnELdQ9vWm41m3dwu",
+        "name": "kimmm",
+        "nickname": "dsfhekl",
+        "__v": 0,
+        "id": "5f47a45a1b593145547abd33"
+    },
+    "battings": [
+        {
+            "result": "Not Finished",
+            "_id": "5f47a4b31b593145547abd34",
+            "user": "5f47a45a1b593145547abd33",
+            "match": "5f47453c44a5554804a8387a",
+            "chooseHomeAwayDraw": "Home",
+            "battingPoint": 10,
+            "createdAt": "2020-08-27T12:18:59.241Z",
+            "__v": 0
+        },
+        {
+            "result": "Not Finished",
+            "_id": "5f4b496dc8ea5c0d0897ba87",
+            "user": "5f47a45a1b593145547abd33",
+            "match": "5f4a3e2d60d7215bd4bd3310",
+            "chooseHomeAwayDraw": "Home",
+            "battingPoint": 12,
+            "createdAt": "2020-08-30T06:38:37.650Z",
+            "__v": 0
+        }
+    ]
 }
 ```
 <br>
@@ -273,6 +320,7 @@ __Response__
 ```
 <br>
 
+// 로그아웃은 프론트에서만 처리하면 되는거 아닌가 ??
 ## __로그아웃__ GET  "/api/user/logout"
 __Request__
 ```

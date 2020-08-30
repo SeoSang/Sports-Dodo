@@ -3,6 +3,7 @@ const router = express.Router({ mergeParams: true });
 const asyncHandler = require('../middlewares/async');
 const ErrorResponse = require('../utils/errorResponse');
 const User = require('../models/User');
+const Batting = require('../models/Batting');
 
 // @desc    Register User
 // @route   POST /api/user
@@ -96,10 +97,10 @@ exports.getRanking = asyncHandler(async (req, res, next) => {
 // exports.logout
 
 // @desc    get a single user
-// @route   GET /api/user
+// @route   GET /api/user/:id
 // @access  Public
 exports.getUser = asyncHandler(async (req, res, next) => {
-    let user = await User.findOne({ _id: req.params.id });
+    let user = await User.findOne({ _id: req.params.id }).populate('battings');
 
     if (!user) {
         return next(
@@ -138,9 +139,11 @@ exports.editUser = asyncHandler(async (req, res, next) => {
 // @route   GET /api/user/profile
 // @access  Private
 exports.myProfile = asyncHandler(async (req, res, next) => {
+    const battings = await Batting.find({ "user": req.user._id })
     return res.json({
         success: true,
         data: req.user,
+        battings: battings
     });
 });
 

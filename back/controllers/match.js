@@ -87,7 +87,7 @@ exports.getMatchs = asyncHandler(async (req, res, next) => {
 });
 
 exports.getMatch = asyncHandler(async (req, res, next) => {
-	const match = await Match.findById(req.params.id).populate('battings');
+	const match = await Match.findById(req.params.id);
 
 	if (!match) {
 		return next(

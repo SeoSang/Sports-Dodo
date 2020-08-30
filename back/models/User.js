@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs')
 
 var UserSchema = mongoose.Schema({
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true,
@@ -13,14 +13,14 @@ var UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    name:{
+    name: {
         type: String,
         required: true,
         maxlength: 50
     },
     nickname: {
         type: String,
-        maxlength:100,
+        maxlength: 100,
         minlength: 3,
         required: true,
         unique: true,
@@ -29,13 +29,23 @@ var UserSchema = mongoose.Schema({
         type: Number,
         default: 100 //
     },
-    battings: { // populate 로 바꿔야할 듯하다.
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Batting'
-    }
+    // battings: { // populate 로 바꿔야할 듯하다.
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Batting'
+    // }
+}, {
+    toJSON: { virtuals: true },
+    // toObject: { virtuals: true }
+}
+);
+
+UserSchema.virtual('battings', {
+    ref: 'Batting',
+    localField: '_id',
+    foreignField: 'user'
 });
 
-UserSchema.pre('save', async function(next) {
+UserSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         next();
     }
@@ -44,13 +54,13 @@ UserSchema.pre('save', async function(next) {
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-UserSchema.methods.getSignedJwtToken = function() {
+UserSchema.methods.getSignedJwtToken = function () {
     return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRE
     });
 };
 
-UserSchema.methods.matchPassword = async function(enteredPassword) {
+UserSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 

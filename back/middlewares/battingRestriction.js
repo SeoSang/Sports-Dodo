@@ -23,6 +23,7 @@ exports.timeChecker = asyncHandler(async (req, res, next) => {
         console.log('possible');
         return next();
     }
+
     console.log('batting impossible');
     return next(new ErrorResponse('Can bat until 10 minutes from the start', 400));
 })
