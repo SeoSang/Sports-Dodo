@@ -15,7 +15,7 @@ const schedule = require('node-schedule');
 const connectDB = require('./config/db');
 const { bringThreeDayLaterMatchs } = require('./api/bringNewMatchs');
 const { dummyDatas } = require('./utils/dummy');
-const { bringFinishedDataAndEditMatch, getTodaysMatchs, putResultToMatch, reservePutResultToMatch } = require('./api/setResultToMatch');
+const { bringFinishedDataAndEditMatch, getTodaysMatchs, putResultToMatch, reservePutResultToMatch, putResultToBattingAndUserTest } = require('./api/setResultToMatch');
 const { checkTime } = require('./middlewares/battingRestriction');
 
 //require('dotenv').config(); // .env -> 중요정보 보호. (gitignore 해둬서 git에는 안감.)
@@ -63,6 +63,7 @@ bringThreeDayLaterMatchs();
 reservePutResultToMatch();
 // bringFinishedDataAndEditMatch("5f48e05e7d77d50fb0bd3ef4", 71);
 // getTodaysMatchs();
+// putResultToBattingAndUserTest()
 
 app.use(errorHandler);
 
