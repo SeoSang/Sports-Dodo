@@ -5,8 +5,9 @@ import {
   dummy_main_matches,
 } from '../src/dummy';
 import { LowerDiv, SportCategories } from '../styles/styled-components';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { wrapper } from '../store';
 
 const FOOTBALL_TRANSLATE = '-0';
 const BASEBALL_TRANSLATE = '-33.3%';
@@ -44,14 +45,14 @@ const Home = () => {
   const slideRef = useRef(null);
   const messiRef = useRef(null);
 
-  const onClickFootball = e => {
+  const onClickFootball = (e) => {
     // 슬라이드 애니메이션
     setCurrentSlide(FOOTBALL_TRANSLATE);
   };
-  const onClickBaseball = e => {
+  const onClickBaseball = (e) => {
     setCurrentSlide(BASEBALL_TRANSLATE);
   };
-  const onClickBasketball = e => {
+  const onClickBasketball = (e) => {
     setCurrentSlide(BASKETBALL_TRANSLATE);
   };
 
