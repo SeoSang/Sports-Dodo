@@ -40,7 +40,7 @@ const MenuButton = styled.a`
   }
 `;
 
-const MyProfile = me => (
+const MyProfile = (me) => (
   <div>
     <h2>{me?.email}</h2>
     <h3>{me?.nickname + '님'}</h3>
@@ -75,12 +75,11 @@ const NullProfile = (
 );
 
 const MyLayout = ({ children }) => {
-  const { me } = useSelector(state => state.user);
+  const { me } = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
   const toggleCollapsed = () => {
     setVisible(!visible);
   };
-  console.log(me);
 
   return (
     <>

@@ -14,7 +14,13 @@ const schedule = require('node-schedule');
 const connectDB = require('./config/db');
 const { bringThreeDayLaterMatchs } = require('./api/bringNewMatchs');
 const { dummyDatas } = require('./utils/dummy');
-const { bringFinishedDataAndEditMatch, getTodaysMatchs, putResultToMatch, reservePutResultToMatch, putResultToBattingAndUserTest } = require('./api/setResultToMatch');
+const {
+  bringFinishedDataAndEditMatch,
+  getTodaysMatchs,
+  putResultToMatch,
+  reservePutResultToMatch,
+  putResultToBattingAndUserTest,
+} = require('./api/setResultToMatch');
 const { checkTime } = require('./middlewares/battingRestriction');
 
 //require('dotenv').config(); // .env -> 중요정보 보호. (gitignore 해둬서 git에는 안감.)
@@ -45,15 +51,22 @@ app.use(bodyParser.json());
 app.use('/api/user', userRouter);
 app.use('/api/match', matchRouter);
 app.use('/api/batting', battingRouter);
+<<<<<<< HEAD
+=======
+app.get('/ping', (req, res, next) => {
+  console.log(req.headers);
+  res.status(200).json(null);
+});
+>>>>>>> upstream/master
 
 // 미들웨어들
 app.use(helmet()); // 코드 보호
 app.use(express.json()); // form 데이터나 ajax 요청을 파싱해줌.
 
 // it excute on 11am everyday.
-bringThreeDayLaterMatchs();
+// bringThreeDayLaterMatchs();
 // it excute on everyday 00:01:00.
-reservePutResultToMatch();
+// reservePutResultToMatch();
 // bringFinishedDataAndEditMatch("5f48e05e7d77d50fb0bd3ef4", 71);
 // getTodaysMatchs();
 // putResultToBattingAndUserTest()

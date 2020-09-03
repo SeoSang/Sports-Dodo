@@ -11,6 +11,7 @@ export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
 export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
+export const SET_TOKEN = 'SET_TOKEN';
 
 axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
@@ -21,6 +22,12 @@ function loginAPI(loginData) {
 function* login(action) {
   try {
     const result = yield call(loginAPI, action.data); // call -> loginAPI(action.data)
+    yield put({
+      // 토큰 저장
+      type: SET_TOKEN,
+      data: result.data.token,
+    });
+    yield sessionStorage.setItem('sd', result.data.token); // 토큰 저장
     yield put({
       // put -> Action lk실행
       type: LOG_IN_SUCCESS,
@@ -66,7 +73,7 @@ function* watchRegister() {
 
 function loadUserAPI(userData) {
   if (userData.me) {
-    return axios.get('/user');
+    return axios.get('/user/profile');
   }
   return axios.get(`/user/${userData.id}`);
 }
