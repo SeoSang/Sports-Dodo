@@ -8,7 +8,6 @@ const errorHandler = require('./middlewares/error');
 const userRouter = require('./routes/user');
 const matchRouter = require('./routes/match');
 const battingRouter = require('./routes/batting');
-const resultRouter = require('./routes/result');
 // const { upcoming } = require('./api/upcoming');
 const schedule = require('node-schedule');
 
@@ -39,19 +38,13 @@ app.use(
   })
 );
 
-app.use(
-  bodyParser.urlencoded({
-    extended: false,
-  })
-);
-
+app.use(bodyParser.urlencoded({ extended: false, }));
 app.use(bodyParser.json());
 
 // api를 위한 라우터들
 app.use('/api/user', userRouter);
 app.use('/api/match', matchRouter);
 app.use('/api/batting', battingRouter);
-app.use('/api/result', resultRouter);
 
 // 미들웨어들
 app.use(helmet()); // 코드 보호
