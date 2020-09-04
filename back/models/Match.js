@@ -36,6 +36,10 @@ var MatchSchema = mongoose.Schema({
         type: String,
         enum: ['Home', 'Away', 'Draw', 'Not Finished'],
         default: 'Not Finished'
+    },
+    howManyPeopleBatted: {
+        type: Number,
+        default: 0
     }
 },
     //  {

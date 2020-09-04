@@ -62,7 +62,7 @@ exports.getMatchs = asyncHandler(async (req, res, next) => {
 	// const page = parseInt(req.query.page, 10) || 1;
 	const limit = parseInt(req.query.limit, 10) || 3;
 	const startIndex = parseInt(req.query.startindex);
-	const endIndex = startIndex + 10;
+	const endIndex = startIndex + req.query.limit;
 	const total = await Match.countDocuments(JSON.parse(queryStr));
 
 	query = query.skip(startIndex - 1).limit(limit);
@@ -76,6 +76,7 @@ exports.getMatchs = asyncHandler(async (req, res, next) => {
 	if (endIndex < total) {
 		hasNext = true;
 	}
+
 
 	res.status(200).json({
 		success: true,

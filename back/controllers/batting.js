@@ -4,6 +4,7 @@ const asyncHandler = require('../middlewares/async');
 const ErrorResponse = require('../utils/errorResponse');
 const User = require('../models/User');
 const Batting = require('../models/Batting');
+const Match = require('../models/Match');
 
 exports.createBatting = asyncHandler(async (req, res, next) => {
     const user = req.user._id;
@@ -22,6 +23,7 @@ exports.createBatting = asyncHandler(async (req, res, next) => {
     });
 
     await User.findByIdAndUpdate(req.user._id, { $inc: { point: -`${battingPoint}` } }, { new: true });
+    await Match.findByIdAndUpdate(req.params.id, { $inc: { howManyPeopleBatted: +1 } }, { new: true })
 
     return res.status(201).json({
         success: true,
@@ -110,6 +112,8 @@ exports.deleteBatting = asyncHandler(async (req, res, next) => {
 
     // +battingPoint back to UserModel
     await User.findByIdAndUpdate(batting.user, { $inc: { point: +`${batting.battingPoint}` } }, { new: true })
+    // -howManyPeopleBatted back to MatchModel
+    await Match.findByIdAndUpdate(batting.match, { $inc: { howManyPeopleBatted: -1 } }, { new: true })
 
     await Batting.deleteOne({ _id: req.params.id });
 

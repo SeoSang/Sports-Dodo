@@ -12,7 +12,7 @@ const { timeCheckerCreate, timeCheckerUpdateDelete, checkHasEnoughPointForCreate
 
 router
     .route("/")
-    .post(protect, timeCheckerCreate, checkHasEnoughPointForCreate, createBatting)   // ! timeChecker TEST CODE / 베팅포인트 체크 미들웨어 추가
+    .post(protect, timeCheckerCreate, checkHasEnoughPointForCreate, createBatting)   // ! timeChecker TEST CODE
     .get(getBattings);
 
 router

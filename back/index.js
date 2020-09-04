@@ -51,13 +51,10 @@ app.use(bodyParser.json());
 app.use('/api/user', userRouter);
 app.use('/api/match', matchRouter);
 app.use('/api/batting', battingRouter);
-<<<<<<< HEAD
-=======
 app.get('/ping', (req, res, next) => {
   console.log(req.headers);
   res.status(200).json(null);
 });
->>>>>>> upstream/master
 
 // 미들웨어들
 app.use(helmet()); // 코드 보호
