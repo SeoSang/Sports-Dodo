@@ -6,6 +6,8 @@ import { Cookies } from 'react-cookie';
 import { wrapper } from '../store';
 import { useEffect } from 'react';
 import { LOAD_USER_REQUEST } from '../sagas/user';
+import moment from 'moment';
+require('moment-timezone');
 
 const MyApp = ({ Component, pageProps }) => {
   useEffect(() => {
@@ -14,6 +16,7 @@ const MyApp = ({ Component, pageProps }) => {
       axios.defaults.headers.common['x-access-token'] = tokenValue;
       axios.defaults.headers.common['Content-Type'] = 'application/json';
     }
+    moment.tz.setDefault('Asia/Seoul');
   }, []);
 
   return (

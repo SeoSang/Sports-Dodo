@@ -34,7 +34,8 @@ function* login(action) {
       data: result.data,
     });
   } catch (e) {
-    console.error(e);
+    yield console.error(e);
+    yield alert('잘못된 아이디 혹은 비밀번호입니다!');
     yield put({
       type: LOG_IN_FAILURE,
       error: e,

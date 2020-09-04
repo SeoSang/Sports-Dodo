@@ -10,9 +10,11 @@ export const LOAD_MATCHS_SUCCESS = 'LOAD_MATCHS_SUCCESS';
 export const LOAD_MATCHS_FAILURE = 'LOAD_MATCHS_FAILURE';
 
 function loadMatchsAPI(index = -1) {
-  const limit = 10; // 받을 개수
   const nowTime = moment().format();
-  console.log('nowTime => ', nowTime);
+  if (index == -1) {
+    return axios.get(`/match?startTime[gt]=${nowTime}`);
+  }
+  const limit = 10; // 받을 개수
   return axios.get(
     `/match?startTime[gt]=${nowTime}&limit=${limit}&startindex=${index}`
   );
@@ -21,11 +23,11 @@ function loadMatchsAPI(index = -1) {
 function* loadMatchs(action) {
   try {
     const result = yield call(loadMatchsAPI, action.index);
-    yield call(console.log('@@@@@ loadMatchs result @@@@@'));
-    yield call(console.log(result));
+    // yield call(console.log('@@@@@ loadMatchs result @@@@@'));
+    // yield call(console.log(result));
     yield put({
       type: LOAD_MATCHS_SUCCESS,
-      data: result,
+      data: result.data,
     });
   } catch (e) {
     console.error(e);

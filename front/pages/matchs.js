@@ -28,9 +28,10 @@ const dummy_matchLine = {
 
 const matchs = () => {
   const state = useSelector((state) => state.match);
+  const { matchs } = useSelector((state) => state.match);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch({ type: LOAD_MATCHS_REQUEST, index: 1 });
+    dispatch({ type: LOAD_MATCHS_REQUEST });
   }, []);
   return (
     <Row
@@ -67,34 +68,17 @@ const matchs = () => {
           </Col>
         </MatchsTitleRow>
         <MatchsContentRow>
-          <Link href={{ pathname: 'match', query: { matchId: 1 } }}>
-            <a>
-              <MatchLine {...dummy_matchLine}></MatchLine>
-            </a>
-          </Link>
-          <Link href={{ pathname: 'match', query: { matchId: 1 } }}>
-            <a>
-              <MatchLine {...dummy_matchLine}></MatchLine>
-            </a>
-          </Link>
-          <Link href={{ pathname: 'match', query: { matchId: 1 } }}>
-            <a>
-              <MatchLine {...dummy_matchLine}></MatchLine>
-            </a>
-          </Link>
-          <Link href={{ pathname: 'match', query: { matchId: 1 } }}>
-            <a>
-              <MatchLine {...dummy_matchLine}></MatchLine>
-            </a>
-          </Link>
+          {matchs?.map((match) => (
+            <MatchLine {...match}></MatchLine>
+          ))}
         </MatchsContentRow>
       </Row>
     </Row>
   );
 };
 
-export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
-  store.dispatch({ type: LOAD_MATCHS_REQUEST, index: 1 });
-});
+// export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
+//   store.dispatch({ type: LOAD_MATCHS_REQUEST, index: 1 });
+// });
 
 export default matchs;
