@@ -1,6 +1,6 @@
 import { takeLatest, call, all, fork, put } from 'redux-saga/effects';
-import { BACKEND_URL } from '../src/dummy';
 import axios from 'axios';
+import { BACKEND_URL } from '.';
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';

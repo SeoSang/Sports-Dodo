@@ -7,7 +7,10 @@ import {
 import { LowerDiv, SportCategories } from '../styles/styled-components';
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { wrapper } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { LOAD_MAIN_MATCHS_REQUEST } from '../sagas/match';
+import moment from 'moment';
+import { LOAD_RANKINGS_REQUEST } from '../sagas/ranking';
 
 const FOOTBALL_TRANSLATE = '-0';
 const BASEBALL_TRANSLATE = '-33.3%';
@@ -40,10 +43,31 @@ const MessiContainer = styled.div`
   cursor: pointer;
 `;
 
+const MatchTime = styled.div`
+  // position: absolute;
+  display: inline-block;
+  bottom: 20px;
+  right: 20px;
+  padding: 3px;
+  border: 1px solid gray;
+`;
+
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(1);
   const slideRef = useRef(null);
   const messiRef = useRef(null);
+  const dispatch = useDispatch();
+  const { matchs } = useSelector((state) => state.match);
+  const { rankings } = useSelector((state) => state.ranking);
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_MAIN_MATCHS_REQUEST,
+    });
+    dispatch({
+      type: LOAD_RANKINGS_REQUEST,
+    });
+  }, []);
 
   const onClickFootball = (e) => {
     // 슬라이드 애니메이션
@@ -85,10 +109,10 @@ const Home = () => {
                   transform: `translateX(${currentSlide}`,
                 }}
               >
-                {dummy_main_matches.map((match, i) => (
+                {matchs?.map((match, i) => (
                   <Card
                     key={`${i}번째 카드`}
-                    title={dummy_main_matches.category}
+                    title={'축구'}
                     bordered={true}
                     style={{
                       margin: '3px 5px',
@@ -97,7 +121,7 @@ const Home = () => {
                     }}
                     key={`card${i}`}
                   >
-                    <h2>{`${match.teamA} VS ${match.teamB}`} </h2>
+                    <h2>{`${match.homeTeam} VS ${match.awayTeam}`} </h2>
                     <label>승 : 100p</label>
                     <Progress percent={30} size="small" />
                     <label>무 : 350p</label>
@@ -105,7 +129,20 @@ const Home = () => {
                     <label>패 : 80p</label>
                     <Progress strokeColor={'red'} percent={20} size="small" />
                     <br></br>
-                    <Button style={{ marginTop: '15px' }}>자세히 보기</Button>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        alignContent: 'center',
+                        marginTop: '15px',
+                      }}
+                    >
+                      <Button>자세히 보기</Button>
+                      <MatchTime>
+                        {moment(match.startTime).format('lll')}
+                      </MatchTime>
+                    </div>
                   </Card>
                 ))}
               </div>
@@ -124,28 +161,48 @@ const Home = () => {
         <LowerDiv>
           <h2>실시간 랭킹</h2>
           <Row>
-            {dummy_main_rankings.map((ranking, i) => {
-              return (
-                <Col span={8} key={`col__${i}`}>
-                  <List
-                    header={
-                      <img
-                        style={{
-                          width: '60px',
-                          height: '30px',
-                        }}
-                        src={IMAGE_MAPPING[ranking.category]}
-                      ></img>
-                    }
-                    bordered
-                    dataSource={ranking.rankings}
-                    renderItem={(item, i) => (
-                      <List.Item>{`${i + 1}위 - ${item}`}</List.Item>
-                    )}
-                  ></List>
-                </Col>
-              );
-            })}
+            {rankings ? (
+              <Col span={8}>
+                <List
+                  header={
+                    <img
+                      style={{
+                        width: '60px',
+                        height: '30px',
+                      }}
+                      src={IMAGE_MAPPING['축구']}
+                    ></img>
+                  }
+                  bordered
+                  dataSource={rankings}
+                  renderItem={(item, i) => (
+                    <List.Item>{`${i + 1}위 - ${item.nickname}`}</List.Item>
+                  )}
+                ></List>
+              </Col>
+            ) : (
+              <></>
+            )}
+            {dummy_main_rankings.map((ranking, index) => (
+              <Col span={8}>
+                <List
+                  header={
+                    <img
+                      style={{
+                        width: '60px',
+                        height: '30px',
+                      }}
+                      src={IMAGE_MAPPING[ranking.category]}
+                    ></img>
+                  }
+                  bordered
+                  dataSource={ranking.data}
+                  renderItem={(item, i) => (
+                    <List.Item>{`${i + 1}위 - ${item.nickname}`}</List.Item>
+                  )}
+                ></List>
+              </Col>
+            ))}
           </Row>
         </LowerDiv>
       </MainRow>

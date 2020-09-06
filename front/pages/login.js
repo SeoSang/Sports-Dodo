@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import { Cookies } from 'react-cookie';
 import { wrapper } from '../store';
 import axios from 'axios';
-import { BACKEND_URL } from '../src/dummy';
+import { BACKEND_URL } from '../sagas';
 
 const layout = {
   labelCol: { span: 7 },
