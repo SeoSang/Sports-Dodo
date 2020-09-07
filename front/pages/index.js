@@ -41,10 +41,13 @@ export const UpperCol = styled(Col)`
 `;
 
 const MessiContainer = styled.div`
-  height: 93vh;
+  display: flex;
+  align-items: center;
+  min-height: 93vh;
   overflow: hidden;
   opacity: 90%;
   cursor: pointer;
+  width: 100%;
 `;
 
 const MatchTime = styled.div`
@@ -103,7 +106,7 @@ const Home = () => {
     <>
       <Row style={{ zIndex: 20 }}>
         <MessiContainer onClick={scrollToBottom}>
-          <img style={{ minWidth: '100%' }} src="/images/messi.jpg"></img>
+          <img style={{ width: '100%' }} src="/images/messi.jpg"></img>
         </MessiContainer>
       </Row>
       <MainRow style={{ height: '100vh' }}>
