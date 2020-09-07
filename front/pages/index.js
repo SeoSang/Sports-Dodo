@@ -31,9 +31,13 @@ export const UpperCol = styled(Col)`
   padding: 3px;
   margin: 0.2vh 1vw;
   margin-top: 1vh;
-  height: 35vh;
+  height: 100%;
   background-color: #f6f5f5;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+  @media (max-width: 992px) {
+    // height: 60vh;
+  }
 `;
 
 const MessiContainer = styled.div`
@@ -50,6 +54,16 @@ const MatchTime = styled.div`
   right: 20px;
   padding: 3px;
   border: 1px solid gray;
+`;
+
+const SliderButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  @media (max-width: 992px) {
+    flex-direction: row;
+  }
 `;
 
 const Home = () => {
@@ -98,13 +112,15 @@ const Home = () => {
           justify="space-around"
           gutter={16}
         >
-          <UpperCol span={19}>
-            <div style={{ overflow: 'hidden' }}>
+          <UpperCol xs={24} lg={19}>
+            <div style={{ height: '100%', overflow: 'hidden' }}>
               <div
                 ref={slideRef}
                 style={{
                   width: '300%',
+                  height: '100%',
                   display: 'flex',
+                  alignItems: 'center',
                   transition: 'all 0.5s ease-in-out',
                   transform: `translateX(${currentSlide}`,
                 }}
@@ -117,7 +133,6 @@ const Home = () => {
                     style={{
                       margin: '3px 5px',
                       width: '11%',
-                      height: '100%',
                     }}
                     key={`card${i}`}
                   >
@@ -132,6 +147,7 @@ const Home = () => {
                     <div
                       style={{
                         display: 'flex',
+                        flexWrap: 'wrap',
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         alignContent: 'center',
@@ -148,14 +164,14 @@ const Home = () => {
               </div>
             </div>
           </UpperCol>
-          <UpperCol span={3}>
-            <Layout style={{ height: '100%' }}>
+          <UpperCol style={{ height: '100%' }} xs={24} lg={3}>
+            <SliderButtonContainer style={{ height: '100%' }}>
               <SportCategories onClick={onClickFootball}>축구</SportCategories>
               <SportCategories onClick={onClickBaseball}>야구</SportCategories>
               <SportCategories onClick={onClickBasketball}>
                 농구
               </SportCategories>
-            </Layout>
+            </SliderButtonContainer>
           </UpperCol>
         </Row>
         <LowerDiv>

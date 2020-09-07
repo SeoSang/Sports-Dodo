@@ -47,11 +47,16 @@ export const FullDiv = styled.div`
 
 // TODO : 왜 important 안쓰면 적용이 안될까?
 export const SportCategories = styled(Button)`
+  width: 100%;
+  height: 10vh !important;
   cursor: pointer;
   border-top: 2px solid;
   border-bottom: 2px solid;
   border-radius: 5px;
-  height: 10vh !important;
+  span {
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
 `;
 
 export const COLOR_1 = '#64798C';
