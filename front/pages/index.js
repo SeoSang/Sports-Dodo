@@ -193,7 +193,7 @@ const Home = () => {
                     ></img>
                   }
                   bordered
-                  dataSource={rankings}
+                  dataSource={rankings.slice(0, 5)}
                   renderItem={(item, i) => (
                     <List.Item>{`${i + 1}위 - ${item.nickname}`}</List.Item>
                   )}
@@ -215,7 +215,7 @@ const Home = () => {
                     ></img>
                   }
                   bordered
-                  dataSource={ranking.data}
+                  dataSource={ranking.data.slice(0, 5)}
                   renderItem={(item, i) => (
                     <List.Item>{`${i + 1}위 - ${item.nickname}`}</List.Item>
                   )}
