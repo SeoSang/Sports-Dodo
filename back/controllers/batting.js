@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router({ mergeParams: true });
 const asyncHandler = require('../middlewares/async');
 const ErrorResponse = require('../utils/errorResponse');
+const User = require('../models/User');
 const Batting = require('../models/Batting');
 
 exports.createBatting = asyncHandler(async (req, res, next) => {
@@ -19,6 +20,8 @@ exports.createBatting = asyncHandler(async (req, res, next) => {
         battingPoint: battingPoint,
         description: description
     });
+
+    await User.findByIdAndUpdate(req.user._id, { $inc: { point: -`${battingPoint}` } }, { new: true });
 
     return res.status(201).json({
         success: true,
@@ -104,6 +107,9 @@ exports.deleteBatting = asyncHandler(async (req, res, next) => {
             new ErrorResponse(`No Batting with the id of ${req.params.id}`, 404)
         );
     }
+
+    // +battingPoint back to UserModel
+    await User.findByIdAndUpdate(batting.user, { $inc: { point: +`${batting.battingPoint}` } }, { new: true })
 
     await Batting.deleteOne({ _id: req.params.id });
 

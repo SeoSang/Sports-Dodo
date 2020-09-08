@@ -45,6 +45,12 @@ var UserSchema = mongoose.Schema({
         ref: 'Batting'
     }
 });
+
+UserSchema.virtual('battings', {
+    ref: 'Batting',
+    localField: '_id',
+    foreignField: 'user'
+});
 ```
 <br>
 

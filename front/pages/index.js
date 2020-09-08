@@ -5,8 +5,12 @@ import {
   dummy_main_matches,
 } from '../src/dummy';
 import { LowerDiv, SportCategories } from '../styles/styled-components';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { LOAD_MAIN_MATCHS_REQUEST } from '../sagas/match';
+import moment from 'moment';
+import { LOAD_RANKINGS_REQUEST } from '../sagas/ranking';
 
 const FOOTBALL_TRANSLATE = '-0';
 const BASEBALL_TRANSLATE = '-33.3%';
@@ -27,31 +31,69 @@ export const UpperCol = styled(Col)`
   padding: 3px;
   margin: 0.2vh 1vw;
   margin-top: 1vh;
-  height: 35vh;
+  height: 100%;
   background-color: #f6f5f5;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+  @media (max-width: 992px) {
+    // height: 60vh;
+  }
 `;
 
 const MessiContainer = styled.div`
-  height: 93vh;
+  display: flex;
+  align-items: center;
+  min-height: 93vh;
   overflow: hidden;
   opacity: 90%;
   cursor: pointer;
+  width: 100%;
+`;
+
+const MatchTime = styled.div`
+  // position: absolute;
+  display: inline-block;
+  bottom: 20px;
+  right: 20px;
+  padding: 3px;
+  border: 1px solid gray;
+`;
+
+const SliderButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  @media (max-width: 992px) {
+    flex-direction: row;
+  }
 `;
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(1);
   const slideRef = useRef(null);
   const messiRef = useRef(null);
+  const dispatch = useDispatch();
+  const { matchs } = useSelector((state) => state.match);
+  const { rankings } = useSelector((state) => state.ranking);
 
-  const onClickFootball = e => {
+  useEffect(() => {
+    dispatch({
+      type: LOAD_MAIN_MATCHS_REQUEST,
+    });
+    dispatch({
+      type: LOAD_RANKINGS_REQUEST,
+    });
+  }, []);
+
+  const onClickFootball = (e) => {
     // 슬라이드 애니메이션
     setCurrentSlide(FOOTBALL_TRANSLATE);
   };
-  const onClickBaseball = e => {
+  const onClickBaseball = (e) => {
     setCurrentSlide(BASEBALL_TRANSLATE);
   };
-  const onClickBasketball = e => {
+  const onClickBasketball = (e) => {
     setCurrentSlide(BASKETBALL_TRANSLATE);
   };
 
@@ -62,10 +104,9 @@ const Home = () => {
 
   return (
     <>
-<<<<<<< HEAD
       <Row style={{ zIndex: 20 }}>
         <MessiContainer onClick={scrollToBottom}>
-          <img style={{ minWidth: '100%' }} src="/images/messi.jpg"></img>
+          <img style={{ width: '100%' }} src="/images/messi.jpg"></img>
         </MessiContainer>
       </Row>
       <MainRow style={{ height: '100vh' }}>
@@ -74,37 +115,31 @@ const Home = () => {
           justify="space-around"
           gutter={16}
         >
-          <UpperCol span={19}>
-            <div style={{ overflow: 'hidden' }}>
-=======
-      <Row style={{ textAlign: "center" }} justify="space-around" gutter={16}>
-        <UpperDiv>
-          {/* flex 가로 비율 설정 */}
-          <Col flex="1000px" span={20}>
-            <div style={{ overflow: "hidden" }}>
->>>>>>> a4654feb147117dd091c69587335f0e17afb4a98
+          <UpperCol xs={24} lg={19}>
+            <div style={{ height: '100%', overflow: 'hidden' }}>
               <div
                 ref={slideRef}
                 style={{
                   width: '300%',
+                  height: '100%',
                   display: 'flex',
+                  alignItems: 'center',
                   transition: 'all 0.5s ease-in-out',
                   transform: `translateX(${currentSlide}`,
                 }}
               >
-                {dummy_main_matches.map((match, i) => (
+                {matchs?.map((match, i) => (
                   <Card
                     key={`${i}번째 카드`}
-                    title={dummy_main_matches.category}
+                    title={'축구'}
                     bordered={true}
                     style={{
                       margin: '3px 5px',
                       width: '11%',
-                      height: '100%',
                     }}
                     key={`card${i}`}
                   >
-                    <h2>{`${match.teamA} VS ${match.teamB}`} </h2>
+                    <h2>{`${match.homeTeam} VS ${match.awayTeam}`} </h2>
                     <label>승 : 100p</label>
                     <Progress percent={30} size="small" />
                     <label>무 : 350p</label>
@@ -112,53 +147,81 @@ const Home = () => {
                     <label>패 : 80p</label>
                     <Progress strokeColor={'red'} percent={20} size="small" />
                     <br></br>
-                    <Button style={{ marginTop: '15px' }}>자세히 보기</Button>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        alignContent: 'center',
+                        marginTop: '15px',
+                      }}
+                    >
+                      <Button>자세히 보기</Button>
+                      <MatchTime>
+                        {moment(match.startTime).format('lll')}
+                      </MatchTime>
+                    </div>
                   </Card>
                 ))}
               </div>
             </div>
-<<<<<<< HEAD
           </UpperCol>
-          <UpperCol span={3}>
-            <Layout style={{ height: '100%' }}>
-=======
-          </Col>
-          <Col flex="auto" span={4} style={{ height: "100%" }}>
-            <Layout style={{ height: "100%" }}>
->>>>>>> a4654feb147117dd091c69587335f0e17afb4a98
+          <UpperCol style={{ height: '100%' }} xs={24} lg={3}>
+            <SliderButtonContainer style={{ height: '100%' }}>
               <SportCategories onClick={onClickFootball}>축구</SportCategories>
               <SportCategories onClick={onClickBaseball}>야구</SportCategories>
               <SportCategories onClick={onClickBasketball}>
                 농구
               </SportCategories>
-            </Layout>
+            </SliderButtonContainer>
           </UpperCol>
         </Row>
         <LowerDiv>
           <h2>실시간 랭킹</h2>
           <Row>
-            {dummy_main_rankings.map((ranking, i) => {
-              return (
-                <Col span={8} key={`col__${i}`}>
-                  <List
-                    header={
-                      <img
-                        style={{
-                          width: '60px',
-                          height: '30px',
-                        }}
-                        src={IMAGE_MAPPING[ranking.category]}
-                      ></img>
-                    }
-                    bordered
-                    dataSource={ranking.rankings}
-                    renderItem={(item, i) => (
-                      <List.Item>{`${i + 1}위 - ${item}`}</List.Item>
-                    )}
-                  ></List>
-                </Col>
-              );
-            })}
+            {rankings ? (
+              <Col span={8}>
+                <List
+                  header={
+                    <img
+                      style={{
+                        width: '60px',
+                        height: '30px',
+                      }}
+                      src={IMAGE_MAPPING['축구']}
+                    ></img>
+                  }
+                  bordered
+                  dataSource={rankings}
+                  renderItem={(item, i) => (
+                    <List.Item>{`${i + 1}위 - ${item.nickname}`}</List.Item>
+                  )}
+                ></List>
+              </Col>
+            ) : (
+              <></>
+            )}
+            {dummy_main_rankings.map((ranking, index) => (
+              <Col span={8}>
+                <List
+                  header={
+                    <img
+                      style={{
+                        width: '60px',
+                        height: '30px',
+                      }}
+                      src={IMAGE_MAPPING[ranking.category]}
+                    ></img>
+                  }
+                  bordered
+                  dataSource={ranking.data}
+                  renderItem={(item, i) => (
+                    <List.Item>{`${i + 1}위 - ${item.nickname}`}</List.Item>
+                  )}
+                ></List>
+              </Col>
+            ))}
           </Row>
         </LowerDiv>
       </MainRow>

@@ -152,7 +152,8 @@ exports.myProfile = asyncHandler(async (req, res, next) => {
     const battings = await Batting.find({ "user": req.user._id })
 
     let users = await User.find({}).sort({ point: -1 }).select("point");
-    let rank = users.findIndex(i => i._id == req.user.id) + 1;
+
+    let rank = users.findIndex(i => i._id == `${req.user._id}`) + 1;
 
     req.user.battings = battings;
 

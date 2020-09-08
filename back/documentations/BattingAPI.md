@@ -15,17 +15,13 @@ var BattingSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    userNickname: {  // 논의 필요.
-        type: String,
-        required: true
-    },
     match: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     chooseHomeAwayDraw: {
         type: String,
-        enum: [Home, Away, Draw], 
+        enum: ['Home', 'Away', 'Draw'],
         required: true
     },
     battingPoint: {
@@ -39,6 +35,16 @@ var BattingSchema = mongoose.Schema({
     description: {
         type: String,
     },
+    matchResult: {
+        type: String,
+        enum: ['Home', 'Away', 'Draw', 'Not Finished'],
+        default: 'Not Finished'
+    },
+    battingResult: {
+        type: String,
+        enum: ['Collect', 'Wrong', 'Not Finished'],
+        default: 'Not Finished'
+    }
 });
 ```
 <br>

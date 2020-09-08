@@ -24,17 +24,17 @@ var MatchSchema = mongoose.Schema({
         enum: ['Not Started', 'Match Finished'],
         default: 'Not Started'
     },
-    goalsHomeTeam: {
+    goalsHomeTeam: { // homeTeamScore 변경
         type: Number,
         default: 0
     },
-    goalsAwayTeam: {
+    goalsAwayTeam: { // awayTeamScore 변경
         type: Number,
         default: 0
     },
     result: {
         type: String,
-        enum: ['HomeWin', 'AwayWin', 'Draw', 'Not Finished'],
+        enum: ['Home', 'Away', 'Draw', 'Not Finished'],
         default: 'Not Finished'
     }
 },
@@ -57,12 +57,6 @@ MatchSchema.pre('save', async function (next) {
 //     localField: '_id',
 //     foreignField: 'match'
 // });
-
-// MatchSchema.virtual('result', {
-//     ref: 'Result',
-//     localField: '_id',
-//     foreignField: 'match'
-// })
 
 
 module.exports = mongoose.model('Match', MatchSchema);

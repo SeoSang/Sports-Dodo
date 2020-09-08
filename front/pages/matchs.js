@@ -5,6 +5,7 @@ import MatchLine from '../components/MatchLine';
 import { useSelector, useDispatch } from 'react-redux';
 import { LOAD_MATCHS_REQUEST } from '../sagas/match';
 import { wrapper } from '../store';
+import Link from 'next/link';
 
 const MatchsTitleRow = styled(Row)`
   background-color: #b6dbf2;
@@ -26,10 +27,11 @@ const dummy_matchLine = {
 };
 
 const matchs = () => {
-  const state = useSelector(state => state.match);
+  const state = useSelector((state) => state.match);
+  const { matchs } = useSelector((state) => state.match);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch({ type: LOAD_MATCHS_REQUEST, index: 1 });
+    dispatch({ type: LOAD_MATCHS_REQUEST });
   }, []);
   return (
     <Row
@@ -39,7 +41,6 @@ const matchs = () => {
       <Row>
         <h1>매치 보기</h1>
       </Row>
-
       <Row
         style={{
           boxShadow:
@@ -67,18 +68,17 @@ const matchs = () => {
           </Col>
         </MatchsTitleRow>
         <MatchsContentRow>
-          <MatchLine {...dummy_matchLine}></MatchLine>
-          <MatchLine {...dummy_matchLine}></MatchLine>
-          <MatchLine {...dummy_matchLine}></MatchLine>
-          <MatchLine {...dummy_matchLine}></MatchLine>
+          {matchs?.map((match) => (
+            <MatchLine {...match}></MatchLine>
+          ))}
         </MatchsContentRow>
       </Row>
     </Row>
   );
 };
 
-export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
-  store.dispatch({ type: LOAD_MATCHS_REQUEST, index: 1 });
-});
+// export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
+//   store.dispatch({ type: LOAD_MATCHS_REQUEST, index: 1 });
+// });
 
 export default matchs;

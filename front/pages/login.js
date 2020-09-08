@@ -6,6 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LOG_IN_REQUEST } from '../sagas/user';
 import { useRouter } from 'next/dist/client/router';
 import { useEffect } from 'react';
+import { Cookies } from 'react-cookie';
+import { wrapper } from '../store';
+import axios from 'axios';
+import { BACKEND_URL } from '../sagas';
 
 const layout = {
   labelCol: { span: 7 },
@@ -22,27 +26,36 @@ const loginFormStyle = {
   transform: 'translate(0%,-80%)',
 };
 
+const cookie = new Cookies();
+
 const login = () => {
-  const { isLoginSuccess, isLoggingIn } = useSelector(state => state.user);
+  const { isLoginSuccess, isLoggingIn, token } = useSelector(
+    (state) => state.user
+  );
   const dispatch = useDispatch();
   const router = useRouter();
 
   useEffect(() => {
     if (isLoginSuccess) {
+      cookie.set('sd', token);
       alert('로그인에 성공하였습니다!');
       router.push('/');
     }
-  }, [isLoginSuccess, isLoggingIn]);
+  }, [isLoginSuccess, isLoggingIn, token]);
 
-  const onFinish = values => {
+  const onFinish = (values) => {
     dispatch({ type: LOG_IN_REQUEST, data: values });
-    console.log(values);
   };
-  const onFinishFailed = values => {
-    console.log(values);
+  const onFinishFailed = (values) => {};
+
+  const onClickTest = async () => {
+    const result = await axios.get(`${BACKEND_URL}/ping`);
+    console.log(result);
   };
+
   return (
     <FullDiv style={{ marginTop: '5vh' }}>
+      <Button onClick={onClickTest}>핑 테스트</Button>
       <Form
         {...layout}
         style={loginFormStyle}
@@ -107,5 +120,9 @@ const login = () => {
     </FullDiv>
   );
 };
+
+export const getStaticProps = wrapper.getStaticProps(async (context) => {
+  console.log(context);
+});
 
 export default login;

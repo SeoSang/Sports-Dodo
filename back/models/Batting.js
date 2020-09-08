@@ -25,9 +25,14 @@ var BattingSchema = mongoose.Schema({
     description: {
         type: String,
     },
-    result: {
+    matchResult: {
         type: String,
         enum: ['Home', 'Away', 'Draw', 'Not Finished'],
+        default: 'Not Finished'
+    },
+    battingResult: {
+        type: String,
+        enum: ['Collect', 'Wrong', 'Not Finished'],
         default: 'Not Finished'
     }
     // 인덱스 넣어주면 성능이 올라갈 듯함.

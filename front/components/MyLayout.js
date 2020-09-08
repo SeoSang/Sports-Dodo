@@ -40,7 +40,7 @@ const MenuButton = styled.a`
   }
 `;
 
-const MyProfile = me => (
+const MyProfile = (me) => (
   <div>
     <h2>{me?.email}</h2>
     <h3>{me?.nickname + '님'}</h3>
@@ -75,12 +75,11 @@ const NullProfile = (
 );
 
 const MyLayout = ({ children }) => {
-  const { me } = useSelector(state => state.user);
+  const { me } = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
   const toggleCollapsed = () => {
     setVisible(!visible);
   };
-  console.log(me);
 
   return (
     <>
@@ -122,12 +121,6 @@ const MyLayout = ({ children }) => {
       <Background90Div style={{ textAlign: 'center' }}>
         <ContentDiv>{children}</ContentDiv>
       </Background90Div>
-<<<<<<< HEAD
-=======
-      <Layout.Footer className="footer">
-        프로젝트 이름 ©2020 Created by ~~~
-      </Layout.Footer>
->>>>>>> a4654feb147117dd091c69587335f0e17afb4a98
     </>
   );
 };

@@ -1,15 +1,15 @@
 import { takeLatest, call, all, fork, put } from 'redux-saga/effects';
-import { BACKEND_URL } from '../src/dummy';
 import axios from 'axios';
-
-axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
 export const LOAD_RANKINGS_REQUEST = 'LOAD_RANKINGS_REQUEST';
 export const LOAD_RANKINGS_SUCCESS = 'LOAD_RANKINGS_SUCCESS';
 export const LOAD_RANKINGS_FAILURE = 'LOAD_RANKINGS_FAILURE';
 
+const BACKEND_URL = 'http://localhost:1337';
+axios.defaults.baseURL = `${BACKEND_URL}/api`;
+
 function loadRankingsAPI() {
-  return axios.get(`/rankings`);
+  return axios.get(`/user`);
 }
 
 function* loadRankings(action) {

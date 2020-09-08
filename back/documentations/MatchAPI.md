@@ -19,16 +19,34 @@ var MatchSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    result: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Result'
-    },
     startTime: {
-        type: Date,
+        type: String,
         required: true
     },
-    // info 는 더 논의해봐야할듯함.
-    // infos: 
+    finishTime: {
+        type: String,
+    },
+    idForFAPI: {
+        type: Number
+    },
+    status: {
+        type: String,
+        enum: ['Not Started', 'Match Finished'],
+        default: 'Not Started'
+    },
+    goalsHomeTeam: { // homeTeamScore 변경
+        type: Number,
+        default: 0
+    },
+    goalsAwayTeam: { // awayTeamScore 변경
+        type: Number,
+        default: 0
+    },
+    result: {
+        type: String,
+        enum: ['Home', 'Away', 'Draw', 'Not Finished'],
+        default: 'Not Finished'
+    }
 });
 ```
 
