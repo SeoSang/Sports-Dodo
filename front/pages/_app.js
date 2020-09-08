@@ -7,9 +7,14 @@ import { wrapper } from '../store';
 import { useEffect } from 'react';
 import { LOAD_USER_REQUEST } from '../sagas/user';
 import moment from 'moment';
+import { LOAD_MAIN_MATCHS_REQUEST } from '../sagas/match';
+import { useDispatch, useSelector } from 'react-redux';
 require('moment-timezone');
 
 const MyApp = ({ Component, pageProps }) => {
+  const dispatch = useDispatch();
+  const { me } = useSelector((state) => state.user);
+
   useEffect(() => {
     const tokenValue = sessionStorage.getItem('sd');
     if (tokenValue) {
@@ -17,6 +22,14 @@ const MyApp = ({ Component, pageProps }) => {
       axios.defaults.headers.common['Content-Type'] = 'application/json';
     }
     moment.tz.setDefault('Asia/Seoul');
+    if (!me) {
+      dispatch({
+        type: LOAD_USER_REQUEST,
+        data: {
+          me: true,
+        },
+      });
+    }
   }, []);
 
   return (
@@ -46,7 +59,7 @@ const MyApp = ({ Component, pageProps }) => {
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
         />
       </Head>
-      <MyLayout>
+      <MyLayout me={me}>
         <Component {...pageProps} />
       </MyLayout>
     </>

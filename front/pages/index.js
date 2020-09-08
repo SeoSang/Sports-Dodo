@@ -79,10 +79,10 @@ const Home = () => {
 
   useEffect(() => {
     dispatch({
-      type: LOAD_MAIN_MATCHS_REQUEST,
+      type: LOAD_RANKINGS_REQUEST,
     });
     dispatch({
-      type: LOAD_RANKINGS_REQUEST,
+      type: LOAD_MAIN_MATCHS_REQUEST,
     });
   }, []);
 
