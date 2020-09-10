@@ -20,6 +20,7 @@ import {
   LowerDiv,
   SportCategories,
 } from '../styles/styled-components';
+import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
 const TestRow = styled(Row)`
@@ -32,13 +33,11 @@ const match = () => {
   const router = useRouter();
   const matchid = router.query.matchid;
 
-  const { me, token } = useSelector((state) => state.user);
+  const { me } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   // 소유한 포인트에서 배팅한 포인트를 차감하여 리덕스를 사용해야하나?
 
-  // console.log(me);
-  console.log(token);
-  const point = me.point;
+  const point = me ? me.point : 0;
 
   const url = `http://localhost:1337/api/match/` + matchid;
   const url2 = url + `/batting`;
@@ -74,14 +73,14 @@ const match = () => {
 
   // console.log(matchs);
 
-  if (loading) return <div>로딩중..</div>;
+  if (loading) return <SyncOutlined spin style={{ fontSize: '100px' }} />;
   if (error) return <div>에러가 발생했습니다</div>;
   if (!matchs) return null;
 
   const homeTeam = matchs.homeTeam;
-  // console.log(homeTeam);
   const awayTeam = matchs.awayTeam;
   const startTime = moment(matchs.startTime).format('MM.DD HH:MM');
+  const finishTime = moment(matchs.finishTime).format('MM.DD HH:MM');
   const goalsHomeTeam = matchs.goalsHomeTeam;
   const goalsAwayTeam = matchs.goalsAwayTeam;
   //골을 useState를 써야하나?
@@ -121,13 +120,14 @@ const match = () => {
         battingPoint: battingpoint,
       },
       headers: {
-        'content-type': 'application/json',
-        // "Access-Control-Allow-Origin": "*",
-        'x-access-token': token,
+        // 'content-type': 'application/json',
+        // // "Access-Control-Allow-Origin": "*",
+        // 'x-access-token': token,
       },
     })
       .then((res) => {
         console.log(res);
+        router.push('/matchings');
       })
       .catch((err) => {
         console.log(err);
@@ -163,6 +163,9 @@ const match = () => {
               </Row>
               <Row>
                 <h4>{startTime}</h4>
+              </Row>
+              <Row>
+                <h4>{finishTime}</h4>
               </Row>
             </Col>
             <Col span={10}>

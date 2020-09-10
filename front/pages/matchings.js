@@ -10,7 +10,8 @@ import { LOG_IN_REQUEST } from '../sagas/user';
 
 import { Table, Tag, Space } from 'antd';
 
-import { AlignCenterOutlined } from '@ant-design/icons';
+import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
+import SizeContext from 'antd/lib/config-provider/SizeContext';
 const { Column, ColumnGroup } = Table;
 
 // 가까운 시간순서
@@ -18,6 +19,70 @@ const { Column, ColumnGroup } = Table;
 const url = 'http://localhost:1337/api/match?limit=100';
 //const matchings = () =>{}
 function matchings() {
+  const columns = [
+    {
+      title: 'key',
+      dataIndex: 'key',
+      key: 'key',
+      align: 'center',
+      width: 100,
+    },
+    {
+      title: 'homeTeam',
+      dataIndex: 'homeTeam',
+      key: 'kehomeTeamy',
+      align: 'center',
+    },
+    {
+      title: 'awayTeam',
+      dataIndex: 'awayTeam',
+      key: 'awayTeam',
+      align: 'center',
+    },
+    {
+      title: 'startTime',
+      dataIndex: 'startTime',
+      key: 'startTime',
+      align: 'center',
+      // sorter: (a, b) => a.startTime - b.startTime,
+    },
+    {
+      title: 'finishTime',
+      dataIndex: 'finishTime',
+      key: 'finishTime',
+      align: 'center',
+    },
+    {
+      title: '배팅인원',
+      dataIndex: 'numOfbatting',
+      key: 'numOfbatting',
+      align: 'center',
+      // sorter: (a, b) => a.numOfbatting - b.numOfbatting,
+    },
+    // {
+    //   title: "배팅인원",
+    //   dataIndex: "numOfbatting",
+    //   key: "numOfbatting",
+    //   align: "center",
+    // },
+    {
+      title: '배팅',
+      dataIndex: '_id',
+      key: '_id',
+      align: 'center',
+      render: (_id) => (
+        <Link href={{ pathname: 'match', query: { matchid: _id } }}>
+          <a>배팅하기</a>
+        </Link>
+      ),
+    },
+  ];
+
+  // const test_data = [
+  //   { key: '1', homeTeam: 'adf', awayTeam: 32, startTime: 'asdfasdf' },
+  //   { key: '2', homeTeam: 'adf', awayTeam: 32, startTime: 'asdfasdf' },
+  // ];
+
   const { me } = useSelector((state) => state.user);
   // const my = me;
   // console.log(me.point);
@@ -52,18 +117,29 @@ function matchings() {
     fetchMatchs();
   }, []);
 
-  if (loading) return <div>로딩중..</div>;
-  if (error) return <div>에러가 발생했습니다</div>;
+  if (loading) return <SyncOutlined spin style={{ fontSize: '100px' }} />;
+  if (error)
+    return (
+      <div>
+        <div>에러가 발생했습니다</div>
+        <div>
+          <Table columns={columns} />
+        </div>
+      </div>
+    );
   if (!matchs) return null;
 
   const data = [];
+  // myArray.slice(0).reverse().map
   for (let i = 0; i < matchs.length; i++) {
     data.push({
       key: i + 1,
       ...matchs[i],
       startTime: moment(matchs[i].startTime).format('MM.DD HH:MM'),
+      finishTime: moment(matchs[i].finishTime).format('MM.DD HH:MM'),
     });
   }
+
   // const time_moment = moment(timetest).startOf("hour").fromNow(); // 남은시간 체크
   // const time_moment2 = moment(timetest).format("MM.DD HH:MM"); // 08.11 21시 08분 포맺
 
@@ -74,71 +150,6 @@ function matchings() {
   //   console.log(data[0]._id);
   // }
 
-  const columns = [
-    // {
-    //   title: "matchid",
-    //   dataIndex: "_id",
-    //   key: "_id",
-    //   align: "center",
-    // },
-    {
-      title: 'key',
-      dataIndex: 'key',
-      key: 'key',
-      align: 'center',
-      width: 100,
-    },
-    {
-      title: 'homeTeam',
-      dataIndex: 'homeTeam',
-      key: 'kehomeTeamy',
-      align: 'center',
-    },
-    {
-      title: 'awayTeam',
-      dataIndex: 'awayTeam',
-      key: 'awayTeam',
-      align: 'center',
-    },
-    {
-      title: 'startTime',
-      dataIndex: 'startTime',
-      key: 'startTime',
-      align: 'center',
-      // sorter: (a, b) => a.startTime - b.startTime,
-    },
-    {
-      title: '남은 시간',
-      dataIndex: 'time',
-      key: 'time',
-      align: 'center',
-    },
-    {
-      title: '배팅인원',
-      dataIndex: 'numOfbatting',
-      key: 'numOfbatting',
-      align: 'center',
-      sorter: (a, b) => a.numOfbatting - b.numOfbatting,
-    },
-    // {
-    //   title: "배팅인원",
-    //   dataIndex: "numOfbatting",
-    //   key: "numOfbatting",
-    //   align: "center",
-    // },
-    {
-      title: '배팅',
-      dataIndex: '_id',
-      key: '_id',
-      align: 'center',
-      render: (text) => (
-        <Link href={{ pathname: 'match', query: { matchid: text } }}>
-          <a>배팅하기</a>
-        </Link>
-      ),
-    },
-  ];
-
   return (
     <div
       style={{
@@ -147,7 +158,7 @@ function matchings() {
         paddingTop: 100,
       }}
     >
-      <Table columns={columns} dataSource={data} bordered />
+      <Table columns={columns} dataSource={data.slice(0).reverse()} bordered />
     </div>
   );
 }
