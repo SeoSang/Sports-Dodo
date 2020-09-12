@@ -5,9 +5,15 @@ var MatchSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    homeTeamLogoUrl: {
+        type: String,
+    },
     awayTeam: {
         type: String,
         required: true
+    },
+    awayTeamLogoUrl: {
+        type: String,
     },
     startTime: {
         type: String,
