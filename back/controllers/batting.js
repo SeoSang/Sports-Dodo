@@ -62,6 +62,16 @@ exports.getBattings = asyncHandler(async (req, res, next) => {
     })
 })
 
+
+// getmybattings
+exports.getMyBattings = asyncHandler(async (req, res, next) => {
+    const collectBattings = await Batting.find({ user: req.user._id }, { battingResult: 'Collect' });
+    const wrongBattings = await Batting.find({ user: req.user._id }, { battingResult: 'Wrong' });
+    const notFinishedBattings = await Batting.find({ user: req.user._id }, { battingResult: 'Not Finished' });
+
+
+})
+
 exports.getBatting = asyncHandler(async (req, res, next) => {
     const batting = await Batting.findById(req.params.id);
 
