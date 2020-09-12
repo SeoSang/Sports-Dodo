@@ -44,7 +44,7 @@ app.use(
   })
 );
 
-app.use(bodyParser.urlencoded({ extended: false, }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // api를 위한 라우터들

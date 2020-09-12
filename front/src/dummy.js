@@ -42,18 +42,26 @@ export const dummy_ranking_A = {
 };
 export const dummy_ranking_B = {
   category: '야구',
-  rankings: ['김현수', '야구의왕', '내이름', '은바로', '김상순'],
+  data: [
+    { nickname: '김현수' },
+    { nickname: '김광현' },
+    { nickname: '마동석' },
+    { nickname: '홀라러' },
+    { nickname: '류현진' },
+  ],
 };
 export const dummy_ranking_C = {
   category: '농구',
-  rankings: ['마이클', '조던', '서장훈', '김홍길', '동임꺽'],
+  data: [
+    { nickname: '김치국' },
+    { nickname: '조던' },
+    { nickname: '샤킬오닐' },
+    { nickname: '서장훈' },
+    { nickname: '김치2' },
+  ],
 };
 
-export const dummy_main_rankings = [
-  dummy_ranking_A,
-  dummy_ranking_B,
-  dummy_ranking_C,
-];
+export const dummy_main_rankings = [dummy_ranking_B, dummy_ranking_C];
 
 export const dummy_profile = {
   id: 'asd',
@@ -91,5 +99,3 @@ export const dummy_profile = {
     },
   ],
 };
-
-export const BACKEND_URL = 'http://localhost:1337';

@@ -1,6 +1,6 @@
 import { takeLatest, call, all, fork, put } from 'redux-saga/effects';
-import { BACKEND_URL } from '../src/dummy';
 import axios from 'axios';
+import { BACKEND_URL } from '.';
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
@@ -34,7 +34,8 @@ function* login(action) {
       data: result.data,
     });
   } catch (e) {
-    console.error(e);
+    yield console.error(e);
+    yield alert('잘못된 아이디 혹은 비밀번호입니다!');
     yield put({
       type: LOG_IN_FAILURE,
       error: e,
