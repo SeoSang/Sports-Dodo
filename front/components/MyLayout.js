@@ -6,7 +6,7 @@ import Avatar from 'antd/lib/avatar/avatar';
 import { Background90Div } from '../styles/styled-components';
 import MainMenu from './MainMenu';
 import login from '../pages/login';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import Link from 'next/link';
 import { ContentDiv, TitleBarDiv } from '../styles/styled-components';
 import styled from 'styled-components';
@@ -74,7 +74,7 @@ const NullProfile = (
     </div>
   </div>
 );
-// const TestProfile = (
+// const TestProfile = (me) => (
 //   <div>
 //     <h2>로그인이</h2>
 //     <h2>필요합니다</h2>
@@ -119,7 +119,8 @@ const NullProfile = (
 // const onFinishFailed = (values) => {};
 
 const MyLayout = ({ children }) => {
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector((state) => state.user, shallowEqual);
+  // shallowEqual << 내 정보 새로고침 왜 안돼?
   const [visible, setVisible] = useState(false);
   const toggleCollapsed = () => {
     setVisible(!visible);

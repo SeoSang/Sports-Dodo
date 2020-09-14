@@ -54,8 +54,8 @@ function matchings() {
     },
     {
       title: '배팅인원',
-      dataIndex: 'numOfbatting',
-      key: 'numOfbatting',
+      dataIndex: 'howManyPeopleBatted',
+      key: 'howManyPeopleBatted',
       align: 'center',
       // sorter: (a, b) => a.numOfbatting - b.numOfbatting,
     },
@@ -84,18 +84,10 @@ function matchings() {
   // ];
 
   const { me } = useSelector((state) => state.user);
-  // const my = me;
-  // console.log(me.point);
-  // console.log(my.email);
-  // console.log(my.point);
 
   const [matchs, setMatchs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  // React.Component.state = {
-  //   bordered: true,
-  //   size: 'default',
-  // };
 
   useEffect(() => {
     const fetchMatchs = async () => {
