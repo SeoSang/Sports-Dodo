@@ -22,7 +22,7 @@ const reducer = (state = initialState, action) => {
       case LOAD_RANKINGS_SUCCESS:
         draft.isLoadingRankings = false;
         draft.isLoadedRankings = true;
-        draft.rankings = action.data;
+        draft.rankings = action.data.data;
         break;
       case LOAD_RANKINGS_FAILURE:
         draft.isLoadingRankings = false;

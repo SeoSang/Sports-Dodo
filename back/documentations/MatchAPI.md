@@ -19,16 +19,34 @@ var MatchSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    result: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Result'
-    },
     startTime: {
-        type: Date,
+        type: String,
         required: true
     },
-    // info 는 더 논의해봐야할듯함.
-    // infos: 
+    finishTime: {
+        type: String,
+    },
+    idForFAPI: {
+        type: Number
+    },
+    status: {
+        type: String,
+        enum: ['Not Started', 'Match Finished'],
+        default: 'Not Started'
+    },
+    goalsHomeTeam: { // homeTeamScore 변경
+        type: Number,
+        default: 0
+    },
+    goalsAwayTeam: { // awayTeamScore 변경
+        type: Number,
+        default: 0
+    },
+    result: {
+        type: String,
+        enum: ['Home', 'Away', 'Draw', 'Not Finished'],
+        default: 'Not Finished'
+    }
 });
 ```
 
@@ -47,22 +65,25 @@ header: {
 body: {
     "homeTeam": "LA",
     "awayTeam": "Taxas",
-    "startTime": "06:23:24/09/12/2020"
+    "startTime": "2020-09-12T07:30:00+00:00"
 }
 ```
 
 __Response__
 ```
 {
-    "success": true,
-    "data": {
-        "_id": "sdhflkjkle35dklfsjdflk22dshfkl",
-        "homeTeam": "LA",
-        "awayTeam": "Taxas",
-        "startTime": "06:23:24/09/12/2020",
-        "result": ""
-    }
-}
+            "status": "Not Started",
+            "goalsHomeTeam": 0,
+            "goalsAwayTeam": 0,
+            "result": "Not Finished",
+            "_id": "5f4a3e2c60d7215bd4bd330f",
+            "homeTeam": "LA",
+            "awayTeam": "Taxas",
+            "startTime": "2020-09-12T07:30:00+00:00",
+            "idForFAPI": 490814,
+            "finishTime": "2020-09-12T09:20:00.000Z",
+            "__v": 0
+        },
 ```
 
 <br>
@@ -108,26 +129,32 @@ __Response__
     "hasNext": true,                //state 저장 !
     "data": [
     {
-        "_id": "dsfhewikotiewjoir22bsdfnlewnf",
-        "homeTeam": "Chicago",
-        "awayTeam": "SA",
-        "startTime": "06:10:24/09/12/2020",
-        "result": ""
-    },
-    {
-        "_id": "sdhflkjkle35dklfsjdflk22dshfkl",
+        "status": "Not Started",
+        "goalsHomeTeam": 0,
+        "goalsAwayTeam": 0,
+        "result": "Not Finished",
+        "_id": "5f4cba9637b25e16105a6b5a",
         "homeTeam": "LA",
         "awayTeam": "Taxas",
-        "startTime": "06:20:22/10/12/2020",
-        "result": ""
+        "startTime": "2020-08-31T18:05:00+00:00",
+        "finishTime": "2020-08-31T19:55:00.000Z",
+        "howManyPeopleBatted: 1,
+        "__v": 0
     },
     {
-        "_id": "sdhflkjkle35dklfsjdflk22dshfkl",
-        "homeTeam": "LA",
-        "awayTeam": "Taxas",
-        "startTime": "06:20:23/10/12/2020",
-        "result": ""
-    }]
+        "status": "Not Started",
+        "goalsHomeTeam": 0,
+        "goalsAwayTeam": 0,
+        "result": "Not Finished",
+        "_id": "5f4a3e2c60d7215bd4bd330e",
+        "homeTeam": "Gangwon FC",
+        "awayTeam": "Pohang Steelers",
+        "startTime": "2020-09-12T07:30:00+00:00",
+        "idForFAPI": 490813,
+        "finishTime": "2020-09-12T09:20:00.000Z",
+        "howManyPeopleBatted: 1,
+        "__v": 0
+    },]
 }
 ```
 
@@ -148,11 +175,17 @@ __Response__
 {
     "success": true,
     "data": {
-        "_id": "sdhflkjkle35dklfsjdflk22dshfkl",
+        "status": "Not Started",
+        "goalsHomeTeam": 0,
+        "goalsAwayTeam": 0,
+        "result": "Not Finished",
+        "_id": "5f4cba9637b25e16105a6b5a",
         "homeTeam": "LA",
         "awayTeam": "Taxas",
-        "startTime": "06:23:24/09/12/2020",
-        "result": ""
+        "startTime": "2020-08-31T18:05:00+00:00",
+        "finishTime": "2020-08-31T19:55:00.000Z",
+        "howManyPeopleBatted: 1,
+        "__v": 0
     }
 }
 ```
@@ -168,7 +201,7 @@ header: {
     "x-access-token": "token value" 
 }
 body: {
-    "startTime": "12:21:20/01/01/20"
+    "startTime": "2020-08-31T18:05:00+00:00"
 }
 ```
 
@@ -177,11 +210,17 @@ __Response__
 {
     "success": true,
     "data": {
-        "_id": "sdhflkjkle35dklfsjdflk22dshfkl",
+        "status": "Not Started",
+        "goalsHomeTeam": 0,
+        "goalsAwayTeam": 0,
+        "result": "Not Finished",
+        "_id": "5f4cba9637b25e16105a6b5a",
         "homeTeam": "LA",
         "awayTeam": "Taxas",
-        "startTime": "12:21:20/01/01/20",
-        "result": ""
+        "startTime": "2020-08-31T18:05:00+00:00",   // changed
+        "finishTime": "2020-08-31T19:55:00.000Z",
+        "howManyPeopleBatted: 1,
+        "__v": 0
     }
 }
 ```

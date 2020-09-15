@@ -64,13 +64,13 @@ describe("login for tests", () => {
         let testMatch1 = {
             homeTeam: "LA",
             awayTeam: "Sanantonio",
-            startTime: "12:00"
+            startTime: "2020-01-01T10:20:00.000Z"
         }
 
         let testMatch2 = {
             homeTeam: "Clipers",
             awayTeam: "Sanantonio",
-            startTime: "14:00"
+            startTime: "2020-01-03T14:20:00.000Z"
         }
 
         let testMatch1Created = await Match.create(testMatch1);
@@ -91,12 +91,12 @@ describe("login for tests", () => {
         let newMatchInput = {
             homeTeam: "LA",
             awayTeam: "Dallas",
-            startTime: "12:00" // 타입 정해지면 바꾸셔요.
+            startTime: "2020-01-01T14:20:00.000Z"
         }
 
         let noAwayTeamMatchInput = { // awayTeam 없는 데이터.
             homeTeam: "LA",
-            startTime: "14:00" // 타입 정해지면 바꾸셔요.
+            startTime: "2020-01-01T17:10:00.000Z" // 타입 정해지면 바꾸셔요.
         }
 
         it("[Success] make new match", async () => {
@@ -107,8 +107,8 @@ describe("login for tests", () => {
             expect(res.status).to.be.equal(201);
             expect(res.body.data.homeTeam).to.be.equal("LA");
             expect(res.body.data.awayTeam).to.be.equal("Dallas");
-            expect(res.body.data.startTime).to.be.equal("12:00");
-            expect(res.body.data.result).to.be.equal(undefined);
+            expect(res.body.data.startTime).to.be.equal("2020-01-01T14:20:00.000Z");
+            expect(res.body.data.result).to.be.equal('Not Finished');
         });
 
         it("[Fail] wrong data inputed", async () => {

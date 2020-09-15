@@ -3,5 +3,9 @@
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
   "/": "pages/index.js",
+<<<<<<< HEAD
   "/next/dist/pages/_error": "pages/next/dist/pages/_error.js"
+=======
+  "/rankings": "pages/rankings.js"
+>>>>>>> c3fe27469b7136f141f83ae46e427a2543058698
 }

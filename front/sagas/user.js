@@ -1,6 +1,6 @@
 import { takeLatest, call, all, fork, put } from 'redux-saga/effects';
-import { BACKEND_URL } from '../src/dummy';
 import axios from 'axios';
+import { BACKEND_URL } from '.';
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
@@ -11,6 +11,7 @@ export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
 export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
+export const SET_TOKEN = 'SET_TOKEN';
 
 axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
@@ -22,12 +23,19 @@ function* login(action) {
   try {
     const result = yield call(loginAPI, action.data); // call -> loginAPI(action.data)
     yield put({
+      // 토큰 저장
+      type: SET_TOKEN,
+      data: result.data.token,
+    });
+    yield sessionStorage.setItem('sd', result.data.token); // 토큰 저장
+    yield put({
       // put -> Action lk실행
       type: LOG_IN_SUCCESS,
       data: result.data,
     });
   } catch (e) {
-    console.error(e);
+    yield console.error(e);
+    yield alert('잘못된 아이디 혹은 비밀번호입니다!');
     yield put({
       type: LOG_IN_FAILURE,
       error: e,
@@ -66,7 +74,7 @@ function* watchRegister() {
 
 function loadUserAPI(userData) {
   if (userData.me) {
-    return axios.get('/user');
+    return axios.get('/user/profile');
   }
   return axios.get(`/user/${userData.id}`);
 }
