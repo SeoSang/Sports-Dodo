@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col, Avatar } from 'antd';
 import { wrapper } from '../store';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { LOAD_USER_REQUEST } from '../sagas/user';
+import { useRouter } from 'next/dist/client/router';
 
 const profileCardStye = {
   backgroundColor: '#c8d6e5',
@@ -20,6 +21,13 @@ const BattingsCard = styled.div`
 
 const profile = () => {
   const { me } = useSelector(state => state.user);
+  const router = useRouter();
+  useEffect(() => {
+    if (!me) {
+      alert('로그인이 필요합니다!');
+      router.push('/');
+    }
+  }, [me]);
   return (
     <>
       <Row style={{ marginBottom: '20px' }}>
