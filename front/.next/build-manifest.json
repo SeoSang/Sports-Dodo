@@ -29,17 +29,10 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-<<<<<<< HEAD
-    "/next/dist/pages/_error": [
+    "/login": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/next/dist/pages/_error.js"
-=======
-    "/rankings": [
-      "static/chunks/main.js",
-      "static/chunks/webpack.js",
-      "static/chunks/pages/rankings.js"
->>>>>>> c3fe27469b7136f141f83ae46e427a2543058698
+      "static/chunks/pages/login.js"
     ]
   },
   "ampFirstPages": []
