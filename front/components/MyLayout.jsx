@@ -1,11 +1,12 @@
 import React from 'react';
-import { Drawer, Button, Row, Menu, Col, Popover } from 'antd';
+import { Drawer, Button, Row, Menu, Col, Popover, Form, Input } from 'antd';
 import { useState } from 'react';
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar/avatar';
 import { Background90Div } from '../styles/styled-components';
 import MainMenu from './MainMenu';
-import { useSelector } from 'react-redux';
+import login from '../pages/login';
+import { useSelector, shallowEqual } from 'react-redux';
 import Link from 'next/link';
 import { ContentDiv, TitleBarDiv } from '../styles/styled-components';
 import styled from 'styled-components';
@@ -73,6 +74,49 @@ const NullProfile = (
     </div>
   </div>
 );
+// const TestProfile = (me) => (
+//   <div>
+//     <h2>로그인이</h2>
+//     <h2>필요합니다</h2>
+//     <div>
+//       <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
+//         <Form.Item
+//           label="이메일"
+//           name="email"
+//           rules={[{ required: true, message: '이메일을 입력해주세요!' }]}
+//         >
+//           <Input
+//             prefix={<UserOutlined className="site-form-item-icon" />}
+//             placeholder="E-mail"
+//           />
+//         </Form.Item>
+
+//         <Form.Item
+//           label="비밀번호"
+//           name="password"
+//           rules={[
+//             {
+//               required: true,
+//               message: 'Please input your password!',
+//             },
+//           ]}
+//         >
+//           <Input
+//             prefix={<LockOutlined className="site-form-item-icon" />}
+//             type="password"
+//             placeholder="Password"
+//           />
+//         </Form.Item>
+//       </Form>
+//     </div>
+//   </div>
+// );
+
+// const onFinish = (values) => {
+//   // dispatch({ type: LOG_IN_REQUEST, data: values });
+//   <login email={values.email} password={values.password} />;
+// };
+// const onFinishFailed = (values) => {};
 
 const MyLayout = ({ children, me }) => {
   const [visible, setVisible] = useState(false);
