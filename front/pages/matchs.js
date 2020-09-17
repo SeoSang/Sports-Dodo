@@ -28,11 +28,13 @@ const dummy_matchLine = {
 
 const matchs = () => {
   const state = useSelector((state) => state.match);
-  const { matchs } = useSelector((state) => state.match);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({ type: LOAD_MATCHS_REQUEST });
   }, []);
+  const { matchs } = useSelector((state) => state.match);
+  // console.log(matchs.slice(0).reverse());
+
   return (
     <Row
       style={{ textAlign: 'center', padding: '20px' }}
@@ -68,9 +70,13 @@ const matchs = () => {
           </Col>
         </MatchsTitleRow>
         <MatchsContentRow>
-          {matchs?.map((match) => (
-            <MatchLine {...match}></MatchLine>
-          ))}
+          {matchs
+            ?.slice(0)
+            .reverse()
+            .map((match) => (
+              // matchs.slice(0).reverse()
+              <MatchLine {...match}></MatchLine>
+            ))}
         </MatchsContentRow>
       </Row>
     </Row>

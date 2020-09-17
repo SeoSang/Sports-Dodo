@@ -51,6 +51,8 @@ const MyApp = ({ Component, pageProps }) => {
 
 MyApp.getInitialProps = async (context) => {
   // 쿠키로 하는 가능성도 열어놨다.
+  console.log(context);
+
   const cookie = new Cookies();
   const tokenValue = cookie.get('sd');
   if (tokenValue) {

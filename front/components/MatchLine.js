@@ -6,7 +6,7 @@ import Link from 'next/link';
 const MatchLine = ({ _id, homeTeam, awayTeam, startTime, finishTime }) => {
   const deadline = moment(startTime).subtract({ minutes: 15 });
   const nowTime = moment();
-  console.log(typeof deadline.diff(nowTime));
+  // console.log(typeof deadline.diff(nowTime));
   return deadline.diff(nowTime) > 0 ? (
     <Link href={{ pathname: 'match', query: { matchId: _id } }}>
       <a>
