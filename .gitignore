@@ -8,10 +8,10 @@ package-lock.json
 /coverage
 
 # next.js
-.next
+.next/
 /.next/
 /out/
-/front/.next/
+front/.next/
 
 # production
 /build

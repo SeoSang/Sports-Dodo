@@ -77,9 +77,28 @@ exports.login = asyncHandler(async (req, res, next) => {
 });
 
 exports.getUsers = asyncHandler(async (req, res, next) => {
-    let users = await User.find({})
+    let users = await User.find({}).populate('battings')
         .sort({ point: -1 })
         .limit(50);
+
+    for (let i = 0; i < users.length; i++) {
+        //calc battings
+        eachPersonBattings = {
+            collectCount: 0,
+            wrongCount: 0
+        };
+
+        // reduce 로 바꾸셔요.
+        for (let j = 0; j < users[i].battings.length; j++) {
+            if (users[i].battings[j].battingResult = 'Collect') {
+                eachPersonBattings.collectCount++;
+            } else if (users[i].battings[j].battingresult = 'Wrong') {
+                eachPersonBattings.wrongCount++;
+            }
+        }
+
+        users[i].battings = eachPersonBattings;
+    }
 
     res.status(200).json({
         success: true,
@@ -105,7 +124,6 @@ exports.getRanking = asyncHandler(async (req, res, next) => {
 // @access  Public
 exports.getUser = asyncHandler(async (req, res, next) => {
     let user = await User.findOne({ _id: req.params.id }).populate('battings');
-
 
     // get Ranking
     let users = await User.find({}).sort({ point: -1 }).select("point");
