@@ -8,6 +8,7 @@ import { useRouter } from 'next/dist/client/router';
 import { useEffect } from 'react';
 import { Cookies } from 'react-cookie';
 import { wrapper } from '../store';
+import Notification from '../components/Notification';
 import axios from 'axios';
 import { BACKEND_URL } from '../sagas';
 
@@ -34,7 +35,8 @@ const login = () => {
   );
   useEffect(() => {
     if (me && !isLoginSuccess) {
-      openNotification('이미 로그인 되었습니다!');
+      Notification('이미 로그인 되었습니다!');
+      // openNotification('이미 로그인 되었습니다!');
       // <Alert message="이미 로그인 되었습니다!" type="info" showIcon />;
       // alert('이미 로그인 되었습니다!');
       router.push('/');
@@ -49,7 +51,9 @@ const login = () => {
       cookie.set('sd', token);
       // <Alert message="로그인에 성공하였습니다!" type="success" showIcon />;
       // alert('로그인에 성공하였습니다!');
-      openNotification('로그엔이 성공하였습니다!');
+
+      Notification('로그인에 성공하였습니다!');
+      // openNotification('로그엔이 성공하였습니다!');
       router.push('/');
       // window.setTimeout(router.push('/'), 5000);
       // 왜 Unhandled Runtime Error 발생하지 ?

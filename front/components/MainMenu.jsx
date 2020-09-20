@@ -49,16 +49,20 @@ const MainMenu = ({ visible }) => {
           </Menu.Item>
           <SubMenu key="sub1" icon={<DesktopOutlined />} title="매칭 보기">
             <Menu.Item key="1">
-              <Link href="/matchs">
+              <Link href="/matchings">
                 <a> 축구 </a>
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link href="/matchings">
+              <Link href="/matchs">
                 <a>야구</a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="3">농구</Menu.Item>
+            <Menu.Item key="3">
+              <Link href="/matchs">
+                <a>농구</a>
+              </Link>
+            </Menu.Item>
           </SubMenu>
           <Menu.Item key="4" icon={<ContainerOutlined />}>
             <Link href="/rankings">

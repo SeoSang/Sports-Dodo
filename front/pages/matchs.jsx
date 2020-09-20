@@ -35,7 +35,7 @@ const matchs = () => {
       type: LOAD_MATCHS_REQUEST,
     });
   }, []);
-  const { matchs } = useSelector((state) => state.match);
+  // const { matchs } = useSelector((state) => state.match);
   // console.log(matchs.slice(0).reverse());
 
   return (

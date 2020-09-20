@@ -7,11 +7,32 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOAD_MATCHS_REQUEST } from '../sagas/match';
 
-import { Table, Tag, Space, Button } from 'antd';
+import { Table, Tag, Space, Button, Row, Col } from 'antd';
 
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
 import SizeContext from 'antd/lib/config-provider/SizeContext';
+import MatchTest from '../components/MatchTest';
+
+// import { css } from '@emotion/core';
+
 const { Column, ColumnGroup } = Table;
+
+// const tableCSS = css`
+//   margin: '40px 120px',
+//   backgroundColor: 'white',
+//   '& table': {
+//     borderCollapse: 'collapse',
+//   },
+//   '& thead > tr > th': {
+//     backgroundColor: 'darkblue',
+//     color: 'white',
+//   },
+//   '& thead > tr': {
+//     borderWidth: '2px',
+//     borderColor: 'yellow',
+//     borderStyle: 'solid',
+//   },
+// `;
 
 // 가까운 시간순서
 // const url = "http://localhost:80/posts?_sort=match_date&_order=ASC";
@@ -30,20 +51,23 @@ function matchings() {
     {
       title: 'homeTeam',
       dataIndex: 'homeTeam',
-      key: 'kehomeTeamy',
+      key: 'homeTeam',
       align: 'center',
+      width: 200,
     },
     {
       title: 'awayTeam',
       dataIndex: 'awayTeam',
       key: 'awayTeam',
       align: 'center',
+      width: 200,
     },
     {
       title: 'startTime',
       dataIndex: 'startTime',
       key: 'startTime',
       align: 'center',
+      width: 100,
       // sorter: (a, b) => a.startTime - b.startTime,
     },
     {
@@ -51,30 +75,24 @@ function matchings() {
       dataIndex: 'finishTime',
       key: 'finishTime',
       align: 'center',
+      width: 100,
     },
     {
       title: '배팅인원',
       dataIndex: 'howManyPeopleBatted',
       key: 'howManyPeopleBatted',
       align: 'center',
-      // render: (howManyPeopleBatted) => (
-
-      // ),
-      // sorter: (a, b) => a.numOfbatting - b.numOfbatting,
+      width: 100,
+      // sorter: (a, b) => a.howManyPeopleBatted - b.howManyPeopleBatted,
     },
-    // {
-    //   title: "배팅인원",
-    //   dataIndex: "numOfbatting",
-    //   key: "numOfbatting",
-    //   align: "center",
-    // },
     {
       title: '배팅',
       dataIndex: '_id',
       key: '_id',
+      width: 100,
       align: 'center',
       render: (_id) => (
-        <Link href={{ pathname: 'Match', query: { matchid: _id } }}>
+        <Link href={{ pathname: 'match', query: { matchid: _id } }}>
           <a>
             <Button type="primary" htmlType="submit" danger>
               배팅하기
@@ -117,17 +135,16 @@ function matchings() {
   // if (loading) return <SyncOutlined spin style={{ fontSize: '100px' }} />;
   if (matchs?.length < 0)
     return (
-      <div>
-        <div>에러가 발생했습니다</div>
-        <div>
+      <Row>
+        <Row>에러가 발생했습니다</Row>
+        <Row>
           <Table columns={columns} />
-        </div>
-      </div>
+        </Row>
+      </Row>
     );
   if (!matchs) return null;
 
   const data = [];
-  // myArray.slice(0).reverse().map
   for (let i = 0; i < matchs.length; i++) {
     data.push({
       key: i + 1,
@@ -137,17 +154,28 @@ function matchings() {
     });
   }
 
-  console.log(data[67]?._id);
   return (
-    <div
+    <Row
       style={{
-        marginLeft: 50,
-        marginRight: 50,
-        paddingTop: 100,
+        textAlign: 'center',
+        padding: '20px',
+        backgroundColor: 'gray',
+        //테이블 row들 왜 투명이냐 ..?
       }}
+      justify="space-around"
+      // style={{
+      //   marginLeft: 50,
+      //   marginRight: 50,
+      //   paddingTop: 100,
+      // }}
     >
-      <Table columns={columns} dataSource={data.slice(0).reverse()} bordered />
-    </div>
+      <Table
+        // className={tableCSS}
+        columns={columns}
+        dataSource={data.slice(0).reverse()}
+        bordered
+      />
+    </Row>
   );
 }
 
