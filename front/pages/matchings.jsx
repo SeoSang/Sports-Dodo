@@ -1,131 +1,154 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Match from "./Match";
+import React, { Component, useState, useEffect } from 'react';
+import axios from 'axios';
+// import Match from 'Match';
+import { BACKEND_URL } from '../sagas/.';
+import moment from 'moment';
+import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
+import { LOAD_MATCHS_REQUEST } from '../sagas/match';
 
-import {
-  makeStyles,
-  styled,
-  withStyles,
-  Typography,
-} from "@material-ui/core/styles";
+import { Table, Tag, Space, Button } from 'antd';
 
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import Paper from "@material-ui/core/Paper";
-import Table from "@material-ui/core/Table";
-import TableHead from "@material-ui/core/TableHead";
-import TableBody from "@material-ui/core/TableBody";
-import TableContainer from "@material-ui/core/TableContainer";
-import Button from "@material-ui/core/Button";
+import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
+import SizeContext from 'antd/lib/config-provider/SizeContext';
+const { Column, ColumnGroup } = Table;
 
-import { AlignCenterOutlined } from "@ant-design/icons";
-//material-ui 사용
-//https://material-ui.com/components/tables/
-//https://material-ui.com/styles/basics/
-
-// const useStyles = makeStyles({
-//   table: {
-//     marginLeft: 100,
-//     minWidth: 650,
-//     maxWidth: 1000,
-//   },
-//   test: {
-//     border: 0,
-//     borderRadius: 3,
-//     padding: 48,
-//     // maxWidth: 1100,
-//     minWidth: 650,
-//   },
-// });
-const useStyles = makeStyles((theme) => ({
-  table: {
-    marginLeft: 100,
-    minWidth: 650,
-    maxWidth: 1000,
-  },
-  test: {
-    border: 0,
-    borderRadius: 3,
-    padding: 48,
-    // maxWidth: 1100,
-    minWidth: 650,
-  },
-
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
-}));
-
-//npm i json-server
-//node server.js
 // 가까운 시간순서
-const url = "http://localhost:80/posts?_sort=match_date&_order=ASC";
+// const url = "http://localhost:80/posts?_sort=match_date&_order=ASC";
+// axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
-function matching() {
-  const classes1 = useStyles();
-  // const classes2 = StyledTableCell();
+// const limit = 100;
+function matchings() {
+  const columns = [
+    {
+      title: 'key',
+      dataIndex: 'key',
+      key: 'key',
+      align: 'center',
+      width: 100,
+    },
+    {
+      title: 'homeTeam',
+      dataIndex: 'homeTeam',
+      key: 'kehomeTeamy',
+      align: 'center',
+    },
+    {
+      title: 'awayTeam',
+      dataIndex: 'awayTeam',
+      key: 'awayTeam',
+      align: 'center',
+    },
+    {
+      title: 'startTime',
+      dataIndex: 'startTime',
+      key: 'startTime',
+      align: 'center',
+      // sorter: (a, b) => a.startTime - b.startTime,
+    },
+    {
+      title: 'finishTime',
+      dataIndex: 'finishTime',
+      key: 'finishTime',
+      align: 'center',
+    },
+    {
+      title: '배팅인원',
+      dataIndex: 'howManyPeopleBatted',
+      key: 'howManyPeopleBatted',
+      align: 'center',
+      // render: (howManyPeopleBatted) => (
 
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
+      // ),
+      // sorter: (a, b) => a.numOfbatting - b.numOfbatting,
+    },
+    // {
+    //   title: "배팅인원",
+    //   dataIndex: "numOfbatting",
+    //   key: "numOfbatting",
+    //   align: "center",
+    // },
+    {
+      title: '배팅',
+      dataIndex: '_id',
+      key: '_id',
+      align: 'center',
+      render: (_id) => (
+        <Link href={{ pathname: 'Match', query: { matchid: _id } }}>
+          <a>
+            <Button type="primary" htmlType="submit" danger>
+              배팅하기
+            </Button>
+          </a>
+        </Link>
+      ),
+    },
+  ];
+  const dispatch = useDispatch();
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        // 요청이 시작 할 때에는 error 와 users 를 초기화하고
-        setError(null);
-        setUsers(null);
-        // loading 상태를 true 로 바꿉니다.
-        setLoading(true);
-        const response = await axios.get(url);
-        setUsers(response.data); // 데이터는 response.data 안에 들어있습니다.
-        // console.log(response.data);
-      } catch (e) {
-        setError(e);
-      }
-      setLoading(false);
-    };
-
-    fetchUsers();
+    dispatch({ type: LOAD_MATCHS_REQUEST });
+    // dispatch({ type: LOAD_MATCHS_REQUEST, index: -1 });
   }, []);
+  const { matchs } = useSelector((state) => state.match);
 
-  if (loading) return <div>로딩중..</div>;
-  if (error) return <div>에러가 발생했습니다</div>;
-  if (!users) return null;
+  // const [matchs, setMatchs] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
 
-  console.log(users.data);
-  //   console.log(users.data?.matchs);
-  //   console.log(loading);
+  // useEffect(() => {
+  //   const fetchMatchs = async () => {
+  //     try {
+  //       setError(null);
+  //       setMatchs(null);
+  //       setLoading(true);
+
+  //       const response = await axios.get(`/match?limit=${limit}`);
+  //       // 데이터는 response.data 안에 들어있습니다.
+  //       setMatchs(response.data.data);
+  //     } catch (e) {
+  //       setError(e);
+  //     }
+  //     setLoading(false);
+  //   };
+
+  //   fetchMatchs();
+  // }, []);
+
+  // if (loading) return <SyncOutlined spin style={{ fontSize: '100px' }} />;
+  if (matchs?.length < 0)
+    return (
+      <div>
+        <div>에러가 발생했습니다</div>
+        <div>
+          <Table columns={columns} />
+        </div>
+      </div>
+    );
+  if (!matchs) return null;
+
+  const data = [];
+  // myArray.slice(0).reverse().map
+  for (let i = 0; i < matchs.length; i++) {
+    data.push({
+      key: i + 1,
+      ...matchs[i],
+      startTime: moment(matchs[i].startTime).format('MM.DD HH:MM'),
+      finishTime: moment(matchs[i].finishTime).format('MM.DD HH:MM'),
+    });
+  }
+
+  console.log(data[67]?._id);
   return (
-    <TableContainer className={classes1.test} component={Paper}>
-      <Table className={classes1.table} aria-label="simple table">
-        <TableHead>
-          {/* className={classes2.head} */}
-          <TableRow>
-            <TableCell align="right">번호</TableCell>
-            <TableCell align="right">팀</TableCell>
-            <TableCell align="right">경기시간</TableCell>
-            <TableCell align="right">배당</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {users.map((data) => {
-            return (
-              <Match
-                key={data.matchid}
-                matchid={data.matchid}
-                teamA={data.teamA}
-                teamB={data.teamB}
-                match_date={data.match_date}
-              />
-            );
-          })}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div
+      style={{
+        marginLeft: 50,
+        marginRight: 50,
+        paddingTop: 100,
+      }}
+    >
+      <Table columns={columns} dataSource={data.slice(0).reverse()} bordered />
+    </div>
   );
 }
 
-export default matching;
+export default matchings;

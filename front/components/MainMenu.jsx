@@ -53,8 +53,12 @@ const MainMenu = ({ visible }) => {
                 <a> 축구 </a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="2"> 야구 </Menu.Item>
-            <Menu.Item key="3"> 농구 </Menu.Item>
+            <Menu.Item key="2">
+              <Link href="/matchings">
+                <a>야구</a>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="3">농구</Menu.Item>
           </SubMenu>
           <Menu.Item key="4" icon={<ContainerOutlined />}>
             <Link href="/rankings">

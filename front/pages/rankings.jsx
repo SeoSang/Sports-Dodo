@@ -18,13 +18,6 @@ const RankingsContentRow = styled(Row)`
   font-weight: 500;
 `;
 
-const rankingsTitle = {
-  rank: '순위',
-  nickname: '닉네임',
-  success: '성공',
-  fail: '실패',
-};
-
 const rankings = () => {
   const { rankings } = useSelector((state) => state.ranking);
   const dispatch = useDispatch();

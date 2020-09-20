@@ -29,9 +29,16 @@ const loginFormStyle = {
 const cookie = new Cookies();
 
 const login = () => {
-  const { isLoginSuccess, isLoggingIn, token } = useSelector(
+  const { isLoginSuccess, isLoggingIn, token, me } = useSelector(
     (state) => state.user
   );
+  useEffect(() => {
+    if (me && !isLoginSuccess) {
+      alert('이미 로그인 되었습니다!');
+      router.push('/');
+    }
+  }, [me]);
+
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -46,6 +53,7 @@ const login = () => {
   const onFinish = (values) => {
     dispatch({ type: LOG_IN_REQUEST, data: values });
   };
+
   const onFinishFailed = (values) => {};
 
   const onClickTest = async () => {
@@ -55,7 +63,8 @@ const login = () => {
 
   return (
     <FullDiv style={{ marginTop: '5vh' }}>
-      <Button onClick={onClickTest}>핑 테스트</Button>
+      {/* <Button onClick={onClickTest}>핑 테스트</Button> */}
+
       <Form
         {...layout}
         style={loginFormStyle}
