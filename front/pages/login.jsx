@@ -1,5 +1,5 @@
 import { FullDiv } from '../styles/styled-components';
-import { Button, Input, Checkbox, Form } from 'antd';
+import { Button, Input, Checkbox, Form, Alert, notification } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,7 +34,9 @@ const login = () => {
   );
   useEffect(() => {
     if (me && !isLoginSuccess) {
-      alert('이미 로그인 되었습니다!');
+      openNotification('이미 로그인 되었습니다!');
+      // <Alert message="이미 로그인 되었습니다!" type="info" showIcon />;
+      // alert('이미 로그인 되었습니다!');
       router.push('/');
     }
   }, [me]);
@@ -45,8 +47,12 @@ const login = () => {
   useEffect(() => {
     if (isLoginSuccess) {
       cookie.set('sd', token);
-      alert('로그인에 성공하였습니다!');
+      // <Alert message="로그인에 성공하였습니다!" type="success" showIcon />;
+      // alert('로그인에 성공하였습니다!');
+      openNotification('로그엔이 성공하였습니다!');
       router.push('/');
+      // window.setTimeout(router.push('/'), 5000);
+      // 왜 Unhandled Runtime Error 발생하지 ?
     }
   }, [isLoginSuccess, isLoggingIn, token]);
 
@@ -135,3 +141,13 @@ export const getStaticProps = wrapper.getStaticProps(async (context) => {
 });
 
 export default login;
+
+const openNotification = (e) => {
+  notification.open({
+    message: 'Notification Title',
+    description: e,
+    onClick: () => {
+      console.log('Notification Clicked!');
+    },
+  });
+};

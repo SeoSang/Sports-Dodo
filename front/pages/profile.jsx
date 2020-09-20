@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { Row, Col, Avatar } from 'antd';
+import { Row, Col, Avatar, Alert, notification } from 'antd';
 import { wrapper } from '../store';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { LOAD_USER_REQUEST } from '../sagas/user';
 import { useRouter } from 'next/dist/client/router';
+import Notification from '../components/Notification';
 
 const profileCardStye = {
   backgroundColor: '#c8d6e5',
@@ -20,16 +21,14 @@ const BattingsCard = styled.div`
 `;
 
 const profile = () => {
-<<<<<<< HEAD:front/pages/profile.js
   const { me } = useSelector((state) => state.user);
-=======
-  const { me } = useSelector(state => state.user);
->>>>>>> upstream/master:front/pages/profile.jsx
   const router = useRouter();
 
   useEffect(() => {
     if (!me) {
-      alert('로그인이 필요합니다!');
+      Notification('로그인이 필요합니다!');
+      // <Alert message="로그인이 필요합니다!" type="warning" showIcon closable />;
+      // alert('로그인이 필요합니다!');
       router.push('/');
     }
   }, [me]);
@@ -102,3 +101,13 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
 });
 
 export default profile;
+
+const openNotification = (e) => {
+  notification.open({
+    message: 'Notification Title',
+    description: e,
+    onClick: () => {
+      console.log('Notification Clicked!');
+    },
+  });
+};

@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { FullDiv } from '../styles/styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import Notification from '../components/Notification';
 import { Button, Input, Checkbox, Form, message } from 'antd';
 import {
   UserOutlined,
@@ -26,35 +28,45 @@ const registerFormStyle = {
 };
 
 const register = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
-  const { isRegistering, isRegisterSuccess } = useSelector(state => state.user);
+  const { isRegistering, isRegisterSuccess } = useSelector(
+    (state) => state.user
+  );
 
-  const { me } = useSelector(state => state.user);
+  const { me } = useSelector((state) => state.user);
   useEffect(() => {
     if (me) {
-      alert('이미 로그인 되었습니다!');
+      Notification('이미 로그인 되었습니다!');
+      // alert('이미 로그인 되었습니다!');
       router.push('/');
     }
   }, [me]);
 
   useEffect(() => {
     if (isRegisterSuccess) {
-      alert('회원가입에 성공하였습니다!');
+      Notification('회원가입에 성공하였습니다!');
+      // alert('회원가입에 성공하였습니다!');
       router.push('/');
     }
   }, [isRegisterSuccess, isRegistering]);
 
-  const onFinish = values => {
+  const onFinish = (values) => {
     if (!values.agreement) {
-      alert('이용약관에 동의해주세요!');
+      Notification('이용약관에 동의해주세요!');
+      // alert('이용약관에 동의해주세요!');
       return;
     }
     if (values.name.length < 2 || values.name.length > 50) {
-      alert('이름 길이 제한에 어긋났습니다! \n (허용 범위 : 2글자 ~ 50글자');
+      Notification(
+        '이름 길이 제한에 어긋났습니다! \n (허용 범위 : 2글자 ~ 50글자'
+      );
       return;
     }
     if (values.name.length < 3 || values.name.length > 100) {
-      alert('닉네임 길이 제한에 어긋났습니다! \n (허용 범위 : 3글자 ~ 100글자');
+      Notification(
+        '닉네임 길이 제한에 어긋났습니다! \n (허용 범위 : 3글자 ~ 100글자'
+      );
       return;
     }
     const reqValues = {
@@ -68,10 +80,11 @@ const register = () => {
     } catch (e) {
       console.error(e);
       message.error('회원가입이 실패했습니다!');
+      Notification('회원가입이 실패했습니다!');
     }
     console.log(reqValues);
   };
-  const onFinishFailed = values => {
+  const onFinishFailed = (values) => {
     console.log(values);
   };
   return (
