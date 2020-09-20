@@ -9,6 +9,14 @@ var BattingSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
+    homeTeamName: {
+        type: String,
+        required: true
+    },
+    awayTeamName: {
+        type: String,
+        required: true
+    },
     chooseHomeAwayDraw: {
         type: String,
         enum: ['Home', 'Away', 'Draw'],
@@ -34,8 +42,13 @@ var BattingSchema = mongoose.Schema({
         type: String,
         enum: ['Collect', 'Wrong', 'Not Finished'],
         default: 'Not Finished'
+    },
+    resultPoint: {
+        type: Number,
+        default: 0
     }
     // 인덱스 넣어주면 성능이 올라갈 듯함.
 });
+
 
 module.exports = mongoose.model('Batting', BattingSchema);

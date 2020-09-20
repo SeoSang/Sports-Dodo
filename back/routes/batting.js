@@ -22,3 +22,4 @@ router
     .delete(protect, checkIsOnwerThisBatting, timeCheckerUpdateDelete, deleteBatting);
 
 module.exports = router;
+
