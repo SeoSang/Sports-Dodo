@@ -145,18 +145,4 @@ const login = () => {
   );
 };
 
-export const getStaticProps = wrapper.getStaticProps(async (context) => {
-  console.log(context);
-});
-
 export default login;
-
-const openNotification = (e) => {
-  notification.open({
-    message: 'Notification Title',
-    description: e,
-    onClick: () => {
-      console.log('Notification Clicked!');
-    },
-  });
-};

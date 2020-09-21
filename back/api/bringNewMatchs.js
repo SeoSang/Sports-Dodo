@@ -22,7 +22,9 @@ async function bringMatchFromAPI(league_id, date) {
     for (let i = 0; i < response.data.api.fixtures.length; i++) {
       const inputData = {
         homeTeam: response.data.api.fixtures[i].homeTeam.team_name,
+        homeTeamLogoUrl: response.data.api.fixtures[i].homeTeam.logo,
         awayTeam: response.data.api.fixtures[i].awayTeam.team_name,
+        awayTeamLogUrl: response.data.api.fixtures[i].awayTeam.logo,
         startTime: response.data.api.fixtures[i].event_date,
         idForFAPI: response.data.api.fixtures[i].fixture_id,
       }

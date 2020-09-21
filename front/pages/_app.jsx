@@ -39,7 +39,6 @@ const MyApp = ({ Component, pageProps }) => {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css"
         ></link>
-        {/* material ui 폰트 불러오기 로보토 폰트 */}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"

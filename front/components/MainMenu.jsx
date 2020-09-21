@@ -54,18 +54,18 @@ const MainMenu = ({ visible }) => {
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link href="/matchs">
+              <Link href="/matchings">
                 <a>야구</a>
               </Link>
             </Menu.Item>
             <Menu.Item key="3">
-              <Link href="/matchs">
+              <Link href="/matchings">
                 <a>농구</a>
               </Link>
             </Menu.Item>
           </SubMenu>
           <Menu.Item key="4" icon={<ContainerOutlined />}>
-            <Link href="/rankings">
+            <Link href="/profile">
               <a> 베팅 내역 </a>
             </Link>
           </Menu.Item>

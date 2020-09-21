@@ -66,31 +66,15 @@ const profile = () => {
             <Col span={8}>
               <h2>베팅</h2>
             </Col>
-            <Col span={8}>
+            <Col span={4}>
               <h2>결과</h2>
             </Col>
+            <Col span={4}>
+              <h2>날짜</h2>
+            </Col>
           </Row>
-          {me?.battings.map((batting) => (
-            <Row>
-              <Col span={8}>
-                <h2>
-                  {batting.match.homeTeam} VS {batting.match.awayTeam}
-                </h2>
-              </Col>
-              <Col span={8}>
-                <h2>
-                  {batting.select} 선택 - {batting.point}포인트
-                </h2>
-              </Col>
-              <Col span={8}>
-                <h2>
-                  {batting.select === batting.result.matchResult
-                    ? batting.result.reward
-                    : 0}{' '}
-                  포인트 획득!{' '}
-                </h2>
-              </Col>
-            </Row>
+          {me?.battings?.map((batting) => (
+            <ProfileBattingLine batting={batting}></ProfileBattingLine>
           ))}
         </Row>
       </BattingsCard>
@@ -104,13 +88,3 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
 });
 
 export default profile;
-
-const openNotification = (e) => {
-  notification.open({
-    message: 'Notification Title',
-    description: e,
-    onClick: () => {
-      console.log('Notification Clicked!');
-    },
-  });
-};

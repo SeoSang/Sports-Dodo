@@ -13,7 +13,9 @@ const {
   login,
   logout,
   getRanking,
+  getMyRecord
 } = require('../controllers/user');
+
 
 router
   .route('/')
@@ -21,7 +23,13 @@ router
   .delete(protect, withdrawal)
   .get(getUsers);
 
-router.route('/rank/:id').get(getRanking);
+router
+  .route('/rank/:id')
+  .get(getRanking);
+
+router
+  .route('/record')
+  .get(protect, getMyRecord);
 
 router
   .route('/profile')

@@ -78,6 +78,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 
 exports.getUsers = asyncHandler(async (req, res, next) => {
     let users = await User.find({}).populate('battings')
+        .populate('')
         .sort({ point: -1 })
         .limit(50);
 
@@ -203,6 +204,17 @@ exports.editMyProfile = asyncHandler(async (req, res, next) => {
         data: user,
     });
 });
+
+exports.getMyRecord = asyncHandler(async (req, res, next) => {
+    let battings = await Batting.find({ user: req.user._id })
+        .sort({ createdAt: -1 })
+        .limit(50);
+
+    res.status(200).json({
+        success: true,
+        data: battings
+    });
+})
 
 const sendTokenResponse = (user, statusCode, res, data = null) => {
     // Create token
