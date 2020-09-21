@@ -27,7 +27,6 @@ const dummy_matchLine = {
 };
 
 const matchs = () => {
-  const state = useSelector((state) => state.match);
   const { matchs } = useSelector((state) => state.match);
   const dispatch = useDispatch();
   useEffect(() => {

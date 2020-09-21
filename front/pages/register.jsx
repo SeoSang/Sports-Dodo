@@ -29,6 +29,14 @@ const register = () => {
   const dispatch = useDispatch();
   const { isRegistering, isRegisterSuccess } = useSelector(state => state.user);
 
+  const { me } = useSelector(state => state.user);
+  useEffect(() => {
+    if (me) {
+      alert('이미 로그인 되었습니다!');
+      router.push('/');
+    }
+  }, [me]);
+
   useEffect(() => {
     if (isRegisterSuccess) {
       alert('회원가입에 성공하였습니다!');
