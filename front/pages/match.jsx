@@ -45,19 +45,37 @@ const match = () => {
   // 소유한 포인트에서 배팅한 포인트를 차감하여 리덕스를 사용해야하나?
 
   const userPoint = me ? me.point : 0;
-
   // const [match, setMatch] = useState();
-  const [bpoint, setBpoint] = useState([]);
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
+  const [match, setMatch] = useState(null);
+  const [bpoint, setBpoint] = useState([]);
 
   const [choose, setChoose] = useState('Home');
   const [battingpoint, setBattingpoint] = useState(10);
 
-  //중복 줄이려고 fetchApi 사용
-  const match = fetchApi(`/match/${matchid}`)?.data;
-  const bpoint1 = fetchApi(`/match/${matchid}/batting`);
+  // let match = [];
+  useEffect(() => {
+    const match = fetchApi(`/match/${matchid}`);
+    const point = fetchApi(`/match/${matchid}/batting`);
+
+    Promise.all([match, point]).then((v) => {
+      // console.log(v);
+      setMatch(v[0].data);
+      setBpoint(v[1]);
+    });
+
+    // match.then((res) => {
+    //   setMatch(res.data);
+    // });
+    // point.then((res) => {
+    //   setBpoint(res);
+    // });
+  }, []);
+  console.log(match);
+  // const bpoint1 = [null];
+
   // console.log(match1);
   // console.log(match1?.idForFAPI);
 
@@ -70,16 +88,9 @@ const match = () => {
 
   // console.log(bpoint1);
 
-  // setTest1(test11);
-  // setTest2(test22);
-
-  // console.log(test1);
-
-  // setBpoint(...test22);
-
-  // console.log(match);
-  // console.log(typeof match);
-
+  if (match) {
+    // const { homeTeam } = match;
+  }
   const homeTeam = match?.homeTeam;
   const awayTeam = match?.awayTeam;
 
@@ -92,9 +103,9 @@ const match = () => {
   const goalsHomeTeam = match?.goalsHomeTeam;
   const goalsAwayTeam = match?.goalsAwayTeam;
 
-  const homeTotalPoint = bpoint1?.battingPoints?.homeTotalPoint;
-  const awayTotalPoint = bpoint1?.battingPoints?.awayTotalPoint;
-  const drawTotalPoint = bpoint1?.battingPoints?.drawTotalPoint;
+  const homeTotalPoint = bpoint?.battingPoints?.homeTotalPoint;
+  const awayTotalPoint = bpoint?.battingPoints?.awayTotalPoint;
+  const drawTotalPoint = bpoint?.battingPoints?.drawTotalPoint;
   const totalPoint = homeTotalPoint + awayTotalPoint + drawTotalPoint;
   //배당률 전체/
   // testnum.toFixed(0);  소수점 버리기 반올림
@@ -105,7 +116,7 @@ const match = () => {
     awayTotalPoint === 0 ? 0 : (totalPoint / awayTotalPoint).toFixed(2);
   const drawOdds =
     drawTotalPoint === 0 ? 0 : (totalPoint / drawTotalPoint).toFixed(2);
-
+  //적중률
   const hitOdds =
     choose === 'Home'
       ? (homeOdds * battingpoint).toFixed(2)
@@ -113,7 +124,7 @@ const match = () => {
       ? (awayOdds * battingpoint).toFixed(2)
       : (drawOdds * battingpoint).toFixed(2);
 
-  const howManyPeopleBatted = bpoint1?.howManyPeopleBatted;
+  const howManyPeopleBatted = bpoint?.howManyPeopleBatted;
 
   // const { homeBattingNumber } = match;
   // const { awayBattingNumber } = match;
@@ -149,6 +160,8 @@ const match = () => {
   const handleSubmit = () => {
     axios
       .post(`/match/${matchid}/batting`, {
+        homeTeamName: homeTeam,
+        awayTeamName: awayTeam,
         chooseHomeAwayDraw: choose,
         battingPoint: battingpoint,
       })
@@ -265,45 +278,18 @@ const match = () => {
 
 export default match;
 
-function fetchApi(url) {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchMatch = async () => {
-      try {
-        setError(null);
-        setData(null);
-        setLoading(true);
-
-        const response = await axios.get(url);
-        setData(response.data);
-      } catch (e) {
-        setError(e);
-      }
-      setLoading(false);
-    };
-
-    fetchMatch();
-  }, []);
-
-  if (loading) return console.log('로딩 중');
-  if (error) return console.log('에러 발생');
-  if (!data) return console.log('데이터가 없습니다.');
-
-  return data;
+async function fetchApi(url) {
+  // let data = [];
+  try {
+    const response = await axios.get(url);
+    // data = { ...response.data };
+    console.log(response.data);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+    return [];
+  }
 }
-
-const openNotification = (e) => {
-  notification.open({
-    message: 'Notification Title',
-    description: e,
-    onClick: () => {
-      console.log('Notification Clicked!');
-    },
-  });
-};
 
 // useEffect(() => {
 //   const fetchMatch = async () => {

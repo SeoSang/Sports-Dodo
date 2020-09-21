@@ -29,10 +29,10 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/match.js"
     ],
-    "/rankings": [
+    "/matchings": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/rankings.js"
+      "static/chunks/pages/matchings.js"
     ]
   },
   "ampFirstPages": []

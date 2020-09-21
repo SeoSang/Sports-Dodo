@@ -1,6 +1,4 @@
-import { Button, Input, Checkbox, Form, Alert, notification } from 'antd';
-import renderEmpty from 'antd/lib/config-provider/renderEmpty';
-
+import { notification } from 'antd';
 import React from 'react';
 
 const Notification = (e) => {
