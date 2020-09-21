@@ -2,6 +2,7 @@ import { List, Row, Col, Card, Progress, Button, Layout, BackTop } from 'antd';
 import moment from 'moment';
 import { useState } from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 
 const MatchTime = styled.div`
   // position: absolute;
@@ -54,7 +55,11 @@ const IndexCard = ({ match }) => {
       />
       <br></br>
       <CardBottomDiv>
-        <Button>자세히 보기</Button>
+        <Link href={{ pathname: 'Match', query: { matchId: match._id } }}>
+          <a>
+            <Button>자세히 보기</Button>
+          </a>
+        </Link>
         <MatchTime>{moment(match.startTime).format('lll')}</MatchTime>
       </CardBottomDiv>
     </Card>

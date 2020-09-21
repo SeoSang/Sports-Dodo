@@ -20,11 +20,7 @@ const BattingsCard = styled.div`
 `;
 
 const profile = () => {
-<<<<<<< HEAD:front/pages/profile.js
-  const { me } = useSelector((state) => state.user);
-=======
   const { me } = useSelector(state => state.user);
->>>>>>> upstream/master:front/pages/profile.jsx
   const router = useRouter();
 
   useEffect(() => {
@@ -64,31 +60,15 @@ const profile = () => {
             <Col span={8}>
               <h2>베팅</h2>
             </Col>
-            <Col span={8}>
+            <Col span={4}>
               <h2>결과</h2>
             </Col>
+            <Col span={4}>
+              <h2>날짜</h2>
+            </Col>
           </Row>
-          {me?.battings.map((batting) => (
-            <Row>
-              <Col span={8}>
-                <h2>
-                  {batting.match.homeTeam} VS {batting.match.awayTeam}
-                </h2>
-              </Col>
-              <Col span={8}>
-                <h2>
-                  {batting.select} 선택 - {batting.point}포인트
-                </h2>
-              </Col>
-              <Col span={8}>
-                <h2>
-                  {batting.select === batting.result.matchResult
-                    ? batting.result.reward
-                    : 0}{' '}
-                  포인트 획득!{' '}
-                </h2>
-              </Col>
-            </Row>
+          {me?.battings?.map(batting => (
+            <ProfileBattingLine batting={batting}></ProfileBattingLine>
           ))}
         </Row>
       </BattingsCard>

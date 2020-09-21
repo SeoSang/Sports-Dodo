@@ -12,6 +12,7 @@ package-lock.json
 /.next/
 /out/
 front/.next/
+front/.next
 
 # production
 /build

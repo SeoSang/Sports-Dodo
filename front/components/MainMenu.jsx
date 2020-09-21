@@ -14,11 +14,11 @@ import {
 
 const MainMenu = ({ visible }) => {
   const [isFold, setFold] = useState(true);
-  const handleMouseEnter = (e) => {
+  const handleMouseEnter = e => {
     setFold(true);
   };
 
-  const handleMouseLeave = (e) => {
+  const handleMouseLeave = e => {
     setFold(false);
   };
 
@@ -49,7 +49,7 @@ const MainMenu = ({ visible }) => {
           </Menu.Item>
           <SubMenu key="sub1" icon={<DesktopOutlined />} title="매칭 보기">
             <Menu.Item key="1">
-              <Link href="/matchs">
+              <Link href="/matchings">
                 <a> 축구 </a>
               </Link>
             </Menu.Item>
@@ -61,7 +61,7 @@ const MainMenu = ({ visible }) => {
             <Menu.Item key="3">농구</Menu.Item>
           </SubMenu>
           <Menu.Item key="4" icon={<ContainerOutlined />}>
-            <Link href="/rankings">
+            <Link href="/profile">
               <a> 베팅 내역 </a>
             </Link>
           </Menu.Item>
