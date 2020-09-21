@@ -1,9 +1,5 @@
 import { List, Row, Col, Card, Progress, Button, Layout, BackTop } from 'antd';
-import {
-  dummy_match_A,
-  dummy_main_rankings,
-  dummy_main_matches,
-} from '../src/dummy';
+import { dummy_main_rankings } from '../src/dummy';
 import { LowerDiv, SportCategories } from '../styles/styled-components';
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
@@ -11,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LOAD_MAIN_MATCHS_REQUEST } from '../sagas/match';
 import moment from 'moment';
 import { LOAD_RANKINGS_REQUEST } from '../sagas/ranking';
+import IndexCard from '../components/IndexCard';
 
 const FOOTBALL_TRANSLATE = '-0';
 const BASEBALL_TRANSLATE = '-33.3%';
@@ -48,6 +45,15 @@ const MessiContainer = styled.div`
   opacity: 90%;
   cursor: pointer;
   width: 100%;
+`;
+
+const SlideRefDiv = styled.div`
+  display: flex;
+  width: 300%;
+  height: 100%;
+  align-items: center;
+  transition: all 0.5s ease-in-out;
+  transform: translateX(${(props) => props.tr});
 `;
 
 const MatchTime = styled.div`
@@ -117,54 +123,11 @@ const Home = () => {
         >
           <UpperCol xs={24} lg={19}>
             <div style={{ height: '100%', overflow: 'hidden' }}>
-              <div
-                ref={slideRef}
-                style={{
-                  width: '300%',
-                  height: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  transition: 'all 0.5s ease-in-out',
-                  transform: `translateX(${currentSlide}`,
-                }}
-              >
+              <SlideRefDiv ref={slideRef} tr={currentSlide}>
                 {matchs?.map((match, i) => (
-                  <Card
-                    key={`${i}번째 카드`}
-                    title={'축구'}
-                    bordered={true}
-                    style={{
-                      margin: '3px 5px',
-                      width: '11%',
-                    }}
-                    key={`card${i}`}
-                  >
-                    <h2>{`${match.homeTeam} VS ${match.awayTeam}`} </h2>
-                    <label>승 : 100p</label>
-                    <Progress percent={30} size="small" />
-                    <label>무 : 350p</label>
-                    <Progress strokeColor={'green'} percent={50} size="small" />
-                    <label>패 : 80p</label>
-                    <Progress strokeColor={'red'} percent={20} size="small" />
-                    <br></br>
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        alignContent: 'center',
-                        marginTop: '15px',
-                      }}
-                    >
-                      <Button>자세히 보기</Button>
-                      <MatchTime>
-                        {moment(match.startTime).format('lll')}
-                      </MatchTime>
-                    </div>
-                  </Card>
+                  <IndexCard match={match} key={i}></IndexCard>
                 ))}
-              </div>
+              </SlideRefDiv>
             </div>
           </UpperCol>
           <UpperCol style={{ height: '100%' }} xs={24} lg={3}>
