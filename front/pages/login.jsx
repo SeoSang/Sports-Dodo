@@ -54,10 +54,15 @@ const login = () => {
 
       Notification('로그인에 성공하였습니다!');
       // openNotification('로그엔이 성공하였습니다!');
+      // router.push('/');
+      // () = setTimeout((timer) => {
       router.push('/');
-      // window.setTimeout(router.push('/'), 5000);
+      // }, 5000);
+      // timer();
+      // setTimeout(, 5000);
       // 왜 Unhandled Runtime Error 발생하지 ?
     }
+    return () => clearTimeout(timer);
   }, [isLoginSuccess, isLoggingIn, token]);
 
   const onFinish = (values) => {

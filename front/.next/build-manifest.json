@@ -24,15 +24,15 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-    "/match": [
+    "/login": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/match.js"
+      "static/chunks/pages/login.js"
     ],
-    "/matchings": [
+    "/register": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/matchings.js"
+      "static/chunks/pages/register.js"
     ]
   },
   "ampFirstPages": []
