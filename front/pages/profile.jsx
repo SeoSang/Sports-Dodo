@@ -20,7 +20,11 @@ const BattingsCard = styled.div`
 `;
 
 const profile = () => {
+<<<<<<< HEAD:front/pages/profile.js
+  const { me } = useSelector((state) => state.user);
+=======
   const { me } = useSelector(state => state.user);
+>>>>>>> upstream/master:front/pages/profile.jsx
   const router = useRouter();
 
   useEffect(() => {
@@ -64,7 +68,7 @@ const profile = () => {
               <h2>결과</h2>
             </Col>
           </Row>
-          {me?.battings.map(batting => (
+          {me?.battings.map((batting) => (
             <Row>
               <Col span={8}>
                 <h2>

@@ -70,6 +70,7 @@ exports.getMatchs = asyncHandler(async (req, res, next) => {
 	// Executing query
 	const results = await query;
 
+
 	//check can load more
 	let hasNext = false;
 
@@ -88,13 +89,17 @@ exports.getMatchs = asyncHandler(async (req, res, next) => {
 });
 
 exports.getMatch = asyncHandler(async (req, res, next) => {
-	const match = await Match.findById(req.params.id);
+	let match = await Match.findById(req.params.id);
 
 	if (!match) {
 		return next(
 			new ErrorResponse(`No match with the id of ${req.params.id}`, 404)
 		)
 	}
+
+	const totalBattingNumber = match.homeBattingNumber + match.awayBattingNumber + match.drawBattingNumber;
+	match = match.toObject();
+	match.totalBattingNumber = totalBattingNumber;
 
 	res.status(200).json({
 		success: true,

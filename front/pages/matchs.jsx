@@ -34,6 +34,9 @@ const matchs = () => {
       type: LOAD_MATCHS_REQUEST,
     });
   }, []);
+  const { matchs } = useSelector((state) => state.match);
+  // console.log(matchs.slice(0).reverse());
+
   return (
     <Row
       style={{
@@ -72,9 +75,13 @@ const matchs = () => {
           </Col>
         </MatchsTitleRow>
         <MatchsContentRow>
-          {matchs?.map((match) => (
-            <MatchLine {...match}> </MatchLine>
-          ))}
+          {matchs
+            ?.slice(0)
+            .reverse()
+            .map((match) => (
+              // matchs.slice(0).reverse()
+              <MatchLine {...match}></MatchLine>
+            ))}
         </MatchsContentRow>
       </Row>
     </Row>

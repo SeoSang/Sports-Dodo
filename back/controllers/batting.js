@@ -10,6 +10,8 @@ exports.createBatting = asyncHandler(async (req, res, next) => {
     const user = req.user._id;
     const match = req.params.id;
 
+    const homeTeamName = req.body.homeTeamName;
+    const awayTeamName = req.body.awayTeamName;
     const chooseHomeAwayDraw = req.body.chooseHomeAwayDraw;
     const battingPoint = req.body.battingPoint;
     const description = req.body.description;
@@ -17,13 +19,23 @@ exports.createBatting = asyncHandler(async (req, res, next) => {
     const batting = await Batting.create({
         user: user,
         match: match,
+        homeTeamName: homeTeamName,
+        awayTeamName: awayTeamName,
         chooseHomeAwayDraw: chooseHomeAwayDraw,
         battingPoint: battingPoint,
         description: description
     });
 
     await User.findByIdAndUpdate(req.user._id, { $inc: { point: -`${battingPoint}` } }, { new: true });
-    await Match.findByIdAndUpdate(req.params.id, { $inc: { howManyPeopleBatted: +1 } }, { new: true })
+
+    // 어디에 베팅했는지 메치에 저장.
+    if (chooseHomeAwayDraw == 'Home') {
+        await Match.findByIdAndUpdate(req.params.id, { $inc: { homeBattingNumber: +1 } }, { new: true })
+    } else if (chooseHomeAwayDraw == 'Away') {
+        await Match.findByIdAndUpdate(req.params.id, { $inc: { awayBattingNumber: +1 } }, { new: true })
+    } else {
+        await Match.findByIdAndUpdate(req.params.id, { $inc: { drawBattingNumber: +1 } }, { new: true })
+    }
 
     return res.status(201).json({
         success: true,
@@ -56,20 +68,21 @@ exports.getBattings = asyncHandler(async (req, res, next) => {
         battingPoints: {
             homeTotalPoint: homeTotalPoint,
             awayTotalPoint: awayTotalPoint,
-            drawTotalPoint: drawTotalPoint
+            drawTotalPoint: drawTotalPoint,
         },
-        howManyPeopleBatted: battings.length
-    })
-})
+        howManyPeopleBatted: battings.length,
+    });
+});
 
+exports.getRecords = asyncHandler(async (req, res, next) => {
+    let battings = await Batting.find({ user: req.params.id })
+        .sort({ createdAt: -1 })
+        .limit(50);
 
-// getmybattings
-exports.getMyBattings = asyncHandler(async (req, res, next) => {
-    const collectBattings = await Batting.find({ user: req.user._id }, { battingResult: 'Collect' });
-    const wrongBattings = await Batting.find({ user: req.user._id }, { battingResult: 'Wrong' });
-    const notFinishedBattings = await Batting.find({ user: req.user._id }, { battingResult: 'Not Finished' });
-
-
+    res.status(200).json({
+        success: true,
+        data: battings
+    });
 })
 
 exports.getBatting = asyncHandler(async (req, res, next) => {
@@ -78,16 +91,16 @@ exports.getBatting = asyncHandler(async (req, res, next) => {
     if (!batting) {
         return next(
             new ErrorResponse(`No batting with the id of ${req.params.id}`, 404)
-        )
+        );
     }
 
     //
 
     return res.status(200).json({
         success: true,
-        batting: batting
-    })
-})
+        batting: batting,
+    });
+});
 
 exports.editBatting = asyncHandler(async (req, res, next) => {
     let batting = await Batting.findById(req.params.id);
@@ -100,16 +113,16 @@ exports.editBatting = asyncHandler(async (req, res, next) => {
 
     batting = await Batting.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
-        runValidators: true
+        runValidators: true,
     });
 
     batting.save();
 
     res.status(200).json({
         success: true,
-        data: batting
-    })
-})
+        data: batting,
+    });
+});
 
 exports.deleteBatting = asyncHandler(async (req, res, next) => {
     let batting = await Batting.findById(req.params.id);
@@ -121,14 +134,22 @@ exports.deleteBatting = asyncHandler(async (req, res, next) => {
     }
 
     // +battingPoint back to UserModel
-    await User.findByIdAndUpdate(batting.user, { $inc: { point: +`${batting.battingPoint}` } }, { new: true })
+    await User.findByIdAndUpdate(
+        batting.user,
+        { $inc: { point: +`${batting.battingPoint}` } },
+        { new: true }
+    );
     // -howManyPeopleBatted back to MatchModel
-    await Match.findByIdAndUpdate(batting.match, { $inc: { howManyPeopleBatted: -1 } }, { new: true })
+    await Match.findByIdAndUpdate(
+        batting.match,
+        { $inc: { howManyPeopleBatted: -1 } },
+        { new: true }
+    );
 
     await Batting.deleteOne({ _id: req.params.id });
 
     res.status(200).json({
         success: true,
-        data: {}
-    })
-})
+        data: {},
+    });
+});
