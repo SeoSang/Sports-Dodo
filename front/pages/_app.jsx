@@ -1,5 +1,7 @@
 import '../styles/globals.css';
 import Head from 'next/head';
+import Link from 'next/link';
+
 import MyLayout from '../components/MyLayout';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
@@ -35,6 +37,19 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+
+        <title>스포츠 도도</title>
+        <link
+          rel="icon"
+          type="image/png"
+          // type="image/x-icon"
+          sizes="16x16"
+          href="/images/favicon-16x16.png"
+          // href="/images/favicon2.ico"
+        ></link>
+
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css"

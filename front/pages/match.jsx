@@ -36,6 +36,21 @@ const TestRow = styled(Row)`
 
 axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
+async function fetchApi(url) {
+  // let data = [];
+  try {
+    const { data } = await axios.get(url);
+    // data = { ...response.data };
+    // console.log(response.data);
+    console.log(data);
+    return data;
+    // return response.data;
+  } catch (e) {
+    console.log(e);
+    return [];
+  }
+}
+
 const match = () => {
   const router = useRouter();
   const matchid = router.query.matchid;
@@ -45,52 +60,26 @@ const match = () => {
   // 소유한 포인트에서 배팅한 포인트를 차감하여 리덕스를 사용해야하나?
 
   const userPoint = me ? me.point : 0;
-  // const [match, setMatch] = useState();
-
   // const [loading, setLoading] = useState(false);
   // const [error, setError] = useState(null);
   const [match, setMatch] = useState(null);
   const [bpoint, setBpoint] = useState([]);
-
   const [choose, setChoose] = useState('Home');
   const [battingpoint, setBattingpoint] = useState(10);
 
-  // let match = [];
   useEffect(() => {
     const match = fetchApi(`/match/${matchid}`);
     const point = fetchApi(`/match/${matchid}/batting`);
 
     Promise.all([match, point]).then((v) => {
-      // console.log(v);
       setMatch(v[0].data);
       setBpoint(v[1]);
     });
-
-    // match.then((res) => {
-    //   setMatch(res.data);
-    // });
-    // point.then((res) => {
-    //   setBpoint(res);
-    // });
   }, []);
-  console.log(match);
-  // const bpoint1 = [null];
-
-  // console.log(match1);
-  // console.log(match1?.idForFAPI);
-
   // const idForFAPI = match1?.idForFAPI;
   // const { idForFAPI } = match1;
   //비구조화 할당 왜 안돼?
-  // useState set으로 왜안들어가져?
-
   // console.log(idForFAPI);
-
-  // console.log(bpoint1);
-
-  if (match) {
-    // const { homeTeam } = match;
-  }
   const homeTeam = match?.homeTeam;
   const awayTeam = match?.awayTeam;
 
@@ -126,9 +115,9 @@ const match = () => {
 
   const howManyPeopleBatted = bpoint?.howManyPeopleBatted;
 
-  // const { homeBattingNumber } = match;
-  // const { awayBattingNumber } = match;
-  // const { drawBattingNumber } = match;
+  const homeBattingNumber = match?.homeBattingNumber;
+  const awayBattingNumber = match?.awayBattingNumber;
+  const drawBattingNumber = match?.drawBattingNumber;
   // console.log(homeTotalPoint);
 
   const homeTeamLogoUrl = match?.homeTeamLogoUrl;
@@ -150,7 +139,6 @@ const match = () => {
 
   const handlebattingpointChange = (e) => {
     if (e > userPoint) {
-      // openNotification('가진 포인트보다 배팅을 많이 했습니다.');
       Notification('가진 포인트보다 배팅을 많이 했습니다.');
     } else {
       setBattingpoint(e);
@@ -167,13 +155,13 @@ const match = () => {
       })
       .then((res) => {
         console.log(res);
-        openNotification('배팅을 완료 하였습니다!');
+        Notification('배팅을 완료 하였습니다!');
         // <Alert message="배팅을 완료 하였습니다." type="success" showIcon />;
         router.push('/matchings');
       })
       .catch((err) => {
         console.log(err);
-        openNotification('배팅에 오류가 발생 하였습니다!');
+        Notification('배팅에 오류가 발생 하였습니다!');
         // <Alert message="배팅 시간이 지났습니다." type="error" showIcon />;
       });
   };
@@ -277,56 +265,3 @@ const match = () => {
 };
 
 export default match;
-
-async function fetchApi(url) {
-  // let data = [];
-  try {
-    const response = await axios.get(url);
-    // data = { ...response.data };
-    console.log(response.data);
-    return response.data;
-  } catch (e) {
-    console.log(e);
-    return [];
-  }
-}
-
-// useEffect(() => {
-//   const fetchMatch = async () => {
-//     try {
-//       // 요청이 시작 할 때에는 error 와 match 를 초기화하고
-//       setError(null);
-//       setMatch(null);
-//       console.log(match);
-//       // loading 상태를 true 로 바꿉니다.
-//       setLoading(true);
-
-//       const response = await axios.get(`/match/${matchid}`);
-//       setMatch(response.data.data); // 데이터는 response.data 안에 들어있습니다.
-//     } catch (e) {
-//       setError(e);
-//     }
-//     setLoading(false);
-//   };
-
-//   const fetchPoint = async () => {
-//     try {
-//       setError(null);
-//       setBpoint(null);
-//       setLoading(true);
-
-//       const response2 = await axios.get(`/match/${matchid}/batting`);
-//       setBpoint(response2.data);
-//     } catch (e) {
-//       setError(e);
-//     }
-//     setLoading(false);
-//   };
-
-//   fetchMatch();
-//   fetchPoint();
-// }, []);
-
-// if (loading) return <SyncOutlined spin style={{ fontSize: '100px' }} />;
-// if (error) return <div>에러가 발생했습니다</div>;
-// if (!match) return null;

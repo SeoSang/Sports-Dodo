@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOAD_MATCHS_REQUEST } from '../sagas/match';
 
-import { Table, Tag, Space, Button, Row, Col } from 'antd';
+import { Table, Tag, Space, Button, Row, Col, Empty } from 'antd';
 
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
 import SizeContext from 'antd/lib/config-provider/SizeContext';
@@ -102,6 +102,10 @@ function matchings() {
       ),
     },
   ];
+
+  // 시작 시간 5분전 마감
+  // 종료 시간 후 경기종료
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({ type: LOAD_MATCHS_REQUEST });
@@ -138,7 +142,8 @@ function matchings() {
       <Row>
         <Row>에러가 발생했습니다</Row>
         <Row>
-          <Table columns={columns} />
+          {/* <Table columns={columns} /> */}
+          <Empty />
         </Row>
       </Row>
     );
@@ -151,6 +156,9 @@ function matchings() {
       ...matchs[i],
       startTime: moment(matchs[i].startTime).format('MM.DD HH:MM'),
       finishTime: moment(matchs[i].finishTime).format('MM.DD HH:MM'),
+      howManyPeopleBatted: matchs[i].howManyPeopleBatted
+        ? matchs[i].howManyPeopleBatted
+        : 0,
     });
   }
 
