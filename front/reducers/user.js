@@ -11,6 +11,7 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
   SET_TOKEN,
+  LOG_OUT,
 } from '../sagas/user';
 
 export const initialState = {
@@ -27,7 +28,7 @@ export const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  return produce(state, (draft) => {
+  return produce(state, draft => {
     switch (action.type) {
       case HYDRATE:
         draft.isLoginSuccess = false;
@@ -36,6 +37,12 @@ const reducer = (state = initialState, action) => {
       case LOG_IN_REQUEST:
         draft.isLoggingIn = true;
         draft.loginErrorReason = '';
+        break;
+      case LOG_OUT:
+        // draft = { ...state, ...initialState };
+        draft.me = null;
+        draft.token = null;
+        draft.isLoginSuccess = false;
         break;
       case SET_TOKEN:
         draft.token = action.data;

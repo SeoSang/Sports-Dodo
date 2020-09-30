@@ -83,7 +83,6 @@ const profile = () => {
 };
 
 export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
-  console.log(store);
   store.dispatch({ type: LOAD_USER_REQUEST, me: true, id: 1 });
 });
 

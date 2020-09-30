@@ -1,15 +1,26 @@
 import React from 'react';
-import { Drawer, Button, Row, Menu, Col, Popover, Form, Input } from 'antd';
+import {
+  Drawer,
+  Button,
+  Row,
+  Menu,
+  Col,
+  Popover,
+  Form,
+  Input,
+  message,
+} from 'antd';
 import { useState } from 'react';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, DashOutlined } from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar/avatar';
 import { Background90Div } from '../styles/styled-components';
 import MainMenu from './MainMenu';
 import login from '../pages/login';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { ContentDiv, TitleBarDiv } from '../styles/styled-components';
 import styled from 'styled-components';
+import { LOG_OUT } from '../sagas/user';
 
 const MenuButton = styled.a`
   display: inline-block;
@@ -41,20 +52,35 @@ const MenuButton = styled.a`
   }
 `;
 
-const MyProfile = (me) => (
-  <div>
-    <h2>{me?.email}</h2>
-    <h3>{me?.nickname + '님'}</h3>
-    <p>Point : {me?.point}p</p>
-    <p>랭킹 : 777위</p>
-    <Button style={{ margin: '5px' }}>
-      <Link href="./profile">
-        <a>자세히</a>
-      </Link>
-    </Button>
-    <Button style={{ margin: '5px' }}>로그아웃</Button>
-  </div>
-);
+const MyProfile = me => {
+  const dispatch = useDispatch();
+  const onClickLogout = () => {
+    try {
+      dispatch({ type: LOG_OUT });
+      sessionStorage.clear();
+      message.info('로그아웃 완료!');
+    } catch (e) {
+      message.error('로그아웃 실패!');
+    }
+  };
+
+  return (
+    <div>
+      <h2>{me?.email}</h2>
+      <h3>{me?.nickname + '님'}</h3>
+      <p>Point : {me?.point}p</p>
+      <p>랭킹 : 777위</p>
+      <Button style={{ margin: '5px' }}>
+        <Link href="./profile">
+          <a>자세히</a>
+        </Link>
+      </Button>
+      <Button onClick={onClickLogout} style={{ margin: '5px' }}>
+        로그아웃
+      </Button>
+    </div>
+  );
+};
 
 const NullProfile = (
   <div>

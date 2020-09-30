@@ -113,30 +113,6 @@ function matchings() {
   }, []);
   const { matchs } = useSelector((state) => state.match);
 
-  // const [matchs, setMatchs] = useState([]);
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(null);
-
-  // useEffect(() => {
-  //   const fetchMatchs = async () => {
-  //     try {
-  //       setError(null);
-  //       setMatchs(null);
-  //       setLoading(true);
-
-  //       const response = await axios.get(`/match?limit=${limit}`);
-  //       // 데이터는 response.data 안에 들어있습니다.
-  //       setMatchs(response.data.data);
-  //     } catch (e) {
-  //       setError(e);
-  //     }
-  //     setLoading(false);
-  //   };
-
-  //   fetchMatchs();
-  // }, []);
-
-  // if (loading) return <SyncOutlined spin style={{ fontSize: '100px' }} />;
   if (matchs?.length < 0)
     return (
       <Row>
@@ -168,18 +144,13 @@ function matchings() {
         textAlign: 'center',
         padding: '20px',
         backgroundColor: 'gray',
-        //테이블 row들 왜 투명이냐 ..?
+        //테이블 row들 왜 투명이냐 ..? Table 스타일로 수정
       }}
       justify="space-around"
-      // style={{
-      //   marginLeft: 50,
-      //   marginRight: 50,
-      //   paddingTop: 100,
-      // }}
     >
       <Table
         // className={tableCSS}
-        style={{ backgroundColor: 'white', borderRadius: '20px' }}
+        style={{ backgroundColor: 'white' }}
         columns={columns}
         dataSource={data.slice(0).reverse()}
         bordered
@@ -189,3 +160,28 @@ function matchings() {
 }
 
 export default matchings;
+
+// const [matchs, setMatchs] = useState([]);
+// const [loading, setLoading] = useState(false);
+// const [error, setError] = useState(null);
+
+// useEffect(() => {
+//   const fetchMatchs = async () => {
+//     try {
+//       setError(null);
+//       setMatchs(null);
+//       setLoading(true);
+
+//       const response = await axios.get(`/match?limit=${limit}`);
+//       // 데이터는 response.data 안에 들어있습니다.
+//       setMatchs(response.data.data);
+//     } catch (e) {
+//       setError(e);
+//     }
+//     setLoading(false);
+//   };
+
+//   fetchMatchs();
+// }, []);
+
+// if (loading) return <SyncOutlined spin style={{ fontSize: '100px' }} />;

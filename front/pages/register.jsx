@@ -82,11 +82,8 @@ const register = () => {
       message.error('회원가입이 실패했습니다!');
       Notification('회원가입이 실패했습니다!');
     }
-    console.log(reqValues);
   };
-  const onFinishFailed = (values) => {
-    console.log(values);
-  };
+  const onFinishFailed = (values) => {};
   return (
     <FullDiv style={{ marginTop: '5vh' }}>
       <Form
@@ -119,6 +116,7 @@ const register = () => {
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="Password"
+            a
           />
         </Form.Item>
         <Form.Item

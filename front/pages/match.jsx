@@ -164,7 +164,7 @@ const match = () => {
 
   return (
     <>
-      <Row>
+      <Row style={{ backgroundColor: 'white', height: '500px' }}>
         <Row
           style={{
             display: 'flex',
