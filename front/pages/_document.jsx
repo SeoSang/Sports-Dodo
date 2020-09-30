@@ -7,7 +7,7 @@ export default class MyDocument extends Document {
     // 1. 스타일 시트 인스턴스 생성
     const sheet = new ServerStyleSheet();
     // 2. 페이지 스타일들을 추출한다.
-    const page = renderPage((App) => (props) =>
+    const page = renderPage(App => props =>
       sheet.collectStyles(<App {...props} />)
     );
     // 3. 스타일 태그들을 전부 <style>로 만들어서 추출한다.
@@ -20,13 +20,6 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
-          <meta charSet="utf-8" />
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
-
-          <title>스포츠 도도</title>
           <link
             rel="icon"
             type="image/x-icon"
