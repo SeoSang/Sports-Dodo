@@ -20,19 +20,6 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
-          <meta charSet="utf-8" />
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
-
-          <title>스포츠 도도</title>
-          <link
-            rel="icon"
-            type="image/x-icon"
-            sizes="16x16"
-            href="../src/favicon.ico"
-          ></link>
           {/* 최종 : head에 뽑았던 스타일 태그들을 넣어준다. */}
 
           {this.props.styleTags}

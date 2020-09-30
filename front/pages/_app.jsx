@@ -15,7 +15,7 @@ require('moment-timezone');
 
 const MyApp = ({ Component, pageProps }) => {
   const dispatch = useDispatch();
-  const { me } = useSelector(state => state.user);
+  const { me } = useSelector((state) => state.user);
 
   useEffect(() => {
     const tokenValue = sessionStorage.getItem('sd');
@@ -47,7 +47,7 @@ const MyApp = ({ Component, pageProps }) => {
           type="image/x-icon"
           // type="image/x-icon"
           sizes="16x16"
-          href="/images/dodo.ico"
+          href="images/dodo.ico"
           // href="/images/favicon2.ico"
         ></link>
 
@@ -81,7 +81,7 @@ const MyApp = ({ Component, pageProps }) => {
   );
 };
 
-MyApp.getInitialProps = context => {
+MyApp.getInitialProps = (context) => {
   // 쿠키로 하는 가능성도 열어놨다.
   // const cookie = new Cookies();
   // const tokenValue = cookie.get('sd');

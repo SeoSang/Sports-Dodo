@@ -36,9 +36,10 @@ const fetchApi = async (url) => {
   // let data = [];
   try {
     const { data } = await axios.get(url);
+    //비구조화 할당
     // data = { ...response.data };
     // console.log(response.data);
-    console.log(data);
+    // console.log(data);
     return data;
     // return response.data;
   } catch (e) {
@@ -64,14 +65,16 @@ const match = () => {
   const [battingpoint, setBattingpoint] = useState(10);
 
   useEffect(() => {
-    const match = fetchApi(`/match/${matchid}`);
-    const point = fetchApi(`/match/${matchid}/batting`);
+    if (matchid) {
+      const match = fetchApi(`/match/${matchid}`);
+      const point = fetchApi(`/match/${matchid}/batting`);
 
-    Promise.all([match, point]).then((v) => {
-      setMatch(v[0].data);
-      setBpoint(v[1]);
-    });
-  }, []);
+      Promise.all([match, point]).then((v) => {
+        setMatch(v[0].data);
+        setBpoint(v[1]);
+      });
+    }
+  }, [matchid]);
   // const idForFAPI = match1?.idForFAPI;
   // const { idForFAPI } = match1;
   //비구조화 할당 왜 안돼?
@@ -114,7 +117,7 @@ const match = () => {
   const homeBattingNumber = match?.homeBattingNumber;
   const awayBattingNumber = match?.awayBattingNumber;
   const drawBattingNumber = match?.drawBattingNumber;
-  // console.log(homeTotalPoint);
+  // console.log(homeBattingNumber);
 
   const homeTeamLogoUrl = match?.homeTeamLogoUrl;
   const awayTeamLogoUrl = match?.awayTeamLogoUrl;
@@ -256,7 +259,7 @@ const match = () => {
           <Col span={8}>{awayOdds}</Col>
         </Row>
         <Form onFinish={handleSubmit}>
-          <Row>
+          <Row style={{ paddingTop: '2rem' }}>
             <Radio.Group defaultValue="Home" buttonStyle="solid">
               <Radio.Button value="Home" onChange={handleChooseChange}>
                 홈 승
@@ -269,7 +272,7 @@ const match = () => {
               </Radio.Button>
             </Radio.Group>
           </Row>
-          <Row>
+          <Row style={{ paddingTop: '1rem' }}>
             <InputNumber
               defaultValue={10}
               // formatter={(value) => `${value}`}
@@ -282,9 +285,11 @@ const match = () => {
             />
           </Row>
           <Row>예상 배당 포인트 : {hitOdds} p</Row>
-          <Button type="primary" htmlType="submit" danger>
-            배팅하기
-          </Button>
+          <Row>
+            <Button type="primary" htmlType="submit" danger>
+              배팅하기
+            </Button>
+          </Row>
           {/* </Row> */}
         </Form>
       </Row>
