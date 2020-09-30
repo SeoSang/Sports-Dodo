@@ -168,14 +168,14 @@ async function calculateBattingResultOfEachMatch(matchId, matchResult) {
 			console.log('plusPoint : ' + plusPoint);
 
 			// 각 베팅의 결과 입력.
-			await Batting.findByIdAndUpdate(battings[j]._id, { battingResult: 'Collect', $inc: { resultPoint: `${plusPoint}` } }, { new: true })
+			await Batting.findByIdAndUpdate(battings[j]._id, { battingResult: true, $inc: { resultPoint: `${plusPoint}` } }, { new: true })
 
 			// 맞춘사람에게 포인트 주기.
 			let checkUserChanged = await User.findByIdAndUpdate(battings[j].user, { $inc: { point: `${plusPoint}` } }, { new: true })
 			console.log(`[5] checkUserChanged : ${checkUserChanged}`);
 
 		} else {
-			await Batting.findByIdAndUpdate(battings[j]._id, { battingResult: 'Wrong' }, { new: true })
+			await Batting.findByIdAndUpdate(battings[j]._id, { battingResult: false }, { new: true })
 		}
 	}
 }

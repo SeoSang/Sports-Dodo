@@ -39,9 +39,8 @@ var BattingSchema = mongoose.Schema({
         default: 'Not Finished'
     },
     battingResult: {
-        type: String,
-        enum: ['Collect', 'Wrong', 'Not Finished'],
-        default: 'Not Finished'
+        type: Boolean,
+        default: false
     },
     resultPoint: {
         type: Number,

@@ -54,6 +54,27 @@ var MatchSchema = mongoose.Schema({
     drawBattingNumber: {
         type: Number,
         default: 0
+    },
+    homeBattingPoint: {
+        type: Number,
+        default: 0
+    },
+    awayBattingPoint: {
+        type: Number,
+        default: 0,
+    },
+    drawBattingPoint: {
+        type: Number,
+        default: 0
+    },
+    referee: {
+        type: String,
+    },
+    venue: {
+        type: String,
+    },
+    round: {
+        type: String,
     }
 },
     //  {
