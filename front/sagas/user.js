@@ -34,6 +34,12 @@ function* login(action) {
       type: LOG_IN_SUCCESS,
       data: result.data,
     });
+    // yield put({
+    //   type: LOAD_USER_REQUEST,
+    //   data: {
+    //     me: true,
+    //   },
+    // });
   } catch (e) {
     yield console.error(e);
     yield alert('잘못된 아이디 혹은 비밀번호입니다!');

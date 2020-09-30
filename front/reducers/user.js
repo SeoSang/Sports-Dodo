@@ -18,7 +18,6 @@ export const initialState = {
   isLoggingIn: false,
   isLoginSuccess: false,
   me: null,
-  myRank: null,
   isRegistering: false,
   isRegisterSuccess: false,
   userInfo: null,
@@ -50,7 +49,7 @@ const reducer = (state = initialState, action) => {
       case LOG_IN_SUCCESS:
         draft.isLoggingIn = false;
         draft.isLoginSuccess = true;
-        draft.me = action.data.data;
+        // draft.me = action.data.data;
         break;
       case LOG_IN_FAILURE:
         draft.me = null;
@@ -63,7 +62,7 @@ const reducer = (state = initialState, action) => {
         break;
       case LOAD_USER_SUCCESS:
         draft.me = action.data.data;
-        draft.myRank = action.rank;
+        draft.me.rank = action.data.rank;
         break;
       case LOAD_USER_FAILURE:
         draft.me = null;

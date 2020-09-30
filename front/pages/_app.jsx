@@ -89,17 +89,17 @@ MyApp.getInitialProps = context => {
   //   axios.defaults.headers.common['x-access-token'] = tokenValue;
   //   axios.defaults.headers.common['Content-Type'] = 'application/json';
   // }
-  const { ctx } = context;
-  const state = ctx.store.getState();
-  // 서버일때만 쿠키 준다 (클라이언트일때는 알아서 쿠키 줌)
-  if (!state.user.me) {
-    ctx.store.dispatch({
-      type: LOAD_USER_REQUEST,
-      data: {
-        me: true,
-      },
-    });
-  }
+  // const { ctx } = context;
+  // const state = ctx.store.getState();
+  // // 서버일때만 쿠키 준다 (클라이언트일때는 알아서 쿠키 줌)
+  // if (!state.user.me) {
+  //   ctx.store.dispatch({
+  //     type: LOAD_USER_REQUEST,
+  //     data: {
+  //       me: true,
+  //     },
+  //   });
+  // }
 };
 
 export default wrapper.withRedux(MyApp);
