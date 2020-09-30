@@ -1,5 +1,7 @@
 import '../styles/globals.css';
 import Head from 'next/head';
+import Link from 'next/link';
+
 import MyLayout from '../components/MyLayout';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
@@ -13,7 +15,7 @@ require('moment-timezone');
 
 const MyApp = ({ Component, pageProps }) => {
   const dispatch = useDispatch();
-  const { me } = useSelector(state => state.user);
+  const { me } = useSelector((state) => state.user);
 
   useEffect(() => {
     const tokenValue = sessionStorage.getItem('sd');
@@ -36,11 +38,23 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+
+        <title>스포츠 도도</title>
+        <link
+          rel="icon"
+          type="image/x-icon"
+          // type="image/x-icon"
+          sizes="16x16"
+          href="images/dodo.ico"
+          // href="/images/favicon2.ico"
+        ></link>
+
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css"
         ></link>
-        {/* material ui 폰트 불러오기 로보토 폰트 */}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
@@ -67,7 +81,7 @@ const MyApp = ({ Component, pageProps }) => {
   );
 };
 
-MyApp.getInitialProps = context => {
+MyApp.getInitialProps = (context) => {
   // 쿠키로 하는 가능성도 열어놨다.
   // const cookie = new Cookies();
   // const tokenValue = cookie.get('sd');

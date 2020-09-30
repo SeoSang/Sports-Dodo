@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { Row, Col, Avatar } from 'antd';
+import { Row, Col, Avatar, Alert, notification } from 'antd';
 import { wrapper } from '../store';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { LOAD_USER_REQUEST } from '../sagas/user';
 import { useRouter } from 'next/dist/client/router';
+import Notification from '../components/Notification';
 
 const profileCardStye = {
   backgroundColor: '#c8d6e5',
@@ -19,13 +20,18 @@ const BattingsCard = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;
 
+// http://localhost:1337/api/user/5f55f6af32e4e943e89b6894
+//유저 api 검색
+
 const profile = () => {
-  const { me } = useSelector(state => state.user);
+  const { me } = useSelector((state) => state.user);
   const router = useRouter();
 
   useEffect(() => {
     if (!me) {
-      alert('로그인이 필요합니다!');
+      Notification('로그인이 필요합니다!');
+      // <Alert message="로그인이 필요합니다!" type="warning" showIcon closable />;
+      // alert('로그인이 필요합니다!');
       router.push('/');
     }
   }, [me]);
@@ -67,7 +73,7 @@ const profile = () => {
               <h2>날짜</h2>
             </Col>
           </Row>
-          {me?.battings?.map(batting => (
+          {me?.battings?.map((batting) => (
             <ProfileBattingLine batting={batting}></ProfileBattingLine>
           ))}
         </Row>

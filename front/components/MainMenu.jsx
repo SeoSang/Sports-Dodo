@@ -14,11 +14,11 @@ import {
 
 const MainMenu = ({ visible }) => {
   const [isFold, setFold] = useState(true);
-  const handleMouseEnter = e => {
+  const handleMouseEnter = (e) => {
     setFold(true);
   };
 
-  const handleMouseLeave = e => {
+  const handleMouseLeave = (e) => {
     setFold(false);
   };
 

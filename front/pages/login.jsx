@@ -8,6 +8,7 @@ import { useRouter } from 'next/dist/client/router';
 import { useEffect } from 'react';
 import { Cookies } from 'react-cookie';
 import { wrapper } from '../store';
+import Notification from '../components/Notification';
 import axios from 'axios';
 import { BACKEND_URL } from '../sagas';
 
@@ -34,7 +35,8 @@ const login = () => {
   );
   useEffect(() => {
     if (me && !isLoginSuccess) {
-      alert('로그인 되었으므로 홈으로 이동합니다!');
+      // alert('로그인 되었으므로 홈으로 이동합니다!');
+      Notification('로그인 되었으므로 홈으로 이동합니다!');
       router.push('/');
     }
   }, [me]);
@@ -44,9 +46,11 @@ const login = () => {
 
   useEffect(() => {
     if (isLoginSuccess) {
-      message.info('로그인에 성공하였습니다!');
+      // message.info('로그인에 성공하였습니다!');
+      Notification('로그인에 성공하였습니다!');
       router.reload();
     }
+    // return () => clearTimeout(timer);
   }, [isLoginSuccess, isLoggingIn, token]);
 
   const onFinish = values => {
