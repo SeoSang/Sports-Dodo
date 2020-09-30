@@ -21,6 +21,7 @@ import {
   Avatar,
   InputNumber,
   Button,
+  Divider,
 } from 'antd';
 import {
   UpperDiv,
@@ -249,17 +250,20 @@ const match = () => {
           <Row>주심 : {referee()}</Row>
         </Row>
         <Row>
-          <Col span={8}>{homeTotalPoint} p</Col>
-          <Col span={8}>{drawTotalPoint} p</Col>
-          <Col span={8}>{awayTotalPoint} p</Col>
+          <Col span={10}>{homeTotalPoint} p</Col>
+          <Col span={4}>{drawTotalPoint} p</Col>
+          <Col span={10}>{awayTotalPoint} p</Col>
         </Row>
         <Row>
-          <Col span={8}>{homeOdds}</Col>
-          <Col span={8}>{drawOdds}</Col>
-          <Col span={8}>{awayOdds}</Col>
+          <Col span={10}>{homeOdds}</Col>
+          <Col span={4}>{drawOdds}</Col>
+          <Col span={10}>{awayOdds}</Col>
         </Row>
+        <Divider />
+        {/*  새 컴포넌트 만들기 */}
         <Form onFinish={handleSubmit}>
-          <Row style={{ paddingTop: '2rem' }}>
+          <Row>
+            {/* style={{ paddingTop: '2rem' }} */}
             <Radio.Group defaultValue="Home" buttonStyle="solid">
               <Radio.Button value="Home" onChange={handleChooseChange}>
                 홈 승
@@ -284,14 +288,25 @@ const match = () => {
               onChange={handlebattingpointChange}
             />
           </Row>
-          <Row>예상 배당 포인트 : {hitOdds} p</Row>
-          <Row>
+          <Row style={{ paddingTop: '1rem' }}>
+            예상 배당 포인트 : {hitOdds} p
+          </Row>
+          <Row style={{ padding: '1rem' }}>
             <Button type="primary" htmlType="submit" danger>
               배팅하기
             </Button>
           </Row>
-          {/* </Row> */}
         </Form>
+        <Divider>배팅한 사람들</Divider>
+        {/* 디바이더 사용하기 */}
+        <Row align="center">
+          <Col span={11}>1</Col>
+          {/* 홈팀 배팅한 사람들 */}
+          <Col span={2}>
+            <Divider type="vertical" />
+          </Col>
+          <Col span={11}>2</Col>
+        </Row>
       </Row>
     </>
   );
