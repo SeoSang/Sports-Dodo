@@ -7,6 +7,8 @@ import { BACKEND_URL } from '../sagas';
 import MatchTest from '../components/MatchTest';
 import Notification from '../components/Notification';
 
+// import userFetch from 'userFetch';
+
 import {
   notification,
   Alert,
@@ -28,15 +30,9 @@ import {
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
-const TestRow = styled(Row)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
-async function fetchApi(url) {
+const fetchApi = async (url) => {
   // let data = [];
   try {
     const { data } = await axios.get(url);
@@ -49,7 +45,7 @@ async function fetchApi(url) {
     console.log(e);
     return [];
   }
-}
+};
 
 const match = () => {
   const router = useRouter();
@@ -179,7 +175,11 @@ const match = () => {
         >
           <Col span={10}>
             <Row>
-              <Avatar size={100} src={homeTeamImg} />
+              <Avatar
+                size={100}
+                src={homeTeamImg}
+                style={{ backgroundColor: 'white' }}
+              />
             </Row>
             <Row>
               <h2>{homeTeam}</h2>
@@ -204,7 +204,11 @@ const match = () => {
           </Col>
           <Col span={10}>
             <Row>
-              <Avatar size={100} src={awayTeamImg} />
+              <Avatar
+                size={100}
+                src={awayTeamImg}
+                style={{ backgroundColor: 'white' }}
+              />
             </Row>
             <Row>
               <h2>{awayTeam}</h2>

@@ -2,7 +2,6 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/matchings": "pages/matchings.js",
   "/match": "pages/match.js",
-  "/": "pages/index.js"
+  "/matchings": "pages/matchings.js"
 }

@@ -179,6 +179,7 @@ function matchings() {
     >
       <Table
         // className={tableCSS}
+        style={{ backgroundColor: 'white', borderRadius: '20px' }}
         columns={columns}
         dataSource={data.slice(0).reverse()}
         bordered

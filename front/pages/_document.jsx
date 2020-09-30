@@ -26,7 +26,7 @@ export default class MyDocument extends Document {
             content="initial-scale=1.0, width=device-width"
           />
 
-          <title>eee1e</title>
+          <title>스포츠 도도</title>
           <link
             rel="icon"
             type="image/x-icon"

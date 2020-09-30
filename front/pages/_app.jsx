@@ -43,10 +43,10 @@ const MyApp = ({ Component, pageProps }) => {
         <title>스포츠 도도</title>
         <link
           rel="icon"
-          type="image/png"
+          type="image/x-icon"
           // type="image/x-icon"
           sizes="16x16"
-          href="/images/favicon-16x16.png"
+          href="/images/dodo.ico"
           // href="/images/favicon2.ico"
         ></link>
 
