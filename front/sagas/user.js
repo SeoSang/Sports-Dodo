@@ -5,6 +5,7 @@ import { BACKEND_URL } from '.';
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
 export const LOG_IN_FAILURE = 'LOG_IN_FAILURE';
+export const LOG_OUT = 'LOG_OUT';
 export const REGISTER_REQUEST = 'REGISTER_REQUEST';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAILURE = 'REGISTER_FAILURE';
@@ -33,6 +34,12 @@ function* login(action) {
       type: LOG_IN_SUCCESS,
       data: result.data,
     });
+    // yield put({
+    //   type: LOAD_USER_REQUEST,
+    //   data: {
+    //     me: true,
+    //   },
+    // });
   } catch (e) {
     yield console.error(e);
     yield alert('잘못된 아이디 혹은 비밀번호입니다!');

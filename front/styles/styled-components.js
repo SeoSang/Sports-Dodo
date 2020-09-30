@@ -1,6 +1,17 @@
 import styled from 'styled-components';
 import { Button } from 'antd';
 
+export const FlexDiv = styled.div`
+  display: ${props => props.flex || 'flex'};
+  flex-direction: ${props => props.direction || 'row'};
+  justify-content: ${props => props.justify || 'center'};
+  align-items: ${props => props.align || 'center'};
+  flex-wrap: wrap;
+  background-color: ${props => props.backgroundColor || 'auto'};
+  height: ${props => props.height || 'auto'};
+  width: ${props => props.width || 'auto'};
+`;
+
 // _app 에서 쓰임
 export const TitleBarDiv = styled.div`
   border-bottom-width: 1px;

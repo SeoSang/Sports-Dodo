@@ -8,6 +8,7 @@ import { LOAD_MAIN_MATCHS_REQUEST } from '../sagas/match';
 import moment from 'moment';
 import { LOAD_RANKINGS_REQUEST } from '../sagas/ranking';
 import IndexCard from '../components/IndexCard';
+import NoMatchCard from '../components/NoMatchCard';
 
 const FOOTBALL_TRANSLATE = '-0';
 const BASEBALL_TRANSLATE = '-33.3%';
@@ -53,7 +54,7 @@ const SlideRefDiv = styled.div`
   height: 100%;
   align-items: center;
   transition: all 0.5s ease-in-out;
-  transform: translateX(${(props) => props.tr});
+  transform: translateX(${props => props.tr});
 `;
 
 const MatchTime = styled.div`
@@ -80,8 +81,8 @@ const Home = () => {
   const slideRef = useRef(null);
   const messiRef = useRef(null);
   const dispatch = useDispatch();
-  const { matchs } = useSelector((state) => state.match);
-  const { rankings } = useSelector((state) => state.ranking);
+  const { matchs } = useSelector(state => state.match);
+  const { rankings } = useSelector(state => state.ranking);
 
   useEffect(() => {
     dispatch({
@@ -92,14 +93,14 @@ const Home = () => {
     });
   }, []);
 
-  const onClickFootball = (e) => {
+  const onClickFootball = e => {
     // 슬라이드 애니메이션
     setCurrentSlide(FOOTBALL_TRANSLATE);
   };
-  const onClickBaseball = (e) => {
+  const onClickBaseball = e => {
     setCurrentSlide(BASEBALL_TRANSLATE);
   };
-  const onClickBasketball = (e) => {
+  const onClickBasketball = e => {
     setCurrentSlide(BASKETBALL_TRANSLATE);
   };
 
@@ -124,9 +125,13 @@ const Home = () => {
           <UpperCol xs={24} lg={19}>
             <div style={{ height: '100%', overflow: 'hidden' }}>
               <SlideRefDiv ref={slideRef} tr={currentSlide}>
-                {matchs?.map((match, i) => (
-                  <IndexCard match={match} key={i}></IndexCard>
-                ))}
+                {matchs && matchs.length !== 0 ? (
+                  matchs.map((match, i) => (
+                    <IndexCard match={match} key={i}></IndexCard>
+                  ))
+                ) : (
+                  <NoMatchCard />
+                )}
               </SlideRefDiv>
             </div>
           </UpperCol>
@@ -166,7 +171,7 @@ const Home = () => {
               <></>
             )}
             {dummy_main_rankings.map((ranking, index) => (
-              <Col span={8}>
+              <Col span={8} key={index}>
                 <List
                   header={
                     <img

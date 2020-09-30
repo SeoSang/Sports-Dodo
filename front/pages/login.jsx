@@ -1,5 +1,5 @@
 import { FullDiv } from '../styles/styled-components';
-import { Button, Input, Checkbox, Form } from 'antd';
+import { Button, Input, Checkbox, Form, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,7 +34,7 @@ const login = () => {
   );
   useEffect(() => {
     if (me && !isLoginSuccess) {
-      alert('이미 로그인 되었습니다!');
+      alert('로그인 되었으므로 홈으로 이동합니다!');
       router.push('/');
     }
   }, [me]);
@@ -44,9 +44,8 @@ const login = () => {
 
   useEffect(() => {
     if (isLoginSuccess) {
-      cookie.set('sd', token);
-      alert('로그인에 성공하였습니다!');
-      router.push('/');
+      message.info('로그인에 성공하였습니다!');
+      router.reload();
     }
   }, [isLoginSuccess, isLoggingIn, token]);
 

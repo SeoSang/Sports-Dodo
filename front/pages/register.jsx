@@ -69,11 +69,8 @@ const register = () => {
       console.error(e);
       message.error('회원가입이 실패했습니다!');
     }
-    console.log(reqValues);
   };
-  const onFinishFailed = values => {
-    console.log(values);
-  };
+  const onFinishFailed = values => {};
   return (
     <FullDiv style={{ marginTop: '5vh' }}>
       <Form

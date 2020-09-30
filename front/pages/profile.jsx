@@ -40,7 +40,7 @@ const profile = () => {
             <Col span={16}>
               <h2>{me?.name}</h2>
               <h2>포인트 : {me?.point}점</h2>
-              <h2>랭킹 : 3123위</h2>
+              <h2>랭킹 : {me?.rank}위</h2>
             </Col>
           </Row>
         </Col>
@@ -77,7 +77,6 @@ const profile = () => {
 };
 
 export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
-  console.log(store);
   store.dispatch({ type: LOAD_USER_REQUEST, me: true, id: 1 });
 });
 

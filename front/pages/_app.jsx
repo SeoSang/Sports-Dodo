@@ -13,10 +13,11 @@ require('moment-timezone');
 
 const MyApp = ({ Component, pageProps }) => {
   const dispatch = useDispatch();
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector(state => state.user);
 
   useEffect(() => {
     const tokenValue = sessionStorage.getItem('sd');
+    console.log('tokenValue => ', tokenValue);
     if (tokenValue) {
       axios.defaults.headers.common['x-access-token'] = tokenValue;
       axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -66,25 +67,25 @@ const MyApp = ({ Component, pageProps }) => {
   );
 };
 
-MyApp.getInitialProps = async (context) => {
+MyApp.getInitialProps = context => {
   // 쿠키로 하는 가능성도 열어놨다.
-  const cookie = new Cookies();
-  const tokenValue = cookie.get('sd');
-  if (tokenValue) {
-    axios.defaults.headers.common['x-access-token'] = tokenValue;
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-  }
-  const { ctx } = context;
-  const state = ctx.store.getState();
-  // 서버일때만 쿠키 준다 (클라이언트일때는 알아서 쿠키 줌)
-  if (!state.user.me) {
-    ctx.store.dispatch({
-      type: LOAD_USER_REQUEST,
-      data: {
-        me: true,
-      },
-    });
-  }
+  // const cookie = new Cookies();
+  // const tokenValue = cookie.get('sd');
+  // if (tokenValue) {
+  //   axios.defaults.headers.common['x-access-token'] = tokenValue;
+  //   axios.defaults.headers.common['Content-Type'] = 'application/json';
+  // }
+  // const { ctx } = context;
+  // const state = ctx.store.getState();
+  // // 서버일때만 쿠키 준다 (클라이언트일때는 알아서 쿠키 줌)
+  // if (!state.user.me) {
+  //   ctx.store.dispatch({
+  //     type: LOAD_USER_REQUEST,
+  //     data: {
+  //       me: true,
+  //     },
+  //   });
+  // }
 };
 
 export default wrapper.withRedux(MyApp);
