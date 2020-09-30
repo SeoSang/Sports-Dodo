@@ -28,7 +28,6 @@ const MainMenu = ({ visible }) => {
         zIndex: 100,
         position: 'absolute',
         width: 256,
-        top: '70px',
       }}
     >
       {visible ? (
@@ -40,6 +39,8 @@ const MainMenu = ({ visible }) => {
           inlineCollapsed={!isFold}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          style={{backgroundColor:"black"}}
+
         >
           {/* //홈 추가  홈링크 왜 안가지는지 모르겠음*/}
           <Menu.Item key="0" icon={<HomeOutlined />}>
@@ -49,7 +50,7 @@ const MainMenu = ({ visible }) => {
           </Menu.Item>
           <SubMenu key="sub1" icon={<DesktopOutlined />} title="매칭 보기">
             <Menu.Item key="1">
-              <Link href="/matchs">
+              <Link href="/matchings">
                 <a> 축구 </a>
               </Link>
             </Menu.Item>
@@ -58,10 +59,14 @@ const MainMenu = ({ visible }) => {
                 <a>야구</a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="3">농구</Menu.Item>
+            <Menu.Item key="3">
+              <Link href="/matchings">
+                <a>농구</a>
+              </Link>
+            </Menu.Item>
           </SubMenu>
           <Menu.Item key="4" icon={<ContainerOutlined />}>
-            <Link href="/rankings">
+            <Link href="/profile">
               <a> 베팅 내역 </a>
             </Link>
           </Menu.Item>

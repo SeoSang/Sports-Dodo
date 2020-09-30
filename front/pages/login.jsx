@@ -1,5 +1,5 @@
 import { FullDiv } from '../styles/styled-components';
-import { Button, Input, Checkbox, Form } from 'antd';
+import { Button, Input, Checkbox, Form, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import { useRouter } from 'next/dist/client/router';
 import { useEffect } from 'react';
 import { Cookies } from 'react-cookie';
 import { wrapper } from '../store';
+import Notification from '../components/Notification';
 import axios from 'axios';
 import { BACKEND_URL } from '../sagas';
 
@@ -30,11 +31,12 @@ const cookie = new Cookies();
 
 const login = () => {
   const { isLoginSuccess, isLoggingIn, token, me } = useSelector(
-    (state) => state.user
+    state => state.user
   );
   useEffect(() => {
     if (me && !isLoginSuccess) {
-      alert('이미 로그인 되었습니다!');
+      // alert('로그인 되었으므로 홈으로 이동합니다!');
+      Notification('로그인 되었으므로 홈으로 이동합니다!');
       router.push('/');
     }
   }, [me]);
@@ -44,17 +46,18 @@ const login = () => {
 
   useEffect(() => {
     if (isLoginSuccess) {
-      cookie.set('sd', token);
-      alert('로그인에 성공하였습니다!');
-      router.push('/');
+      // message.info('로그인에 성공하였습니다!');
+      Notification('로그인에 성공하였습니다!');
+      router.reload();
     }
+    // return () => clearTimeout(timer);
   }, [isLoginSuccess, isLoggingIn, token]);
 
-  const onFinish = (values) => {
+  const onFinish = values => {
     dispatch({ type: LOG_IN_REQUEST, data: values });
   };
 
-  const onFinishFailed = (values) => {};
+  const onFinishFailed = values => {};
 
   const onClickTest = async () => {
     const result = await axios.get(`${BACKEND_URL}/ping`);
@@ -129,9 +132,5 @@ const login = () => {
     </FullDiv>
   );
 };
-
-export const getStaticProps = wrapper.getStaticProps(async (context) => {
-  console.log(context);
-});
 
 export default login;

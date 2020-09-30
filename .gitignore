@@ -1,5 +1,6 @@
 # dependencies
 node_modules
+node_modules/
 package-lock.json
 /.pnp
 .pnp.js
@@ -8,10 +9,10 @@ package-lock.json
 /coverage
 
 # next.js
-.next/
-/.next/
-/out/
 front/.next/
+front/.next/server
+front/.next/static
+front/.next/cache
 
 # production
 /build

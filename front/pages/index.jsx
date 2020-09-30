@@ -1,9 +1,5 @@
 import { List, Row, Col, Card, Progress, Button, Layout, BackTop } from 'antd';
-import {
-  dummy_match_A,
-  dummy_main_rankings,
-  dummy_main_matches,
-} from '../src/dummy';
+import { dummy_main_rankings } from '../src/dummy';
 import { LowerDiv, SportCategories } from '../styles/styled-components';
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
@@ -11,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LOAD_MAIN_MATCHS_REQUEST } from '../sagas/match';
 import moment from 'moment';
 import { LOAD_RANKINGS_REQUEST } from '../sagas/ranking';
+import IndexCard from '../components/IndexCard';
+import NoMatchCard from '../components/NoMatchCard';
 
 const FOOTBALL_TRANSLATE = '-0';
 const BASEBALL_TRANSLATE = '-33.3%';
@@ -24,7 +22,7 @@ const IMAGE_MAPPING = {
 
 export const MainRow = styled(Row)`
   height: 100vh;
-  background-color: #e8e8e8;
+  background-color: #ffffff;
 `;
 
 export const UpperCol = styled(Col)`
@@ -43,11 +41,20 @@ export const UpperCol = styled(Col)`
 const MessiContainer = styled.div`
   display: flex;
   align-items: center;
-  min-height: 93vh;
   overflow: hidden;
   opacity: 90%;
   cursor: pointer;
   width: 100%;
+  height:20%;
+`;
+
+const SlideRefDiv = styled.div`
+  display: flex;
+  width: 300%;
+  height: 100%;
+  align-items: center;
+  transition: all 0.5s ease-in-out;
+  transform: translateX(${props => props.tr});
 `;
 
 const MatchTime = styled.div`
@@ -74,8 +81,8 @@ const Home = () => {
   const slideRef = useRef(null);
   const messiRef = useRef(null);
   const dispatch = useDispatch();
-  const { matchs } = useSelector((state) => state.match);
-  const { rankings } = useSelector((state) => state.ranking);
+  const { matchs } = useSelector(state => state.match);
+  const { rankings } = useSelector(state => state.ranking);
 
   useEffect(() => {
     dispatch({
@@ -86,14 +93,14 @@ const Home = () => {
     });
   }, []);
 
-  const onClickFootball = (e) => {
+  const onClickFootball = e => {
     // 슬라이드 애니메이션
     setCurrentSlide(FOOTBALL_TRANSLATE);
   };
-  const onClickBaseball = (e) => {
+  const onClickBaseball = e => {
     setCurrentSlide(BASEBALL_TRANSLATE);
   };
-  const onClickBasketball = (e) => {
+  const onClickBasketball = e => {
     setCurrentSlide(BASKETBALL_TRANSLATE);
   };
 
@@ -106,7 +113,7 @@ const Home = () => {
     <>
       <Row style={{ zIndex: 20 }}>
         <MessiContainer onClick={scrollToBottom}>
-          <img style={{ width: '100%' }} src="/images/messi.jpg"></img>
+          <img style={{ width: '100%', height:'50%'}} src="/images/messi.jpg"></img>
         </MessiContainer>
       </Row>
       <MainRow style={{ height: '100vh' }}>
@@ -117,54 +124,15 @@ const Home = () => {
         >
           <UpperCol xs={24} lg={19}>
             <div style={{ height: '100%', overflow: 'hidden' }}>
-              <div
-                ref={slideRef}
-                style={{
-                  width: '300%',
-                  height: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  transition: 'all 0.5s ease-in-out',
-                  transform: `translateX(${currentSlide}`,
-                }}
-              >
-                {matchs?.map((match, i) => (
-                  <Card
-                    key={`${i}번째 카드`}
-                    title={'축구'}
-                    bordered={true}
-                    style={{
-                      margin: '3px 5px',
-                      width: '11%',
-                    }}
-                    key={`card${i}`}
-                  >
-                    <h2>{`${match.homeTeam} VS ${match.awayTeam}`} </h2>
-                    <label>승 : 100p</label>
-                    <Progress percent={30} size="small" />
-                    <label>무 : 350p</label>
-                    <Progress strokeColor={'green'} percent={50} size="small" />
-                    <label>패 : 80p</label>
-                    <Progress strokeColor={'red'} percent={20} size="small" />
-                    <br></br>
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        alignContent: 'center',
-                        marginTop: '15px',
-                      }}
-                    >
-                      <Button>자세히 보기</Button>
-                      <MatchTime>
-                        {moment(match.startTime).format('lll')}
-                      </MatchTime>
-                    </div>
-                  </Card>
-                ))}
-              </div>
+              <SlideRefDiv ref={slideRef} tr={currentSlide}>
+                {matchs && matchs.length !== 0 ? (
+                  matchs.map((match, i) => (
+                    <IndexCard match={match} key={i}></IndexCard>
+                  ))
+                ) : (
+                  <NoMatchCard />
+                )}
+              </SlideRefDiv>
             </div>
           </UpperCol>
           <UpperCol style={{ height: '100%' }} xs={24} lg={3}>
@@ -203,7 +171,7 @@ const Home = () => {
               <></>
             )}
             {dummy_main_rankings.map((ranking, index) => (
-              <Col span={8}>
+              <Col span={8} key={index}>
                 <List
                   header={
                     <img

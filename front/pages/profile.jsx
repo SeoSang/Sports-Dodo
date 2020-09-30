@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { Row, Col, Avatar } from 'antd';
+import { Row, Col, Avatar, Alert, notification } from 'antd';
 import { wrapper } from '../store';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { LOAD_USER_REQUEST } from '../sagas/user';
 import { useRouter } from 'next/dist/client/router';
+import Notification from '../components/Notification';
 
 const profileCardStye = {
   backgroundColor: '#c8d6e5',
@@ -19,17 +20,18 @@ const BattingsCard = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;
 
+// http://localhost:1337/api/user/5f55f6af32e4e943e89b6894
+//유저 api 검색
+
 const profile = () => {
-<<<<<<< HEAD:front/pages/profile.js
   const { me } = useSelector((state) => state.user);
-=======
-  const { me } = useSelector(state => state.user);
->>>>>>> upstream/master:front/pages/profile.jsx
   const router = useRouter();
 
   useEffect(() => {
     if (!me) {
-      alert('로그인이 필요합니다!');
+      Notification('로그인이 필요합니다!');
+      // <Alert message="로그인이 필요합니다!" type="warning" showIcon closable />;
+      // alert('로그인이 필요합니다!');
       router.push('/');
     }
   }, [me]);
@@ -44,7 +46,7 @@ const profile = () => {
             <Col span={16}>
               <h2>{me?.name}</h2>
               <h2>포인트 : {me?.point}점</h2>
-              <h2>랭킹 : 3123위</h2>
+              <h2>랭킹 : {me?.rank}위</h2>
             </Col>
           </Row>
         </Col>
@@ -64,31 +66,15 @@ const profile = () => {
             <Col span={8}>
               <h2>베팅</h2>
             </Col>
-            <Col span={8}>
+            <Col span={4}>
               <h2>결과</h2>
             </Col>
+            <Col span={4}>
+              <h2>날짜</h2>
+            </Col>
           </Row>
-          {me?.battings.map((batting) => (
-            <Row>
-              <Col span={8}>
-                <h2>
-                  {batting.match.homeTeam} VS {batting.match.awayTeam}
-                </h2>
-              </Col>
-              <Col span={8}>
-                <h2>
-                  {batting.select} 선택 - {batting.point}포인트
-                </h2>
-              </Col>
-              <Col span={8}>
-                <h2>
-                  {batting.select === batting.result.matchResult
-                    ? batting.result.reward
-                    : 0}{' '}
-                  포인트 획득!{' '}
-                </h2>
-              </Col>
-            </Row>
+          {me?.battings?.map((batting) => (
+            <ProfileBattingLine batting={batting}></ProfileBattingLine>
           ))}
         </Row>
       </BattingsCard>
@@ -97,7 +83,6 @@ const profile = () => {
 };
 
 export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
-  console.log(store);
   store.dispatch({ type: LOAD_USER_REQUEST, me: true, id: 1 });
 });
 
