@@ -24,13 +24,19 @@ async function bringMatchFromAPI(league_id, date) {
         homeTeam: response.data.api.fixtures[i].homeTeam.team_name,
         homeTeamLogoUrl: response.data.api.fixtures[i].homeTeam.logo,
         awayTeam: response.data.api.fixtures[i].awayTeam.team_name,
-        awayTeamLogUrl: response.data.api.fixtures[i].awayTeam.logo,
+        awayTeamLogoUrl: response.data.api.fixtures[i].awayTeam.logo,
         startTime: response.data.api.fixtures[i].event_date,
         idForFAPI: response.data.api.fixtures[i].fixture_id,
+        venue: response.data.api.fixtures[i].venue,
+        referee: response.data.api.fixtures[i].referee,
+        round: response.data.api.fixtures[i].round,
       }
 
       // newMatchs.push(inputData);
-      await Match.create(inputData);
+      await Match.findOneAndUpdate({ idForFAPI: inputData.idForFAPI }, inputData, {
+        new: true,
+        runValidators: true
+      });
     }
 
     // console.log(newMatchs);
