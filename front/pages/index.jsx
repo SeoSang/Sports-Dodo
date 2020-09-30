@@ -30,11 +30,12 @@ export const UpperCol = styled(Col)`
   margin: 0.2vh 1vw;
   margin-top: 1vh;
   height: 100%;
-  background-color: #f6f5f5;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.07), 0 3px 10px 0 rgba(0, 0, 0, 0.004);
+  
   @media (max-width: 992px) {
     // height: 60vh;
+    font-size: 80%;
   }
 `;
 
@@ -73,6 +74,7 @@ const SliderButtonContainer = styled.div`
   align-items: center;
   @media (max-width: 992px) {
     flex-direction: row;
+    font-size:80%;
   }
 `;
 
@@ -116,83 +118,84 @@ const Home = () => {
           <img style={{ width: '100%', height:'50%'}} src="/images/messi.jpg"></img>
         </MessiContainer>
       </Row>
-      <MainRow style={{ height: '100vh' }}>
-        <Row
-          style={{ marginTop: '5vh', textAlign: 'center' }}
-          justify="space-around"
-          gutter={16}
-        >
-          <UpperCol xs={24} lg={19}>
-            <div style={{ height: '100%', overflow: 'hidden' }}>
-              <SlideRefDiv ref={slideRef} tr={currentSlide}>
-                {matchs && matchs.length !== 0 ? (
-                  matchs.map((match, i) => (
-                    <IndexCard match={match} key={i}></IndexCard>
-                  ))
-                ) : (
-                  <NoMatchCard />
-                )}
-              </SlideRefDiv>
-            </div>
-          </UpperCol>
-          <UpperCol style={{ height: '100%' }} xs={24} lg={3}>
-            <SliderButtonContainer style={{ height: '100%' }}>
-              <SportCategories onClick={onClickFootball}>축구</SportCategories>
-              <SportCategories onClick={onClickBaseball}>야구</SportCategories>
-              <SportCategories onClick={onClickBasketball}>
-                농구
-              </SportCategories>
-            </SliderButtonContainer>
-          </UpperCol>
-        </Row>
-        <LowerDiv>
-          <h2>실시간 랭킹</h2>
-          <Row>
-            {rankings ? (
-              <Col span={8}>
-                <List
-                  header={
-                    <img
-                      style={{
-                        width: '60px',
-                        height: '30px',
-                      }}
-                      src={IMAGE_MAPPING['축구']}
-                    ></img>
-                  }
-                  bordered
-                  dataSource={rankings.slice(0, 5)}
-                  renderItem={(item, i) => (
-                    <List.Item>{`${i + 1}위 - ${item.nickname}`}</List.Item>
-                  )}
-                ></List>
-              </Col>
-            ) : (
-              <></>
-            )}
-            {dummy_main_rankings.map((ranking, index) => (
-              <Col span={8} key={index}>
-                <List
-                  header={
-                    <img
-                      style={{
-                        width: '60px',
-                        height: '30px',
-                      }}
-                      src={IMAGE_MAPPING[ranking.category]}
-                    ></img>
-                  }
-                  bordered
-                  dataSource={ranking.data.slice(0, 5)}
-                  renderItem={(item, i) => (
-                    <List.Item>{`${i + 1}위 - ${item.nickname}`}</List.Item>
-                  )}
-                ></List>
-              </Col>
-            ))}
-          </Row>
-        </LowerDiv>
-      </MainRow>
+        <MainRow style={{ height: '100vh' }}>
+          <Card style={{backgroundColor:'#fcfcfc', margin:'5px',boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'}}>
+            <Row
+              style={{ marginTop: '5vh', textAlign: 'center' }}
+              justify="space-around"
+              gutter={16}
+            >
+              <UpperCol xs={24} lg={19}>
+                <div style={{ height: '100%', overflow: 'hidden' }}>
+                  <SlideRefDiv ref={slideRef} tr={currentSlide}>
+                    {matchs && matchs.length !== 0 ? (
+                      matchs.map((match, i) => (
+                        <IndexCard match={match} key={i}></IndexCard>
+                      ))
+                    ) : (
+                      <NoMatchCard />
+                    )}
+                  </SlideRefDiv>
+                </div>
+              </UpperCol>
+              <UpperCol style={{ height: '100%' }} xs={24} lg={3}>
+                <SliderButtonContainer style={{ height: '100%' }}>
+                  <SportCategories onClick={onClickFootball}>축구</SportCategories>
+                  <SportCategories onClick={onClickBaseball}>야구</SportCategories>
+                  <SportCategories onClick={onClickBasketball}>농구</SportCategories>
+                </SliderButtonContainer>
+              </UpperCol>
+            </Row>
+          </Card>
+          <LowerDiv style={{margin:'10px'}}>
+            <h2>실시간 랭킹</h2>
+            <Row>
+              {rankings ? (
+                <Col span={8}>
+                  <List
+                    header={
+                      <img
+                        style={{
+                          width: '60px',
+                          height: '30px',
+                        }}
+                        src={IMAGE_MAPPING['축구']}
+                      ></img>
+                    }
+                    bordered
+                    dataSource={rankings.slice(0, 5)}
+                    renderItem={(item, i) => (
+                      <List.Item>{`${i + 1}위 - ${item.nickname}`}</List.Item>
+                    )}
+                  ></List>
+                </Col>
+              ) : (
+                <></>
+              )}
+              {dummy_main_rankings.map((ranking, index) => (
+                <Col span={8} key={index}>
+                  <List
+                    header={
+                      <img
+                        style={{
+                          width: '60px',
+                          height: '30px',
+                        }}
+                        src={IMAGE_MAPPING[ranking.category]}
+                      ></img>
+                    }
+                    bordered
+                    dataSource={ranking.data.slice(0, 5)}
+                    renderItem={(item, i) => (
+                      <List.Item>{`${i + 1}위 - ${item.nickname}`}</List.Item>
+                    )}
+                  ></List>
+                </Col>
+              ))}
+            </Row>
+          </LowerDiv>
+        </MainRow>
+
       <div style={{ float: 'left', clear: 'both' }} ref={messiRef}></div>
     </>
   );

@@ -39,7 +39,7 @@ const MainMenu = ({ visible }) => {
           inlineCollapsed={!isFold}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          style={{backgroundColor:"black"}}
+          style={{backgroundColor:"black", position:'fixed',top:'50px',width:'30%'}}
 
         >
           {/* //홈 추가  홈링크 왜 안가지는지 모르겠음*/}
@@ -54,12 +54,6 @@ const MainMenu = ({ visible }) => {
                 <a> 축구 </a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="2">
-              <Link href="/matchings">
-                <a>야구</a>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="3">농구</Menu.Item>
           </SubMenu>
           <Menu.Item key="4" icon={<ContainerOutlined />}>
             <Link href="/profile">
@@ -71,17 +65,11 @@ const MainMenu = ({ visible }) => {
               <a> 전체 랭킹 </a>
             </Link>
           </Menu.Item>
-          <Menu.Item key="6" icon={<AppstoreOutlined />}>
-            기타 메뉴(아직 쓸지 안쓸지 모름)
+          <Menu.Item key="6" icon={<MailOutlined />}>
+            <Link href="/info">
+              소개페이지
+            </Link>
           </Menu.Item>
-          <SubMenu key="sub2" icon={<MailOutlined />} title="커뮤니티">
-            <Menu.Item key="7"> 커뮤니티 1 </Menu.Item>
-            <Menu.Item key="8"> 커뮤니티 2 </Menu.Item>
-            <SubMenu key="sub3" title="Submenu">
-              <Menu.Item key="9"> 기타 1 </Menu.Item>
-              <Menu.Item key="10"> 기타 2 </Menu.Item>
-            </SubMenu>
-          </SubMenu>
         </Menu>
       ) : (
         <div
