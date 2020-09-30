@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-  Drawer,
-  Button,
-  Row,
-  Menu,
-  Col,
-  Popover,
-  Form,
-  Input,
-  message,
-} from 'antd';
+import { Button, Row, Col, Popover, Form, Input, message } from 'antd';
 import { useState } from 'react';
 import { UserOutlined, LockOutlined, DashOutlined } from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar/avatar';
@@ -17,10 +7,11 @@ import { Background90Div } from '../styles/styled-components';
 import MainMenu from './MainMenu';
 import login from '../pages/login';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import Link from 'next/link';
 import { ContentDiv, TitleBarDiv } from '../styles/styled-components';
 import styled from 'styled-components';
 import { LOG_OUT } from '../sagas/user';
+import axios from 'axios';
+import Link from 'next/link';
 
 const MenuButton = styled.a`
   display: inline-block;
@@ -58,6 +49,7 @@ const MyProfile = me => {
     try {
       dispatch({ type: LOG_OUT });
       sessionStorage.clear();
+      delete axios.defaults.headers.common['x-access-token'];
       message.info('로그아웃 완료!');
     } catch (e) {
       message.error('로그아웃 실패!');
@@ -69,7 +61,7 @@ const MyProfile = me => {
       <h2>{me?.email}</h2>
       <h3>{me?.nickname + '님'}</h3>
       <p>Point : {me?.point}p</p>
-      <p>랭킹 : 777위</p>
+      <p>랭킹 : {me?.rank ? me.rank : 0}위</p>
       <Button style={{ margin: '5px' }}>
         <Link href="./profile">
           <a>자세히</a>
