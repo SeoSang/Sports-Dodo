@@ -144,7 +144,7 @@ const MyLayout = ({ children, me }) => {
 
   return (
     <>
-      <TitleBarDiv style={{backgroundColor:"black", margin:'0'}}>
+      <TitleBarDiv style={{ backgroundColor: 'black', margin: '0' }}>
         <Row style={{ height: '50px' }}>
           <Col className="vertical-mid" span={4}>
             <MenuButton onClick={toggleCollapsed}>
@@ -155,7 +155,12 @@ const MyLayout = ({ children, me }) => {
           </Col>
           <Col style={{ textAlign: 'center' }} span={16}>
             <Link href="/">
-              <img style={{width:'100px', height:'40px'}} src='/images/logo.png' />
+              <a>
+                <img
+                  style={{ width: '100px', height: '40px' }}
+                  src="/images/logo.png"
+                />
+              </a>
             </Link>
           </Col>
           <Col

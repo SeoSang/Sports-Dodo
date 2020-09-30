@@ -55,7 +55,7 @@ const IndexCard = ({ match }) => {
       />
       <br></br>
       <CardBottomDiv>
-        <Link href={{ pathname: 'Match', query: { matchid: match._id } }}>
+        <Link href={{ pathname: 'match', query: { matchid: match._id } }}>
           <a>
             <Button>자세히 보기</Button>
           </a>
