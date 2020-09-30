@@ -50,3 +50,6 @@
 ## License
 
 MIT
+
+## 기획 문서
+https://drive.google.com/file/d/1djAq96OK2dg25243VXGaq7UZmO_cd72i/view?usp=sharing
