@@ -26,13 +26,14 @@ import {
   UpperDiv,
   LowerDiv,
   SportCategories,
+  FlexDiv,
 } from '../styles/styled-components';
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
 axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
-const fetchApi = async (url) => {
+const fetchApi = async url => {
   // let data = [];
   try {
     const { data } = await axios.get(url);
@@ -52,7 +53,7 @@ const match = () => {
   const router = useRouter();
   const matchid = router.query.matchid;
 
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector(state => state.user);
   const dispatch = useDispatch();
   // 소유한 포인트에서 배팅한 포인트를 차감하여 리덕스를 사용해야하나?
 
@@ -69,7 +70,7 @@ const match = () => {
       const match = fetchApi(`/match/${matchid}`);
       const point = fetchApi(`/match/${matchid}/batting`);
 
-      Promise.all([match, point]).then((v) => {
+      Promise.all([match, point]).then(v => {
         setMatch(v[0].data);
         setBpoint(v[1]);
       });
@@ -143,11 +144,11 @@ const match = () => {
     ? awayTeamLogoUrl
     : 'http://asq.kr/BDy9XSTWw0sf';
 
-  const handleChooseChange = (e) => {
+  const handleChooseChange = e => {
     setChoose(e.target.value);
   };
 
-  const handlebattingpointChange = (e) => {
+  const handlebattingpointChange = e => {
     if (e > userPoint) {
       Notification('가진 포인트보다 배팅을 많이 했습니다.');
     } else {
@@ -163,13 +164,13 @@ const match = () => {
         chooseHomeAwayDraw: choose,
         battingPoint: battingpoint,
       })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         Notification('배팅을 완료 하였습니다!');
         // <Alert message="배팅을 완료 하였습니다." type="success" showIcon />;
         router.push('/matchings');
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         Notification('배팅에 오류가 발생 하였습니다!');
         // <Alert message="배팅 시간이 지났습니다." type="error" showIcon />;
@@ -177,7 +178,7 @@ const match = () => {
   };
 
   return (
-    <>
+    <div style={{ height: 'calc(100vh - 57px)' }}>
       <Row
         style={{
           backgroundColor: 'white',
@@ -293,7 +294,7 @@ const match = () => {
           {/* </Row> */}
         </Form>
       </Row>
-    </>
+    </div>
   );
 };
 

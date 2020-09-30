@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Row, Col, Popover, Form, Input, message } from 'antd';
 import { useState } from 'react';
-import { UserOutlined, LockOutlined, DashOutlined } from '@ant-design/icons';
+import { UserOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar/avatar';
 import { Background90Div } from '../styles/styled-components';
 import MainMenu from './MainMenu';
@@ -178,7 +178,11 @@ const MyLayout = ({ children, me }) => {
               title="내 정보"
               trigger="click"
             >
-              <Avatar shape="square" size="large" icon={<UserOutlined />} />
+              <Avatar
+                shape="square"
+                size="large"
+                icon={me ? <UserOutlined /> : <QuestionCircleOutlined />}
+              />
             </Popover>
           </Col>
         </Row>
