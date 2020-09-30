@@ -119,6 +119,17 @@ const match = () => {
   const homeTeamLogoUrl = match?.homeTeamLogoUrl;
   const awayTeamLogoUrl = match?.awayTeamLogoUrl;
 
+  const round = match?.round;
+  // const referee = if;
+  const referee = () => {
+    if (match?.referee === null) {
+      return '미정';
+    } else {
+      return match?.referee;
+    }
+  };
+  const venue = match?.venue;
+
   // console.log(match);
 
   const homeTeamImg = homeTeamLogoUrl
@@ -164,7 +175,12 @@ const match = () => {
 
   return (
     <>
-      <Row style={{ backgroundColor: 'white', height: '500px' }}>
+      <Row
+        style={{
+          backgroundColor: 'white',
+          height: '100%',
+        }}
+      >
         <Row
           style={{
             display: 'flex',
@@ -192,15 +208,18 @@ const match = () => {
             </Row>
           </Col>
           <Col span={4}>
+            <Row>{round}</Row>
             <Row>
               <h1>VS</h1>
             </Row>
             <Row>
               <h4>{startTime_1}</h4>
             </Row>
-            <Row>
+            {/* <Row>
               <h4>{finishTime_1}</h4>
-            </Row>
+            </Row> */}
+
+            {/* 장소 */}
           </Col>
           <Col span={10}>
             <Row>
@@ -220,6 +239,10 @@ const match = () => {
               <h4>{goalsAwayTeam}</h4>
             </Row>
           </Col>
+        </Row>
+        <Row style={{ marginBottom: '2rem' }}>
+          <Row>{venue}</Row>
+          <Row>주심 : {referee()}</Row>
         </Row>
         <Row>
           <Col span={8}>{homeTotalPoint} p</Col>

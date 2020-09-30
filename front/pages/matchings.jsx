@@ -132,9 +132,14 @@ function matchings() {
       ...matchs[i],
       startTime: moment(matchs[i].startTime).format('MM.DD HH:MM'),
       finishTime: moment(matchs[i].finishTime).format('MM.DD HH:MM'),
-      howManyPeopleBatted: matchs[i].howManyPeopleBatted
-        ? matchs[i].howManyPeopleBatted
-        : 0,
+      howManyPeopleBatted:
+        matchs[i].homeBattingNumber +
+        matchs[i].awayBattingNumber +
+        matchs[i].drawBattingNumber
+          ? matchs[i].homeBattingNumber +
+            matchs[i].awayBattingNumber +
+            matchs[i].drawBattingNumber
+          : 0,
     });
   }
 
