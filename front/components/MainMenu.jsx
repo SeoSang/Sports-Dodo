@@ -28,7 +28,6 @@ const MainMenu = ({ visible }) => {
         zIndex: 100,
         position: 'absolute',
         width: 256,
-        top: '70px',
       }}
     >
       {visible ? (
@@ -40,6 +39,8 @@ const MainMenu = ({ visible }) => {
           inlineCollapsed={!isFold}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          style={{backgroundColor:"black"}}
+
         >
           {/* //홈 추가  홈링크 왜 안가지는지 모르겠음*/}
           <Menu.Item key="0" icon={<HomeOutlined />}>

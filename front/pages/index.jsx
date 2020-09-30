@@ -21,7 +21,7 @@ const IMAGE_MAPPING = {
 
 export const MainRow = styled(Row)`
   height: 100vh;
-  background-color: #e8e8e8;
+  background-color: #ffffff;
 `;
 
 export const UpperCol = styled(Col)`
@@ -40,11 +40,11 @@ export const UpperCol = styled(Col)`
 const MessiContainer = styled.div`
   display: flex;
   align-items: center;
-  min-height: 93vh;
   overflow: hidden;
   opacity: 90%;
   cursor: pointer;
   width: 100%;
+  height:20%;
 `;
 
 const SlideRefDiv = styled.div`
@@ -112,7 +112,7 @@ const Home = () => {
     <>
       <Row style={{ zIndex: 20 }}>
         <MessiContainer onClick={scrollToBottom}>
-          <img style={{ width: '100%' }} src="/images/messi.jpg"></img>
+          <img style={{ width: '100%', height:'50%'}} src="/images/messi.jpg"></img>
         </MessiContainer>
       </Row>
       <MainRow style={{ height: '100vh' }}>
