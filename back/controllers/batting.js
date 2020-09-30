@@ -30,11 +30,11 @@ exports.createBatting = asyncHandler(async (req, res, next) => {
 
     // 어디에 베팅했는지 메치에 저장.
     if (chooseHomeAwayDraw == 'Home') {
-        await Match.findByIdAndUpdate(req.params.id, { $inc: { homeBattingNumber: +1 } }, { new: true })
+        await Match.findByIdAndUpdate(req.params.id, { $inc: { homeBattingNumber: +1, homeBattingPoint: +battingPoint } }, { new: true })
     } else if (chooseHomeAwayDraw == 'Away') {
-        await Match.findByIdAndUpdate(req.params.id, { $inc: { awayBattingNumber: +1 } }, { new: true })
+        await Match.findByIdAndUpdate(req.params.id, { $inc: { awayBattingNumber: +1, awayBattingPoint: +battingPoint } }, { new: true })
     } else {
-        await Match.findByIdAndUpdate(req.params.id, { $inc: { drawBattingNumber: +1 } }, { new: true })
+        await Match.findByIdAndUpdate(req.params.id, { $inc: { drawBattingNumber: +1, drawBattingPoint: +battingPoint } }, { new: true })
     }
 
     return res.status(201).json({

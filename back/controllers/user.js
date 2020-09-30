@@ -10,11 +10,13 @@ const Batting = require('../models/Batting');
 // @access  Public
 exports.register = asyncHandler(async (req, res, next) => {
     // const { email, password, name, nickname } = req.body;
+    console.log(req.body);
     const email = req.body.email;
     const password = req.body.password;
     const name = req.body.name;
     const nickname = req.body.nickname;
 
+    console.log(email)
     console.log('ok?');
 
     // Create user
@@ -91,9 +93,9 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
 
         // reduce 로 바꾸셔요.
         for (let j = 0; j < users[i].battings.length; j++) {
-            if (users[i].battings[j].battingResult = 'Collect') {
+            if (users[i].battings[j].battingResult = true) {
                 eachPersonBattings.collectCount++;
-            } else if (users[i].battings[j].battingresult = 'Wrong') {
+            } else if (users[i].battings[j].battingresult = false) {
                 eachPersonBattings.wrongCount++;
             }
         }
