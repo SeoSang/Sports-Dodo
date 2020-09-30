@@ -55,17 +55,17 @@ const MainMenu = ({ visible }) => {
               </Link>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key="4" icon={<ContainerOutlined />}>
+          <Menu.Item key="2" icon={<ContainerOutlined />}>
             <Link href="/profile">
               <a> 베팅 내역 </a>
             </Link>
           </Menu.Item>
-          <Menu.Item key="5" icon={<PieChartOutlined />}>
+          <Menu.Item key="3" icon={<PieChartOutlined />}>
             <Link href="/rankings">
               <a> 전체 랭킹 </a>
             </Link>
           </Menu.Item>
-          <Menu.Item key="6" icon={<MailOutlined />}>
+          <Menu.Item key="4" icon={<MailOutlined />}>
             <Link href="/info">
               소개페이지
             </Link>
