@@ -17,12 +17,11 @@ const MyApp = ({ Component, pageProps }) => {
 
   useEffect(() => {
     const tokenValue = sessionStorage.getItem('sd');
-    console.log(tokenValue);
+    console.log('tokenValue => ', tokenValue);
     if (tokenValue) {
       axios.defaults.headers.common['x-access-token'] = tokenValue;
       axios.defaults.headers.common['Content-Type'] = 'application/json';
     }
-    32;
     moment.tz.setDefault('Asia/Seoul');
     if (!me) {
       dispatch({
@@ -70,12 +69,12 @@ const MyApp = ({ Component, pageProps }) => {
 
 MyApp.getInitialProps = context => {
   // 쿠키로 하는 가능성도 열어놨다.
-  const cookie = new Cookies();
-  const tokenValue = cookie.get('sd');
-  if (tokenValue) {
-    axios.defaults.headers.common['x-access-token'] = tokenValue;
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-  }
+  // const cookie = new Cookies();
+  // const tokenValue = cookie.get('sd');
+  // if (tokenValue) {
+  //   axios.defaults.headers.common['x-access-token'] = tokenValue;
+  //   axios.defaults.headers.common['Content-Type'] = 'application/json';
+  // }
   const { ctx } = context;
   const state = ctx.store.getState();
   // 서버일때만 쿠키 준다 (클라이언트일때는 알아서 쿠키 줌)
