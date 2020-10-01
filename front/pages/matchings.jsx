@@ -145,8 +145,8 @@ function matchings() {
     <Row
       style={{
         textAlign: 'center',
-        padding: '20px',
-        backgroundColor: 'gray',
+        // padding: '20px',
+        backgroundColor: 'white',
         //테이블 row들 왜 투명이냐 ..? Table 스타일로 수정
       }}
       justify="space-around"
