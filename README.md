@@ -26,14 +26,14 @@
 
 ## Key-Features
 
-- 승부를 예측하고 포인트를 얻고, 1등에 도전하세요!
-- 실시간으로 예측하는 경기들이 바뀝니다!
+- 승부를 예측하고 포인트를 얻어 1등에 도전하세요!
+- 실시간으로 반영되는 매치 리스트!
 - 포인트로 다양한 혜택을 받으세요 (업데이트 예정)
 
 ## Batting
-진행중
+
 ## Ranking
-진행중
+
 ## Author
 
 [ehgks0000](https://github.com/ehgks0000)
@@ -50,3 +50,6 @@
 ## License
 
 MIT
+
+## 기획 문서
+https://drive.google.com/file/d/1djAq96OK2dg25243VXGaq7UZmO_cd72i/view?usp=sharing

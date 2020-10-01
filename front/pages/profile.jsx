@@ -8,7 +8,7 @@ import { useRouter, useDispatch } from 'next/dist/client/router';
 import Notification from '../components/Notification';
 import ProfileBattingLine from '../components/ProfileBattingLine';
 
-const profileCardStye = {
+const profileCardStyle = {
   backgroundColor: '#c8d6e5',
   margin: '2px',
   padding: '5px',
@@ -46,7 +46,7 @@ const profile = () => {
   return (
     <>
       <Row style={{ marginBottom: '20px' }}>
-        <Col span={14} style={profileCardStye}>
+        <Col span={14} style={profileCardStyle}>
           <Row>
             <Col span={8}>
               <Avatar size={100} src="/images/profile.jpg" />

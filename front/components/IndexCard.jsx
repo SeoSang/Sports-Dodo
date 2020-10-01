@@ -1,6 +1,6 @@
 import { List, Row, Col, Card, Progress, Button, Layout, BackTop } from 'antd';
 import moment from 'moment';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
@@ -22,10 +22,37 @@ const CardBottomDiv = styled.div`
   margin-top: 15px;
 `;
 
+const getPercent = (home, draw, away) => {
+  const total = home + draw + away;
+  const homePercent =
+    Math.floor((home / total) * 100) === 100
+      ? 99.9
+      : Math.floor((home / total) * 100);
+  const drawPercent =
+    Math.floor((draw / total) * 100) === 100
+      ? 99.9
+      : Math.floor((draw / total) * 100);
+  const awayPercent =
+    Math.floor((away / total) * 100) === 100
+      ? 99.9
+      : Math.floor((away / total) * 100);
+  return { homePercent, drawPercent, awayPercent };
+};
+
 const IndexCard = ({ match }) => {
-  const [totalBattingNumber, setTotal] = useState(
-    match.homeBattingNumber + match.drawBattingNumber + match.awayBattingNumber
-  );
+  const [percent, setPercent] = useState({
+    homePercent: 0,
+    drawPercent: 0,
+    awayPercent: 0,
+  });
+  useEffect(() => {
+    const percents = getPercent(
+      match.homeBattingPoint,
+      match.drawBattingPoint,
+      match.awayBattingPoint
+    );
+    setPercent(percents);
+  }, [match]);
   return (
     <Card
       title={'축구'}
@@ -36,21 +63,27 @@ const IndexCard = ({ match }) => {
       }}
     >
       <h2>{`${match.homeTeam} VS ${match.awayTeam}`} </h2>
-      <label>승 : {match.homeBattingNumber} 명 베팅</label>
-      <Progress
-        percent={(match.homeBattingNumber / totalBattingNumber) * 100}
-        size="small"
-      />
-      <label>무 : {match.drawBattingNumber} 명 베팅</label>
+      <label>
+        승 : {match.homeBattingNumber} 명 베팅{' '}
+        <strong>({match.homeBattingPoint}P)</strong>
+      </label>
+      <Progress percent={percent.homePercent} size="small" />
+      <label>
+        무 : {match.drawBattingNumber} 명 베팅{' '}
+        <strong>({match.drawBattingPoint}P)</strong>{' '}
+      </label>
       <Progress
         strokeColor={'green'}
-        percent={(match.drawBattingNumber / totalBattingNumber) * 100}
+        percent={percent.drawPercent}
         size="small"
       />
-      <label>패 : {match.awayBattingNumber} 명 베팅</label>
+      <label>
+        패 : {match.awayBattingNumber} 명 베팅{' '}
+        <strong>({match.awayBattingPoint}P)</strong>
+      </label>
       <Progress
         strokeColor={'red'}
-        percent={(match.awayBattingNumber / totalBattingNumber) * 100}
+        percent={percent.awayPercent}
         size="small"
       />
       <br></br>
