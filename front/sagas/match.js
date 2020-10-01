@@ -14,17 +14,18 @@ export const LOAD_MATCH_POINTS_REQUEST = 'LOAD_MATCH_POINTS_REQUEST';
 export const LOAD_MATCH_POINTS_SUCCESS = 'LOAD_MATCH_POINTS_SUCCESS';
 export const LOAD_MATCH_POINTS_FAILURE = 'LOAD_MATCH_POINTS_FAILURE';
 
-function loadMatchsAPI(index = -1) {
+function loadMatchsAPI(index) {
   // index 파라미터를 받아오는데 없다면 디폴트로 -1로 쓴다
   //근데 index 왜쓰는거지?
   const nowTime = moment().format();
-  // if (index == -1) {
-  //   return axios.get(`/match`);
-  //   // return axios.get(`/match?startTime[gt]=${nowTime}`);
-  // }
   const limit = 100; // 받을 개수
+
+  if (index === 1) {
+    return axios.get(`/match?limit=${limit}`);
+    // index가 1인경우 전체 경기 부름
+  }
   return axios.get(
-    `/match?limit=${limit}`
+    `/match?startTime[gt]=${nowTime}&limit=${limit}`
     // `/match?startTime[gt]=${nowTime}&limit=${limit}&startindex=${index}`
   );
 }

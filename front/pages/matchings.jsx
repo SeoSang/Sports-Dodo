@@ -7,36 +7,16 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOAD_MATCHS_REQUEST } from '../sagas/match';
 
-import { Table, Tag, Space, Button, Row, Col, Empty } from 'antd';
+import { Table, Tag, Space, Button, Row, Col, Empty, Spin, Result } from 'antd';
 
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
 import SizeContext from 'antd/lib/config-provider/SizeContext';
 import MatchTest from '../components/MatchTest';
+import Notification from '../components/Notification';
 
 // import { css } from '@emotion/core';
 
 const { Column, ColumnGroup } = Table;
-
-// const tableCSS = css`
-//   margin: '40px 120px',
-//   backgroundColor: 'white',
-//   '& table': {
-//     borderCollapse: 'collapse',
-//   },
-//   '& thead > tr > th': {
-//     backgroundColor: 'darkblue',
-//     color: 'white',
-//   },
-//   '& thead > tr': {
-//     borderWidth: '2px',
-//     borderColor: 'yellow',
-//     borderStyle: 'solid',
-//   },
-// `;
-
-// 가까운 시간순서
-// const url = "http://localhost:80/posts?_sort=match_date&_order=ASC";
-// axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
 // const limit = 100;
 function matchings() {
@@ -103,30 +83,53 @@ function matchings() {
     },
   ];
 
+  const { me } = useSelector((state) => state.user);
+  console.log(me);
+
   // 시작 시간 5분전 마감
   // 종료 시간 후 경기종료
 
   const dispatch = useDispatch();
   useEffect(() => {
+    if (!me) {
+      Notification('로그인이 필요합니다!');
+      // <Alert message="로그인이 필요합니다!" type="warning" showIcon closable />;
+      // alert('로그인이 필요합니다!');
+      // router.push('/');
+    }
     dispatch({ type: LOAD_MATCHS_REQUEST });
     // dispatch({ type: LOAD_MATCHS_REQUEST, index: -1 });
-  }, []);
+  }, [me]);
   const { matchs } = useSelector((state) => state.match);
+
+  if (!matchs)
+    return (
+      <Spin style={{ marginTop: '3rem', SizeContext: '10rem' }} size="large" />
+    );
 
   if (matchs?.length < 0)
     return (
       <Row>
-        <Row>에러가 발생했습니다</Row>
+        <Row>로딩 중</Row>
         <Row>
           {/* <Table columns={columns} /> */}
-          <Empty />
+          <Result
+            status="warning"
+            title="경기를 불러오지 못하였습니다!"
+            // extra={
+            //   <Button type="primary" key="console">
+            //     Go Console
+            //   </Button>
+            // }
+          />
+          {/* <Spin /> */}
+          {/* <Empty /> */}
         </Row>
       </Row>
     );
-  if (!matchs) return null;
 
   const data = [];
-  for (let i = 0; i < matchs.length; i++) {
+  for (let i = 0; i < matchs?.length; i++) {
     data.push({
       key: i + 1,
       ...matchs[i],
@@ -135,11 +138,7 @@ function matchings() {
       howManyPeopleBatted:
         matchs[i].homeBattingNumber +
         matchs[i].awayBattingNumber +
-        matchs[i].drawBattingNumber
-          ? matchs[i].homeBattingNumber +
-            matchs[i].awayBattingNumber +
-            matchs[i].drawBattingNumber
-          : 0,
+        matchs[i].drawBattingNumber,
     });
   }
 
@@ -154,7 +153,6 @@ function matchings() {
       justify="space-around"
     >
       <Table
-        // className={tableCSS}
         style={{ backgroundColor: 'white' }}
         columns={columns}
         dataSource={data.slice(0).reverse()}

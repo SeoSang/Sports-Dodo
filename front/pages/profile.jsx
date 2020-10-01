@@ -4,8 +4,9 @@ import { wrapper } from '../store';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { LOAD_USER_REQUEST } from '../sagas/user';
-import { useRouter } from 'next/dist/client/router';
+import { useRouter, useDispatch } from 'next/dist/client/router';
 import Notification from '../components/Notification';
+import ProfileBattingLine from '../components/ProfileBattingLine';
 
 const profileCardStye = {
   backgroundColor: '#c8d6e5',
@@ -24,7 +25,11 @@ const BattingsCard = styled.div`
 //유저 api 검색
 
 const profile = () => {
+  // const dispatch = useDispatch();
+
   const { me } = useSelector((state) => state.user);
+  // console.log(me);
+  //me.id 값을 검색
   const router = useRouter();
 
   useEffect(() => {
@@ -34,7 +39,10 @@ const profile = () => {
       // alert('로그인이 필요합니다!');
       router.push('/');
     }
+    // dispatch({ type: LOAD_BATTING_HISTORY_REQUEST, data : me.id });
   }, [me]);
+  // const { battings, rank } = useSelector((state) => state.batting);  //  유저의 배팅내역 전체
+  // matchResult battingResult resultPoint chooseHomeAwayDraw battingPoint createdAt
   return (
     <>
       <Row style={{ marginBottom: '20px' }}>
@@ -73,6 +81,7 @@ const profile = () => {
               <h2>날짜</h2>
             </Col>
           </Row>
+          {/* api/user/{me.id} */}
           {me?.battings?.map((batting) => (
             <ProfileBattingLine batting={batting}></ProfileBattingLine>
           ))}
