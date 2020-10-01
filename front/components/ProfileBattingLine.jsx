@@ -16,11 +16,11 @@ const ProfileBattingLine = ({ batting }) => {
       type: LOAD_MATCHS_REQUEST,
       index: 1,
     });
-  }, []);
+  }, [batting]);
 
   const match = matchs.filter((match) => match._id === batting.match);
   // console.log(match[0]?.homeTeam);
-  // 리덕스에서 불러올 경우 마감한 경기는 안부름
+  //
   return (
     <Row>
       <Col span={8}>
