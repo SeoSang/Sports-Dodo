@@ -24,10 +24,7 @@ function loadMatchsAPI(index) {
     return axios.get(`/match?limit=${limit}`);
     // index가 1인경우 전체 경기 부름
   }
-  return axios.get(
-    `/match?startTime[gt]=${nowTime}&limit=${limit}`
-    // `/match?startTime[gt]=${nowTime}&limit=${limit}&startindex=${index}`
-  );
+  return axios.get(`/match?startTime[gt]=${nowTime}&limit=${limit}`);
 }
 
 function* loadMatchs(action) {

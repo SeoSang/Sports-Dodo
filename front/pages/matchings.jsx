@@ -84,7 +84,6 @@ function matchings() {
   ];
 
   const { me } = useSelector((state) => state.user);
-  console.log(me);
 
   // 시작 시간 5분전 마감
   // 종료 시간 후 경기종료
@@ -92,7 +91,7 @@ function matchings() {
   const dispatch = useDispatch();
   useEffect(() => {
     if (!me) {
-      Notification('로그인이 필요합니다!');
+      // Notification('로그인이 필요합니다!');  새로고침하면 왜 로그인 하라고 뜰까? me가 왜없냐
       // <Alert message="로그인이 필요합니다!" type="warning" showIcon closable />;
       // alert('로그인이 필요합니다!');
       // router.push('/');
@@ -152,39 +151,32 @@ function matchings() {
       }}
       justify="space-around"
     >
-      <Table
-        style={{ backgroundColor: 'white' }}
-        columns={columns}
-        dataSource={data.slice(0).reverse()}
-        bordered
-      />
+      <Row style={{ backgroundColor: 'white', padding: '20px' }}>
+        <Row>
+          <h2>진행 중</h2>
+        </Row>
+        <Table
+          style={{ backgroundColor: 'white' }}
+          columns={columns}
+          dataSource={data.slice(0).reverse()} // 현재 시간 이후의 배팅 // 진행 중
+          pagination={{ pageSize: 5 }}
+          // scroll={{ x: 50 }}
+          bordered
+        />
+        <Row>
+          <h2>지난 배팅</h2>
+        </Row>
+        <Table
+          style={{ backgroundColor: 'white' }}
+          columns={columns}
+          dataSource={data.slice(0).reverse()} // 현재 시간 이전의 배팅 // 지난배팅
+          pagination={{ pageSize: 5 }}
+          // scroll={{ x: 50 }}
+          bordered
+        />
+      </Row>
     </Row>
   );
 }
 
 export default matchings;
-
-// const [matchs, setMatchs] = useState([]);
-// const [loading, setLoading] = useState(false);
-// const [error, setError] = useState(null);
-
-// useEffect(() => {
-//   const fetchMatchs = async () => {
-//     try {
-//       setError(null);
-//       setMatchs(null);
-//       setLoading(true);
-
-//       const response = await axios.get(`/match?limit=${limit}`);
-//       // 데이터는 response.data 안에 들어있습니다.
-//       setMatchs(response.data.data);
-//     } catch (e) {
-//       setError(e);
-//     }
-//     setLoading(false);
-//   };
-
-//   fetchMatchs();
-// }, []);
-
-// if (loading) return <SyncOutlined spin style={{ fontSize: '100px' }} />;
