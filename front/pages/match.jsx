@@ -116,9 +116,9 @@ const match = () => {
   const totalPoint = homeTotalPoint + awayTotalPoint + drawTotalPoint;
 
   //배당률 백분율
-  const home1 = Math.floor((100 / totalPoint) * homeTotalPoint) + '%';
-  const home2 = Math.floor((100 / totalPoint) * drawTotalPoint) + '%';
-  const home3 = Math.floor((100 / totalPoint) * awayTotalPoint) + '%';
+  const home1 = Math.floor((100 / totalPoint) * homeTotalPoint + 10) + '%';
+  const home2 = Math.floor((100 / totalPoint) * drawTotalPoint + 10) + '%';
+  const home3 = Math.floor((100 / totalPoint) * awayTotalPoint + 10) + '%';
   console.log(home1);
   console.log(home2);
   console.log(home3);
@@ -195,7 +195,8 @@ const match = () => {
         console.log(res);
         Notification('배팅을 완료 하였습니다!');
         // <Alert message="배팅을 완료 하였습니다." type="success" showIcon />;
-        router.push('/matchings');
+        router.reload();
+        // router.push('/matchings');
       })
       .catch((err) => {
         console.log(err);
@@ -284,41 +285,68 @@ const match = () => {
           {/* 24/total *a */}
           <div
             style={{
-              width: '100%',
+              width: '30%',
               display: 'flex',
               flexDirection: 'row',
               flexWrap: 'nowrap',
             }}
           >
-            <div style={{ backgroundColor: 'gray', width: home1 }}>
+            <div style={{ backgroundColor: '#e55039', width: home1 }}>
               {homeTotalPoint} p
             </div>
 
-            <div style={{ backgroundColor: 'red', width: home2 }}>
+            <div style={{ backgroundColor: '#4a69bd', width: home2 }}>
               {drawTotalPoint} p
             </div>
 
-            <div style={{ backgroundColor: 'greenyellow', width: home3 }}>
+            <div style={{ backgroundColor: '#78e08f', width: home3 }}>
               {awayTotalPoint} p
             </div>
           </div>
         </Row>
-        <Row>
-          <Col span={10}>
-            <Button type="primary" danger>
-              {homeOdds}
-            </Button>
-          </Col>
-          <Col span={4}>
-            <Button type="primary" danger>
-              {drawOdds}
-            </Button>
-          </Col>
-          <Col span={10}>
-            <Button type="primary" danger>
-              {awayOdds}
-            </Button>
-          </Col>
+        <Row
+          style={{
+            display: 'flex',
+            alignContent: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <div
+            style={{
+              width: '30%',
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'nowrap',
+            }}
+          >
+            <Col span={10}>
+              <Button
+                type="primary"
+                danger
+                style={{ backgroundColor: '#e55039' }}
+              >
+                {homeOdds}
+              </Button>
+            </Col>
+            <Col span={4}>
+              <Button
+                type="primary"
+                danger
+                style={{ backgroundColor: '#4a69bd' }}
+              >
+                {drawOdds}
+              </Button>
+            </Col>
+            <Col span={10}>
+              <Button
+                type="primary"
+                danger
+                style={{ backgroundColor: '#78e08f' }}
+              >
+                {awayOdds}
+              </Button>
+            </Col>
+          </div>
         </Row>
         <Divider />
         {/*  새 컴포넌트 만들기 */}
