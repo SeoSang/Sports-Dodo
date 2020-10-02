@@ -2,18 +2,18 @@
 <br/>
 
 <p align="center">
-
-  ![로고](./front/public/images/logo.png)
-
-
-  <br/>
-
-    승부를 예측하고 포인트를 얻으세요! <br/>  
-    ( Match results and Get points!)
-
-  <br>
-
+  <img src="./front/public/images/logo.png">
 </p>
+
+
+<center>
+<br/>
+
+  승부를 예측하고 포인트를 얻으세요! <br/>  
+  ( Match results and Get points!)
+
+<br>
+</center>
 
 
 <p align="center">
