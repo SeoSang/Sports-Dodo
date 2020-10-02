@@ -7,6 +7,9 @@ import {
   LOAD_MAIN_MATCHS_REQUEST,
   LOAD_MAIN_MATCHS_SUCCESS,
   LOAD_MAIN_MATCHS_FAILURE,
+  LOAD_MATCHS_HISTORY_REQUEST,
+  LOAD_MATCHS_HISTORY_SUCCESS,
+  LOAD_MATCHS_HISTORY_FAILURE,
 } from '../sagas/match';
 
 export const initialState = {
@@ -16,6 +19,9 @@ export const initialState = {
   matchs: null,
   matchsIndex: 0,
   hasNext: true,
+  matchsHistory: null,
+  isLoadingMatchsHistory: false,
+  isLoadedMatchsHistory: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -54,6 +60,23 @@ const reducer = (state = initialState, action) => {
         draft.isLoadingMatchs = false;
         draft.isLoadedMatchs = true;
         draft.matchs = null;
+        draft.loadingErrorReason = action.error;
+        break;
+      case LOAD_MATCHS_HISTORY_REQUEST:
+        draft.isLoadingMatchs = true;
+        draft.isLoadedMatchs = false;
+        break;
+      case LOAD_MATCHS_HISTORY_SUCCESS:
+        draft.isLoadingMatchs = false;
+        draft.isLoadedMatchs = true;
+        draft.matchsHistory = action.data.data;
+        draft.matchsIndex = action.data.nextStartIndex;
+        draft.hasNext = action.data.hasNext;
+        break;
+      case LOAD_MATCHS_HISTORY_FAILURE:
+        draft.isLoadingMatchs = false;
+        draft.isLoadedMatchs = true;
+        draft.matchsHistory = null;
         draft.loadingErrorReason = action.error;
         break;
       default:
