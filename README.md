@@ -1,18 +1,18 @@
 # Sports-DoDo!
 <br/>
 
-<div style="text-align:center">
+<div style="text-align:center; width:100%">
 
 ![로고](./front/public/images/logo.png)
 
-</div>
 
 <br/>
-<center>
-  승부를 예측하고 포인트를 얻으세요! <br>  
+
+  승부를 예측하고 포인트를 얻으세요! <br/>  
   ( Match results and Get points!)
-</center>
+
 <br>
+</div>
 
 
 <p align="center">
