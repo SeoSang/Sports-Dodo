@@ -65,6 +65,14 @@ function matchings() {
       key: 'howManyPeopleBatted',
       align: 'center',
       width: 100,
+      render(text, record) {
+        return {
+          props: {
+            style: { background: parseInt(text) > 1 ? 'gray' : 'green' },
+          },
+          children: <div>{text}</div>,
+        };
+      },
       // sorter: (a, b) => a.howManyPeopleBatted - b.howManyPeopleBatted,
     },
     {
