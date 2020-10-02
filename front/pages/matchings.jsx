@@ -14,7 +14,6 @@ import { Table, Tag, Space, Button, Row, Col, Empty, Spin, Result } from 'antd';
 
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
 import SizeContext from 'antd/lib/config-provider/SizeContext';
-import MatchTest from '../components/MatchTest';
 import Notification from '../components/Notification';
 
 // import { css } from '@emotion/core';
@@ -85,12 +84,8 @@ function matchings() {
       ),
     },
   ];
-
+  const nowTime = moment().format();
   const { me } = useSelector((state) => state.user);
-
-  // 시작 시간 5분전 마감
-  // 종료 시간 후 경기종료
-
   const dispatch = useDispatch();
   useEffect(() => {
     if (!me) {
@@ -138,6 +133,8 @@ function matchings() {
       ...matchs[i],
       startTime: moment(matchs[i].startTime).format('MM.DD HH:MM'),
       finishTime: moment(matchs[i].finishTime).format('MM.DD HH:MM'),
+      deadLine: moment(matchs[i].startTime).subtract(2, 'd').format(),
+      // 마감시간 설정
       howManyPeopleBatted:
         matchs[i].homeBattingNumber +
         matchs[i].awayBattingNumber +
@@ -158,6 +155,7 @@ function matchings() {
     });
   }
 
+  // console.log(test1 > test2);
   return (
     <Row
       style={{
@@ -175,11 +173,11 @@ function matchings() {
         <Table
           style={{ backgroundColor: 'white' }}
           columns={columns}
-          dataSource={matchsData.slice(0).reverse()} // 현재 시간 이후의 배팅 // 진행 중
+          dataSource={matchsData} // 현재 시간 이후의 배팅 // 진행 중
           pagination={{ pageSize: 5 }}
-          scroll={{ y: 300 }}
+          // scroll={{ y: 300 }}
           rowClassName={(record, index) =>
-            record.startTime > 50 ? 'red' : 'green'
+            nowTime > record.deadLine ? 'red' : 'green'
           }
           bordered
         />

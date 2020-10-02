@@ -32,3 +32,10 @@ a {
   left: 50%;
   transform: translate(-50%, 0%);
 }
+/* matchings.jsx 시간에 따른 색 */
+.red {
+  color: red;
+}
+.green {
+  color: green;
+}
