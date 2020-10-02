@@ -15,7 +15,7 @@ require('moment-timezone');
 
 const MyApp = ({ Component, pageProps }) => {
   const dispatch = useDispatch();
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector(state => state.user);
 
   useEffect(() => {
     const tokenValue = sessionStorage.getItem('sd');
@@ -76,15 +76,12 @@ const MyApp = ({ Component, pageProps }) => {
       </Head>
       <MyLayout me={me}>
         <Component {...pageProps} />
-        <footer style={{margin:'1rem', backgroundColor:"white"}}>
-          <p>@ 2020 <a>스포츠도도</a></p>
-        </footer>
       </MyLayout>
     </>
   );
 };
 
-MyApp.getInitialProps = (context) => {
+MyApp.getInitialProps = context => {
   // 쿠키로 하는 가능성도 열어놨다.
   // const cookie = new Cookies();
   // const tokenValue = cookie.get('sd');

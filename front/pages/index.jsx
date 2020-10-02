@@ -104,6 +104,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const { matchs } = useSelector((state) => state.match);
   const { rankings } = useSelector((state) => state.ranking);
+  const [show,handleShow] = useState(false);
 
   useEffect(() => {
     dispatch({
@@ -113,6 +114,17 @@ const Home = () => {
       type: LOAD_MAIN_MATCHS_REQUEST,
     });
   }, []);
+
+  useEffect(()=> {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 100) {
+        handleShow(true);
+      } else handleShow(false);
+    });
+    return () => {
+      window.removeEventListener("scroll");
+    };
+  },[]);
 
   const onClickFootball = (e) => {
     // 슬라이드 애니메이션
@@ -141,17 +153,34 @@ const Home = () => {
           <FlexDiv
             width="100%"
             height="50%"
-            style={{ position: 'absolute', opacity: '100%' }}
+            style={{position: 'absolute', opacity: '100%',display:'flex',flexDirection:'column'}}
           >
-            <TitleH1 style={{fontSize:'7vh'}}>
-              당신의 <span style={{ color: '#ed1c23' }}>통찰력을</span>{' '}
-              보여주세요!
-            </TitleH1>
-            <Button type='primary' style={{backgroundColor:'#ffff4d',color:'black', border:'none', width:'50vh',height:'8vh', fontSize:'1.7rem' }}>
-              <Link href='/matchings'>
-                <b>배팅 하러 가기</b>
-              </Link>
-            </Button>
+            {show ?
+                <>
+                  <TitleH1 style={{fontSize: '4rem'}}>
+                    매치 리스트를 확인하세요
+                  </TitleH1>
+                </>
+                :
+                <>
+                  <TitleH1 style={{fontSize: '4rem'}}>
+                    당신의 <span style={{color: '#ed1c23'}}>통찰력을</span>{' '}
+                    보여주세요!
+                  </TitleH1>
+                  <Button type='primary' style={{
+                    backgroundColor: '#ffff4d',
+                    color: 'black',
+                    border: 'none',
+                    width: '50vh',
+                    height: '8vh',
+                    fontSize: '1.7rem'
+                  }}>
+                    <Link href='/matchings'>
+                      <b>배팅 하러 가기</b>
+                    </Link>
+                  </Button>
+                </>
+            }
           </FlexDiv>
         </MessiContainer>
       </Row>

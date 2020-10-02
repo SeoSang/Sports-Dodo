@@ -27,9 +27,9 @@ export const ContentDiv = styled.div`
 `;
 
 // 기타
-export const Background90Div = styled.div`
-  min-height: 100vh;
-  padding: 0vh;
+export const Background100Div = styled.div`
+  padding-top: 50px;
+  height: calc(100vh - 50px);
   background-color: white;
 `;
 export const UpperDiv = styled.div`
@@ -50,7 +50,7 @@ export const LowerDiv = styled.div`
 export const FullDiv = styled.div`
   padding: 3px;
   margin: 1vh 3vw;
-  height: 70vh;
+  width: 80vw;
   background-color: #dcdcdc;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: center;
