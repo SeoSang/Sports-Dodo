@@ -261,6 +261,7 @@ __Response__
                 "chooseHomeAwayDraw": "Home",
                 "battingPoint": 10,
                 "createdAt": "2020-08-27T12:18:59.241Z",
+                "reward" : 100,
                 "__v": 0
             },
         ],

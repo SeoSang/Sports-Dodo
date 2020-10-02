@@ -144,7 +144,7 @@ const MyLayout = ({ children, me }) => {
 
   return (
     <>
-      <TitleBarDiv style={{ backgroundColor: 'black', margin: '0' }}>
+      <TitleBarDiv style={{backgroundColor:"black", margin:'0', position:'fixed', zIndex:'100',width:'100%'}}>
         <Row style={{ height: '50px' }}>
           <Col className="vertical-mid" span={4}>
             <MenuButton onClick={toggleCollapsed}>
@@ -189,7 +189,7 @@ const MyLayout = ({ children, me }) => {
       </TitleBarDiv>
       <MainMenu visible={visible} />
       <Background90Div style={{ textAlign: 'center' }}>
-        <ContentDiv>{children}</ContentDiv>
+        <ContentDiv style={{paddingTop:'50px'}}>{children}</ContentDiv>
       </Background90Div>
     </>
   );

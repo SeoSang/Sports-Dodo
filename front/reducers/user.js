@@ -27,7 +27,7 @@ export const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  return produce(state, draft => {
+  return produce(state, (draft) => {
     switch (action.type) {
       case HYDRATE:
         draft.isLoginSuccess = false;

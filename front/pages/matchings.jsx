@@ -5,38 +5,21 @@ import { BACKEND_URL } from '../sagas/.';
 import moment from 'moment';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
-import { LOAD_MATCHS_REQUEST } from '../sagas/match';
+import {
+  LOAD_MATCHS_REQUEST,
+  LOAD_MATCHS_HISTORY_REQUEST,
+} from '../sagas/match';
 
-import { Table, Tag, Space, Button, Row, Col, Empty } from 'antd';
+import { Table, Tag, Space, Button, Row, Col, Empty, Spin, Result } from 'antd';
 
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
 import SizeContext from 'antd/lib/config-provider/SizeContext';
 import MatchTest from '../components/MatchTest';
+import Notification from '../components/Notification';
 
 // import { css } from '@emotion/core';
 
 const { Column, ColumnGroup } = Table;
-
-// const tableCSS = css`
-//   margin: '40px 120px',
-//   backgroundColor: 'white',
-//   '& table': {
-//     borderCollapse: 'collapse',
-//   },
-//   '& thead > tr > th': {
-//     backgroundColor: 'darkblue',
-//     color: 'white',
-//   },
-//   '& thead > tr': {
-//     borderWidth: '2px',
-//     borderColor: 'yellow',
-//     borderStyle: 'solid',
-//   },
-// `;
-
-// 가까운 시간순서
-// const url = "http://localhost:80/posts?_sort=match_date&_order=ASC";
-// axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
 // const limit = 100;
 function matchings() {
@@ -103,31 +86,54 @@ function matchings() {
     },
   ];
 
+  const { me } = useSelector((state) => state.user);
+
   // 시작 시간 5분전 마감
   // 종료 시간 후 경기종료
 
   const dispatch = useDispatch();
   useEffect(() => {
+    if (!me) {
+      // Notification('로그인이 필요합니다!');  새로고침하면 왜 로그인 하라고 뜰까? me가 왜없냐
+      // <Alert message="로그인이 필요합니다!" type="warning" showIcon closable />;
+      // alert('로그인이 필요합니다!');
+      // router.push('/');
+    }
     dispatch({ type: LOAD_MATCHS_REQUEST });
+    dispatch({ type: LOAD_MATCHS_HISTORY_REQUEST });
     // dispatch({ type: LOAD_MATCHS_REQUEST, index: -1 });
-  }, []);
-  const { matchs } = useSelector((state) => state.match);
+  }, [me]);
+  const { matchs, matchsHistory } = useSelector((state) => state.match);
+
+  if (!matchs)
+    return (
+      <Spin style={{ marginTop: '3rem', SizeContext: '10rem' }} size="large" />
+    );
 
   if (matchs?.length < 0)
     return (
       <Row>
-        <Row>에러가 발생했습니다</Row>
+        <Row>로딩 중</Row>
         <Row>
           {/* <Table columns={columns} /> */}
-          <Empty />
+          <Result
+            status="warning"
+            title="경기를 불러오지 못하였습니다!"
+            // extra={
+            //   <Button type="primary" key="console">
+            //     Go Console
+            //   </Button>
+            // }
+          />
+          {/* <Spin /> */}
+          {/* <Empty /> */}
         </Row>
       </Row>
     );
-  if (!matchs) return null;
 
-  const data = [];
-  for (let i = 0; i < matchs.length; i++) {
-    data.push({
+  const matchsData = [];
+  for (let i = 0; i < matchs?.length; i++) {
+    matchsData.push({
       key: i + 1,
       ...matchs[i],
       startTime: moment(matchs[i].startTime).format('MM.DD HH:MM'),
@@ -135,11 +141,20 @@ function matchings() {
       howManyPeopleBatted:
         matchs[i].homeBattingNumber +
         matchs[i].awayBattingNumber +
-        matchs[i].drawBattingNumber
-          ? matchs[i].homeBattingNumber +
-            matchs[i].awayBattingNumber +
-            matchs[i].drawBattingNumber
-          : 0,
+        matchs[i].drawBattingNumber,
+    });
+  }
+  const matchsHistoryData = [];
+  for (let i = 0; i < matchsHistory?.length; i++) {
+    matchsHistoryData.push({
+      key: i + 1,
+      ...matchsHistory[i],
+      startTime: moment(matchsHistory[i].startTime).format('MM.DD HH:MM'),
+      finishTime: moment(matchsHistory[i].finishTime).format('MM.DD HH:MM'),
+      howManyPeopleBatted:
+        matchsHistory[i].homeBattingNumber +
+        matchsHistory[i].awayBattingNumber +
+        matchsHistory[i].drawBattingNumber,
     });
   }
 
@@ -147,46 +162,41 @@ function matchings() {
     <Row
       style={{
         textAlign: 'center',
-        padding: '20px',
-        backgroundColor: 'gray',
+        // padding: '20px',
+        backgroundColor: 'white',
         //테이블 row들 왜 투명이냐 ..? Table 스타일로 수정
       }}
       justify="space-around"
     >
-      <Table
-        // className={tableCSS}
-        style={{ backgroundColor: 'white' }}
-        columns={columns}
-        dataSource={data.slice(0).reverse()}
-        bordered
-      />
+      <Row style={{ backgroundColor: 'white', padding: '20px' }}>
+        <Row>
+          <h2>진행 중</h2>
+        </Row>
+        <Table
+          style={{ backgroundColor: 'white' }}
+          columns={columns}
+          dataSource={matchsData.slice(0).reverse()} // 현재 시간 이후의 배팅 // 진행 중
+          pagination={{ pageSize: 5 }}
+          scroll={{ y: 300 }}
+          rowClassName={(record, index) =>
+            record.startTime > 50 ? 'red' : 'green'
+          }
+          bordered
+        />
+        <Row>
+          <h2>지난 배팅</h2>
+        </Row>
+        <Table
+          style={{ backgroundColor: 'white' }}
+          columns={columns}
+          dataSource={matchsHistoryData.slice(0).reverse()} // 현재 시간 이전의 배팅 // 지난배팅
+          pagination={{ pageSize: 5 }}
+          // scroll={{ x: 50 }}
+          bordered
+        />
+      </Row>
     </Row>
   );
 }
 
 export default matchings;
-
-// const [matchs, setMatchs] = useState([]);
-// const [loading, setLoading] = useState(false);
-// const [error, setError] = useState(null);
-
-// useEffect(() => {
-//   const fetchMatchs = async () => {
-//     try {
-//       setError(null);
-//       setMatchs(null);
-//       setLoading(true);
-
-//       const response = await axios.get(`/match?limit=${limit}`);
-//       // 데이터는 response.data 안에 들어있습니다.
-//       setMatchs(response.data.data);
-//     } catch (e) {
-//       setError(e);
-//     }
-//     setLoading(false);
-//   };
-
-//   fetchMatchs();
-// }, []);
-
-// if (loading) return <SyncOutlined spin style={{ fontSize: '100px' }} />;

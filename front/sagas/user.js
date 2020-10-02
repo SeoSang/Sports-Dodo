@@ -23,6 +23,7 @@ function loginAPI(loginData) {
 function* login(action) {
   try {
     const result = yield call(loginAPI, action.data); // call -> loginAPI(action.data)
+
     yield put({
       // 토큰 저장
       type: SET_TOKEN,
@@ -34,6 +35,7 @@ function* login(action) {
       type: LOG_IN_SUCCESS,
       data: result.data,
     });
+
     // yield put({
     //   type: LOAD_USER_REQUEST,
     //   data: {

@@ -1,6 +1,10 @@
 import { List, Row, Col, Card, Progress, Button, Layout, BackTop } from 'antd';
 import { dummy_main_rankings } from '../src/dummy';
-import { LowerDiv, SportCategories } from '../styles/styled-components';
+import {
+  FlexDiv,
+  LowerDiv,
+  SportCategories,
+} from '../styles/styled-components';
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,11 +34,26 @@ export const UpperCol = styled(Col)`
   margin: 0.2vh 1vw;
   margin-top: 1vh;
   height: 100%;
-  background-color: #f6f5f5;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.07), 0 3px 10px 0 rgba(0, 0, 0, 0.004);
 
   @media (max-width: 992px) {
     // height: 60vh;
+    font-size: 80%;
+  }
+`;
+
+const TitleH1 = styled.h1`
+  font-size: 6rem;
+  font-weight: 700;
+  @media (max-width: 1300px) {
+    font-size: 4.8rem;
+  }
+  @media (max-width: 1000px) {
+    font-size: 3.7rem;
+  }
+  @media (max-width: 780px) {
+    font-size: 2.5rem;
   }
 `;
 
@@ -42,10 +61,9 @@ const MessiContainer = styled.div`
   display: flex;
   align-items: center;
   overflow: hidden;
-  opacity: 90%;
   cursor: pointer;
   width: 100%;
-  height:20%;
+  height: 20%;
 `;
 
 const SlideRefDiv = styled.div`
@@ -54,7 +72,7 @@ const SlideRefDiv = styled.div`
   height: 100%;
   align-items: center;
   transition: all 0.5s ease-in-out;
-  transform: translateX(${props => props.tr});
+  transform: translateX(${(props) => props.tr});
 `;
 
 const MatchTime = styled.div`
@@ -73,6 +91,7 @@ const SliderButtonContainer = styled.div`
   align-items: center;
   @media (max-width: 992px) {
     flex-direction: row;
+    font-size: 80%;
   }
 `;
 
@@ -81,8 +100,8 @@ const Home = () => {
   const slideRef = useRef(null);
   const messiRef = useRef(null);
   const dispatch = useDispatch();
-  const { matchs } = useSelector(state => state.match);
-  const { rankings } = useSelector(state => state.ranking);
+  const { matchs } = useSelector((state) => state.match);
+  const { rankings } = useSelector((state) => state.ranking);
 
   useEffect(() => {
     dispatch({
@@ -93,14 +112,14 @@ const Home = () => {
     });
   }, []);
 
-  const onClickFootball = e => {
+  const onClickFootball = (e) => {
     // 슬라이드 애니메이션
     setCurrentSlide(FOOTBALL_TRANSLATE);
   };
-  const onClickBaseball = e => {
+  const onClickBaseball = (e) => {
     setCurrentSlide(BASEBALL_TRANSLATE);
   };
-  const onClickBasketball = e => {
+  const onClickBasketball = (e) => {
     setCurrentSlide(BASKETBALL_TRANSLATE);
   };
 
@@ -113,39 +132,65 @@ const Home = () => {
     <>
       <Row style={{ zIndex: 20 }}>
         <MessiContainer onClick={scrollToBottom}>
-          <img style={{ width: '100%', height:'50%'}} src="/images/messi.jpg"></img>
+          <img
+            style={{ width: '100%', height: '50%', opacity: '50%' }}
+            src="/images/messi.jpg"
+          ></img>
+          <FlexDiv
+            width="100%"
+            height="50%"
+            style={{ position: 'absolute', opacity: '100%' }}
+          >
+            <TitleH1>
+              당신의 <span style={{ color: '#931a25' }}>통찰력을</span>{' '}
+              보여주세요!
+            </TitleH1>
+          </FlexDiv>
         </MessiContainer>
       </Row>
       <MainRow style={{ height: '100vh' }}>
-        <Row
-          style={{ marginTop: '5vh', textAlign: 'center' }}
-          justify="space-around"
-          gutter={16}
+        <Card
+          style={{
+            backgroundColor: '#fcfcfc',
+            margin: '5px',
+            boxShadow:
+              '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+          }}
         >
-          <UpperCol xs={24} lg={19}>
-            <div style={{ height: '100%', overflow: 'hidden' }}>
-              <SlideRefDiv ref={slideRef} tr={currentSlide}>
-                {matchs && matchs.length !== 0 ? (
-                  matchs.map((match, i) => (
-                    <IndexCard match={match} key={i}></IndexCard>
-                  ))
-                ) : (
-                  <NoMatchCard />
-                )}
-              </SlideRefDiv>
-            </div>
-          </UpperCol>
-          <UpperCol style={{ height: '100%' }} xs={24} lg={3}>
-            <SliderButtonContainer style={{ height: '100%' }}>
-              <SportCategories onClick={onClickFootball}>축구</SportCategories>
-              <SportCategories onClick={onClickBaseball}>야구</SportCategories>
-              <SportCategories onClick={onClickBasketball}>
-                농구
-              </SportCategories>
-            </SliderButtonContainer>
-          </UpperCol>
-        </Row>
-        <LowerDiv>
+          <Row
+            style={{ marginTop: '5vh', textAlign: 'center' }}
+            justify="space-around"
+            gutter={16}
+          >
+            <UpperCol xs={24} lg={19}>
+              <div style={{ height: '100%', overflow: 'hidden' }}>
+                <SlideRefDiv ref={slideRef} tr={currentSlide}>
+                  {matchs && matchs.length !== 0 ? (
+                    matchs.map((match, i) => (
+                      <IndexCard match={match} key={i}></IndexCard>
+                    ))
+                  ) : (
+                    <NoMatchCard />
+                  )}
+                </SlideRefDiv>
+              </div>
+            </UpperCol>
+            <UpperCol style={{ height: '100%' }} xs={24} lg={3}>
+              <SliderButtonContainer style={{ height: '100%' }}>
+                <SportCategories onClick={onClickFootball}>
+                  축구
+                </SportCategories>
+                <SportCategories onClick={onClickBaseball}>
+                  야구
+                </SportCategories>
+                <SportCategories onClick={onClickBasketball}>
+                  농구
+                </SportCategories>
+              </SliderButtonContainer>
+            </UpperCol>
+          </Row>
+        </Card>
+        <LowerDiv style={{ margin: '10px' }}>
           <h2>실시간 랭킹</h2>
           <Row>
             {rankings ? (
@@ -193,6 +238,7 @@ const Home = () => {
           </Row>
         </LowerDiv>
       </MainRow>
+
       <div style={{ float: 'left', clear: 'both' }} ref={messiRef}></div>
     </>
   );

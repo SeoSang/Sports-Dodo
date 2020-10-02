@@ -21,6 +21,7 @@ import {
   Avatar,
   InputNumber,
   Button,
+  Divider,
 } from 'antd';
 import {
   UpperDiv,
@@ -33,7 +34,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
-const fetchApi = async url => {
+const fetchApi = async (url) => {
   // let data = [];
   try {
     const { data } = await axios.get(url);
@@ -53,7 +54,7 @@ const match = () => {
   const router = useRouter();
   const matchid = router.query.matchid;
 
-  const { me } = useSelector(state => state.user);
+  const { me } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   // 소유한 포인트에서 배팅한 포인트를 차감하여 리덕스를 사용해야하나?
 
@@ -66,16 +67,23 @@ const match = () => {
   const [battingpoint, setBattingpoint] = useState(10);
 
   useEffect(() => {
+    if (!me) {
+      Notification('로그인이 필요합니다!');
+      // <Alert message="로그인이 필요합니다!" type="warning" showIcon closable />;
+      // alert('로그인이 필요합니다!');
+      // router.push('/');
+    }
     if (matchid) {
       const match = fetchApi(`/match/${matchid}`);
       const point = fetchApi(`/match/${matchid}/batting`);
 
-      Promise.all([match, point]).then(v => {
+      Promise.all([match, point]).then((v) => {
         setMatch(v[0].data);
         setBpoint(v[1]);
       });
     }
-  }, [matchid]);
+  }, [matchid, me]);
+
   // const idForFAPI = match1?.idForFAPI;
   // const { idForFAPI } = match1;
   //비구조화 할당 왜 안돼?
@@ -144,11 +152,11 @@ const match = () => {
     ? awayTeamLogoUrl
     : 'http://asq.kr/BDy9XSTWw0sf';
 
-  const handleChooseChange = e => {
+  const handleChooseChange = (e) => {
     setChoose(e.target.value);
   };
 
-  const handlebattingpointChange = e => {
+  const handlebattingpointChange = (e) => {
     if (e > userPoint) {
       Notification('가진 포인트보다 배팅을 많이 했습니다.');
     } else {
@@ -164,13 +172,13 @@ const match = () => {
         chooseHomeAwayDraw: choose,
         battingPoint: battingpoint,
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         Notification('배팅을 완료 하였습니다!');
         // <Alert message="배팅을 완료 하였습니다." type="success" showIcon />;
         router.push('/matchings');
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         Notification('배팅에 오류가 발생 하였습니다!');
         // <Alert message="배팅 시간이 지났습니다." type="error" showIcon />;
@@ -250,17 +258,20 @@ const match = () => {
           <Row>주심 : {referee()}</Row>
         </Row>
         <Row>
-          <Col span={8}>{homeTotalPoint} p</Col>
-          <Col span={8}>{drawTotalPoint} p</Col>
-          <Col span={8}>{awayTotalPoint} p</Col>
+          <Col span={10}>{homeTotalPoint} p</Col>
+          <Col span={4}>{drawTotalPoint} p</Col>
+          <Col span={10}>{awayTotalPoint} p</Col>
         </Row>
         <Row>
-          <Col span={8}>{homeOdds}</Col>
-          <Col span={8}>{drawOdds}</Col>
-          <Col span={8}>{awayOdds}</Col>
+          <Col span={10}>{homeOdds}</Col>
+          <Col span={4}>{drawOdds}</Col>
+          <Col span={10}>{awayOdds}</Col>
         </Row>
+        <Divider />
+        {/*  새 컴포넌트 만들기 */}
         <Form onFinish={handleSubmit}>
-          <Row style={{ paddingTop: '2rem' }}>
+          <Row>
+            {/* style={{ paddingTop: '2rem' }} */}
             <Radio.Group defaultValue="Home" buttonStyle="solid">
               <Radio.Button value="Home" onChange={handleChooseChange}>
                 홈 승
@@ -285,14 +296,25 @@ const match = () => {
               onChange={handlebattingpointChange}
             />
           </Row>
-          <Row>예상 배당 포인트 : {hitOdds} p</Row>
-          <Row>
+          <Row style={{ paddingTop: '1rem' }}>
+            예상 배당 포인트 : {hitOdds} p
+          </Row>
+          <Row style={{ padding: '1rem' }}>
             <Button type="primary" htmlType="submit" danger>
               배팅하기
             </Button>
           </Row>
-          {/* </Row> */}
         </Form>
+        <Divider>배팅한 사람들</Divider>
+        {/* 디바이더 사용하기 */}
+        <Row align="center">
+          <Col span={11}>1</Col>
+          {/* 홈팀 배팅한 사람들 */}
+          <Col span={2}>
+            <Divider type="vertical" />
+          </Col>
+          <Col span={11}>2</Col>
+        </Row>
       </Row>
     </div>
   );
