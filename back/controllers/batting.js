@@ -44,6 +44,7 @@ exports.createBatting = asyncHandler(async (req, res, next) => {
 });
 
 // model에 index 넣어주면 더 빨라질듯함.
+// GET api/batting
 exports.getBattings = asyncHandler(async (req, res, next) => {
     const battings = await Batting.find({ match: req.params.id });
 
@@ -74,6 +75,15 @@ exports.getBattings = asyncHandler(async (req, res, next) => {
     });
 });
 
+exports.getBattingForAMatch = asyncHandler(async (req, res, next) => {
+    const battings = await Batting.find({ match: req.params.id });
+
+    return res.status(200).json({
+        success: true,
+        data: battings,
+    });
+});
+
 exports.getRecords = asyncHandler(async (req, res, next) => {
     let battings = await Batting.find({ user: req.params.id })
         .sort({ createdAt: -1 })
@@ -84,6 +94,8 @@ exports.getRecords = asyncHandler(async (req, res, next) => {
         data: battings,
     });
 });
+
+// GET api/batting/
 
 exports.getBatting = asyncHandler(async (req, res, next) => {
     const batting = await Batting.findById(req.params.id);

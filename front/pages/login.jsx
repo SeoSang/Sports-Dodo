@@ -25,6 +25,7 @@ const loginFormStyle = {
   top: '50%',
   position: 'relative',
   transform: 'translate(0%,-80%)',
+
 };
 
 const cookie = new Cookies();
@@ -65,7 +66,7 @@ const login = () => {
   };
 
   return (
-    <FullDiv style={{ marginTop: '5vh' }}>
+    <FullDiv style={{ marginTop: '5vh',backgroundColor:'white' }}>
       {/* <Button onClick={onClickTest}>핑 테스트</Button> */}
 
       <Form

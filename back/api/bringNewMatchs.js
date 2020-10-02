@@ -15,7 +15,10 @@ async function bringMatchFromAPI(league_id, date) {
         'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
         'x-rapidapi-key': process.env.API_KEY
       }
-    })
+    });
+
+    response.data.api.fixtures[i].event_date
+
     // console.log('1111')
     // const newMatchs = new Array();
 
@@ -30,13 +33,12 @@ async function bringMatchFromAPI(league_id, date) {
         venue: response.data.api.fixtures[i].venue,
         referee: response.data.api.fixtures[i].referee,
         round: response.data.api.fixtures[i].round,
+        homeTeamIdInFAPI: response.data.api.fixtures[i].homeTeam.team_id,
+        awayTeamIdInFAPI: response.data.api.fixtures[i].awayTeam.team_id,
       }
 
       // newMatchs.push(inputData);
-      await Match.findOneAndUpdate({ idForFAPI: inputData.idForFAPI }, inputData, {
-        new: true,
-        runValidators: true
-      });
+      await Match.create(inputData);
     }
 
     // console.log(newMatchs);

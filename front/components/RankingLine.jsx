@@ -14,8 +14,8 @@ const RankingLine = ({ _id, rank, point, nickname, battings }) => {
       <Col span={2}>{rank}</Col>
       <Col span={8}>{nickname}</Col>
       <Col span={3}>{Math.round(point)}p</Col>
+      <Col span={2}>{battings[0].collectCount + battings[0].wrongCount}회</Col>
       <Col span={2}>{battings[0].collectCount}회</Col>
-      <Col span={2}>{battings[0].wrongCount}회</Col>
       <Col span={3}>
         {battings
           ? calPercent(battings[0].collectCount, battings[0].wrongCount)
@@ -42,10 +42,10 @@ const RankingLine = ({ _id, rank, point, nickname, battings }) => {
         <h2>포인트</h2>
       </Col>
       <Col span={2}>
-        <h2>성공</h2>
+        <h2>시도</h2>
       </Col>
       <Col span={2}>
-        <h2>실패</h2>
+        <h2>성공</h2>
       </Col>
       <Col span={3}>
         <h2>성공률</h2>

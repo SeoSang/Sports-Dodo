@@ -2,18 +2,16 @@
 <br/>
 
 <p align="center">
-
-  ![로고](./front/public/images/logo.png)
-
-
-  <br/>
-
-    승부를 예측하고 포인트를 얻으세요! <br/>  
-    ( Match results and Get points!)
-
-  <br>
-
+  <img src="./front/public/images/logo.png">
 </p>
+
+
+<br/>
+  <p align="center">
+    승부를 예측하고 포인트를 얻으세요! <br>  
+    ( Match results and Get points!)
+  </p>
+<br>
 
 
 <p align="center">
@@ -71,7 +69,7 @@
 [moongq](https://github.com/moongq)
 
 [SeoSang](https://github.com/SeoSang)
-- Blog : programming119.tistory.com
+- Blog : https://programming119.tistory.com
 - E-mail : ddrrpg@naver.com
 
 [PaaD](https://github.com/Wearenotyourkind)

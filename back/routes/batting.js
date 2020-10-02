@@ -6,6 +6,7 @@ const {
     getBatting,
     editBatting,
     deleteBatting,
+    getBattingForAMatch
 } = require('../controllers/batting');
 const { protect, checkIsOnwerThisBatting } = require('../middlewares/auth');
 const {
@@ -19,6 +20,10 @@ router
     .route('/')
     .post(protect, timeCheckerCreate, checkHasEnoughPointForCreate, createBatting) // ! timeChecker TEST CODE
     .get(getBattings);
+
+router
+    .route('/for-a-match/:id')
+    .get(getBattingForAMatch);
 
 router
     .route('/:id')

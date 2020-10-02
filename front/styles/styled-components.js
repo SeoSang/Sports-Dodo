@@ -22,13 +22,13 @@ export const TitleBarDiv = styled.div`
 
 export const ContentDiv = styled.div`
   background-color: #e8e8e8;
-  min-height: 90vh;
+  min-height: 100vh;
   border: 1px solid white;
 `;
 
 // 기타
 export const Background90Div = styled.div`
-  min-height: 90vh;
+  min-height: 100vh;
   padding: 0vh;
   background-color: white;
 `;

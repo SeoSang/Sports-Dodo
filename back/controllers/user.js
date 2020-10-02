@@ -16,7 +16,7 @@ exports.register = asyncHandler(async (req, res, next) => {
     const name = req.body.name;
     const nickname = req.body.nickname;
 
-    console.log(email)
+    console.log(email);
     console.log('ok?');
 
     // Create user
@@ -79,8 +79,8 @@ exports.login = asyncHandler(async (req, res, next) => {
 });
 
 exports.getUsers = asyncHandler(async (req, res, next) => {
-    let users = await User.find({}).populate('battings')
-        .populate('')
+    let users = await User.find({})
+        .populate('battings')
         .sort({ point: -1 })
         .limit(50);
 
@@ -88,14 +88,14 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
         //calc battings
         eachPersonBattings = {
             collectCount: 0,
-            wrongCount: 0
+            wrongCount: 0,
         };
 
         // reduce 로 바꾸셔요.
         for (let j = 0; j < users[i].battings.length; j++) {
-            if (users[i].battings[j].battingResult = true) {
+            if (users[i].battings[j].battingResult === true) {
                 eachPersonBattings.collectCount++;
-            } else if (users[i].battings[j].battingresult = false) {
+            } else if (users[i].battings[j].battingresult === false) {
                 eachPersonBattings.wrongCount++;
             }
         }
@@ -129,7 +129,9 @@ exports.getUser = asyncHandler(async (req, res, next) => {
     let user = await User.findOne({ _id: req.params.id }).populate('battings');
 
     // get Ranking
-    let users = await User.find({}).sort({ point: -1 }).select("point");
+    let users = await User.find({})
+        .sort({ point: -1 })
+        .select('point');
     let rank = users.findIndex(i => i._id == req.params.id) + 1;
 
     if (!user) {
@@ -170,9 +172,11 @@ exports.editUser = asyncHandler(async (req, res, next) => {
 // @route   GET /api/user/profile
 // @access  Private
 exports.myProfile = asyncHandler(async (req, res, next) => {
-    const battings = await Batting.find({ "user": req.user._id })
+    const battings = await Batting.find({ user: req.user._id });
 
-    let users = await User.find({}).sort({ point: -1 }).select("point");
+    let users = await User.find({})
+        .sort({ point: -1 })
+        .select('point');
 
     let rank = users.findIndex(i => i._id == `${req.user._id}`) + 1;
 
@@ -214,9 +218,9 @@ exports.getMyRecord = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        data: battings
+        data: battings,
     });
-})
+});
 
 const sendTokenResponse = (user, statusCode, res, data = null) => {
     // Create token
