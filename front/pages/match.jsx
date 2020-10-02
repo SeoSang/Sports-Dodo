@@ -76,10 +76,14 @@ const match = () => {
   const [bpoint, setBpoint] = useState([]);
   const [choose, setChoose] = useState('Home');
   const [battingpoint, setBattingpoint] = useState(10);
+  // const defaultImg = require('../public/images/epl_logo.png');
+  const [homeImg, setHomeImg] = useState('/images/epl_logo.png');
+  const [awayImg, setAwayImg] = useState('/images/epl_logo.png');
 
   useEffect(() => {
     if (!me) {
       Notification('로그인이 필요합니다!');
+
       // <Alert message="로그인이 필요합니다!" type="warning" showIcon closable />;
       // alert('로그인이 필요합니다!');
       // router.push('/');
@@ -90,6 +94,8 @@ const match = () => {
 
       Promise.all([match, point]).then((v) => {
         setMatch(v[0].data);
+        setHomeImg(v[0].data.homeTeamLogoUrl);
+        setAwayImg(v[0].data.awayTeamLogoUrl);
         setBpoint(v[1]);
       });
     }
@@ -98,7 +104,7 @@ const match = () => {
   // const idForFAPI = match1?.idForFAPI;
   // const { idForFAPI } = match1;
   //비구조화 할당 왜 안돼?
-  // console.log(idForFAPI);
+  console.log(homeImg);
   const homeTeam = match?.homeTeam;
   const awayTeam = match?.awayTeam;
 
@@ -138,16 +144,6 @@ const match = () => {
       ? (awayOdds * battingpoint).toFixed(2)
       : (drawOdds * battingpoint).toFixed(2);
 
-  // const howManyPeopleBatted = bpoint?.howManyPeopleBatted;
-
-  // const homeBattingNumber = match?.homeBattingNumber;
-  // const awayBattingNumber = match?.awayBattingNumber;
-  // const drawBattingNumber = match?.drawBattingNumber;
-  // // console.log(homeBattingNumber);
-
-  const homeTeamLogoUrl = match?.homeTeamLogoUrl;
-  const awayTeamLogoUrl = match?.awayTeamLogoUrl;
-
   const round = match?.round;
   // const referee = if;
   const referee = () => {
@@ -158,16 +154,6 @@ const match = () => {
     }
   };
   const venue = match?.venue;
-
-  // console.log(match);
-
-  const homeTeamImg = homeTeamLogoUrl
-    ? homeTeamLogoUrl
-    : 'http://asq.kr/CGXdlkoUJHiq';
-
-  const awayTeamImg = awayTeamLogoUrl
-    ? awayTeamLogoUrl
-    : 'http://asq.kr/BDy9XSTWw0sf';
 
   const handleChooseChange = (e) => {
     setChoose(e.target.value);
@@ -199,6 +185,7 @@ const match = () => {
       .catch((err) => {
         console.log(err);
         Notification('배팅에 오류가 발생 하였습니다!');
+        router.reload();
         // <Alert message="배팅 시간이 지났습니다." type="error" showIcon />;
       });
   };
@@ -226,7 +213,7 @@ const match = () => {
             <Row>
               <Avatar
                 size={100}
-                src={homeTeamImg}
+                src={homeImg}
                 style={{ backgroundColor: 'white' }}
               />
             </Row>
@@ -255,7 +242,7 @@ const match = () => {
             <Row>
               <Avatar
                 size={100}
-                src={awayTeamImg}
+                src={awayImg}
                 style={{ backgroundColor: 'white' }}
               />
             </Row>
@@ -289,6 +276,8 @@ const match = () => {
               display: 'flex',
               flexDirection: 'row',
               flexWrap: 'nowrap',
+              alignContent: 'center',
+              justifyContent: 'center',
             }}
           >
             <div style={{ backgroundColor: '#e55039', width: home1 }}>
