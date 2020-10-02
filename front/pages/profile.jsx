@@ -10,14 +10,17 @@ import ProfileBattingLine from '../components/ProfileBattingLine';
 
 const profileCardStyle = {
   backgroundColor: '#c8d6e5',
-  margin: '2px',
+  margin: '1rem',
   padding: '5px',
+  borderRadius: '10px',
   boxShadow:
     '0 9px 8px 1px rgba(0, 0, 0, 0.2), 0 6px 20px 1px rgba(0, 0, 0, 0.19)',
 };
 
 const BattingsCard = styled.div`
-  background-color: #fdcb6e;
+  background-color: #f6f6f6;
+  border-radius: 10px;
+  margin: 0 1rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;
 
@@ -27,7 +30,7 @@ const BattingsCard = styled.div`
 const profile = () => {
   // const dispatch = useDispatch();
 
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector(state => state.user);
   // console.log(me);
   //me.id 값을 검색
   const router = useRouter();
@@ -82,7 +85,7 @@ const profile = () => {
             </Col>
           </Row>
           {/* api/user/{me.id} */}
-          {me?.battings?.map((batting) => (
+          {me?.battings?.map(batting => (
             <ProfileBattingLine batting={batting}></ProfileBattingLine>
           ))}
         </Row>
