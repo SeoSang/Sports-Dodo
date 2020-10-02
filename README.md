@@ -1,6 +1,13 @@
 # Sports-DoDo!
+<br/>
 
-<br>
+<div style="text-align:center">
+
+![로고](./front/public/images/logo.png)
+
+</div>
+
+<br/>
 <center>
   승부를 예측하고 포인트를 얻으세요! <br>  
   ( Match results and Get points!)
@@ -23,15 +30,19 @@
 - 승부를 예측하고 포인트를 얻어 1등에 도전하세요!
 - 실시간으로 반영되는 매치 리스트!
 - 포인트로 다양한 혜택을 받으세요 (업데이트 예정)
+---
+<br/>
 
 ![메인화면](./src/readme/index.jpg)
 
 ---
-
-### 베팅하세요!
+<br/>
 
 ![베팅하기](./src/readme/batting.jpg)
 
+<br/>
+
+---
 ## Tech-Used
 <br/>
 
@@ -65,9 +76,13 @@
 [PaaD](https://github.com/Wearenotyourkind)
 - E-mail : quintuplets2000@gmail.com
 
+---
+
 ## License
 
 MIT
+
+---
 
 ## 기획 문서
 https://drive.google.com/file/d/1djAq96OK2dg25243VXGaq7UZmO_cd72i/view?usp=sharing
