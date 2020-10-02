@@ -12,6 +12,9 @@ var MatchSchema = mongoose.Schema({
     homeTeamLogoUrl: {
         type: String,
     },
+    homeInfo: {
+        type: mongoose.Schema.Types.Mixed,
+    },
     awayTeam: {
         type: String,
         required: true
@@ -22,6 +25,9 @@ var MatchSchema = mongoose.Schema({
     awayTeamIdInFAPI: {
         type: Number,
         default: 0
+    },
+    awayInfo: {
+        type: Object
     },
     startTime: {
         type: String,
