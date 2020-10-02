@@ -10,9 +10,9 @@ export const LOAD_MAIN_MATCHS_REQUEST = 'LOAD_MAIN_MATCHS_REQUEST';
 export const LOAD_MAIN_MATCHS_SUCCESS = 'LOAD_MAIN_MATCHS_SUCCESS';
 export const LOAD_MAIN_MATCHS_FAILURE = 'LOAD_MAIN_MATCHS_FAILURE';
 
-export const LOAD_MATCH_POINTS_REQUEST = 'LOAD_MATCH_POINTS_REQUEST';
-export const LOAD_MATCH_POINTS_SUCCESS = 'LOAD_MATCH_POINTS_SUCCESS';
-export const LOAD_MATCH_POINTS_FAILURE = 'LOAD_MATCH_POINTS_FAILURE';
+export const LOAD_MATCHS_HISTORY_REQUEST = 'LOAD_MATCHS_HISTORY_REQUEST';
+export const LOAD_MATCHS_HISTORY_SUCCESS = 'LOAD_MATCHS_HISTORY_SUCCESS';
+export const LOAD_MATCHS_HISTORY_FAILURE = 'LOAD_MATCHS_HISTORY_FAILURE';
 
 function loadMatchsAPI(index) {
   // index 파라미터를 받아오는데 없다면 디폴트로 -1로 쓴다
@@ -24,10 +24,7 @@ function loadMatchsAPI(index) {
     return axios.get(`/match?limit=${limit}`);
     // index가 1인경우 전체 경기 부름
   }
-  return axios.get(
-    `/match?startTime[gt]=${nowTime}&limit=${limit}`
-    // `/match?startTime[gt]=${nowTime}&limit=${limit}&startindex=${index}`
-  );
+  return axios.get(`/match?startTime[gt]=${nowTime}&limit=${limit}`);
 }
 
 function* loadMatchs(action) {
@@ -52,37 +49,37 @@ function* watchLoadMatchs() {
   yield takeLatest(LOAD_MATCHS_REQUEST, loadMatchs);
 }
 ///
-function loadMatchsPointAPI(index = -1) {
-  if (index == -1) {
-    return axios.get(`/match`);
-  }
+function loadMatchsHistoryAPI(index) {
+  const nowTime = moment().format();
+  const limit = 9999;
+  // if (index == -1) {
+  //   return axios.get(`/match`);
+  // }
   return axios.get(
-    `/match/${matchid}/batting`
-    // `/match?startTime[gt]=${nowTime}&limit=${limit}&startindex=${index}`
+    // `/match/${matchid}/batting`
+    `/match?startTime[lt]=${nowTime}&limit=${limit}`
   );
 }
 
-function* loadMatchsPoint(action) {
+function* loadMatchsHistory(action) {
   try {
-    const result = yield call(loadMatchsPointAPI, action.index);
+    const result = yield call(loadMatchsHistoryAPI, action.index);
     // yield call(console.log('@@@@@ loadMatchs result @@@@@'));
     // yield call(console.log(result));
     yield put({
-      type: LOAD_MATCH_POINTS_SUCCESS,
+      type: LOAD_MATCHS_HISTORY_SUCCESS,
       data: result.data,
     });
   } catch (e) {
     console.error(e);
     yield put({
-      type: LOAD_MATCH_POINTS_FAILURE,
+      type: LOAD_MATCHS_HISTORY_FAILURE,
       error: JSON.stringify(e),
     });
   }
 }
-// http://localhost:1337/api/match/5f4a3e2d60d7215bd4bd3310/batting
-// http://localhost:1337/api/match/${matchid}/batting 한경기에 배팅된 포인트와 배팅한 사람들 수
-function* watchLoadMatchsPoint() {
-  yield takeLatest(LOAD_MATCH_POINTS_REQUEST, loadMatchsPoint);
+function* watchLoadMatchsHistory() {
+  yield takeLatest(LOAD_MATCHS_HISTORY_REQUEST, loadMatchsHistory);
 }
 
 ///
@@ -116,6 +113,6 @@ export default function* matchSaga() {
   yield all([
     fork(watchLoadMatchs),
     fork(watchLoadMainMatchs),
-    fork(watchLoadMatchsPoint),
+    fork(watchLoadMatchsHistory),
   ]);
 }
