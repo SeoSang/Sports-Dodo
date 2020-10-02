@@ -1,4 +1,4 @@
-# 스포츠도도!
+# Sports-DoDo!
 
 <br>
 <center>
@@ -9,20 +9,14 @@
 
 
 <p align="center">
-  <a href="#usage">Usage</a> •
-  <a href="#boast-puppy">Batting</a> •
-  <a href="#random-dog">Ranking</a> •
+  <a href="#key-features">Key-Features</a> •
+  <a href="#tech-used">Tech-Used</a> •
   <a href="#author">Author</a> •
   <a href="#license">License</a>
 </p>
 <br>
 
-![메인화면](./src/main.png)
-  
-## Usage
-
-<code>$ git clone ~</code>
-
+---
 
 ## Key-Features
 
@@ -30,10 +24,34 @@
 - 실시간으로 반영되는 매치 리스트!
 - 포인트로 다양한 혜택을 받으세요 (업데이트 예정)
 
-## Batting
+![메인화면](./src/readme/index.jpg)
 
-## Ranking
+---
 
+### 베팅하세요!
+
+![베팅하기](./src/readme/batting.jpg)
+
+## Tech-Used
+<br/>
+
+### Backend
+  - Architecture : Node js & Express
+  - DB : Mongo DB
+  - Testing : Mocha, chai
+
+### Frontend
+  - Architecture : React & Next JS
+  - State Management : Redux & immer, Redux-saga
+  - Design : Antd, styled-component
+
+### ETC
+  - Sports API Connection
+  - Real-Time Updated Data by Scheduling
+  - JWT Authentication 
+  - Global-State management
+
+---
 ## Author
 
 [ehgks0000](https://github.com/ehgks0000)
