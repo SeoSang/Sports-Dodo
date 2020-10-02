@@ -13,6 +13,7 @@ import moment from 'moment';
 import { LOAD_RANKINGS_REQUEST } from '../sagas/ranking';
 import IndexCard from '../components/IndexCard';
 import NoMatchCard from '../components/NoMatchCard';
+import Link from 'next/link';
 
 const FOOTBALL_TRANSLATE = '-0';
 const BASEBALL_TRANSLATE = '-33.3%';
@@ -95,6 +96,7 @@ const SliderButtonContainer = styled.div`
   }
 `;
 
+
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(1);
   const slideRef = useRef(null);
@@ -135,16 +137,21 @@ const Home = () => {
           <img
             style={{ width: '100%', height: '50%', opacity: '50%' }}
             src="/images/messi.jpg"
-          ></img>
+          />
           <FlexDiv
             width="100%"
             height="50%"
             style={{ position: 'absolute', opacity: '100%' }}
           >
-            <TitleH1>
-              당신의 <span style={{ color: '#931a25' }}>통찰력을</span>{' '}
+            <TitleH1 style={{fontSize:'7vh'}}>
+              당신의 <span style={{ color: '#ed1c23' }}>통찰력을</span>{' '}
               보여주세요!
             </TitleH1>
+            <Button type='primary' style={{backgroundColor:'#ffff4d',color:'black', border:'none', width:'50vh',height:'8vh', fontSize:'1.7rem' }}>
+              <Link href='/matchings'>
+                <b>배팅 하러 가기</b>
+              </Link>
+            </Button>
           </FlexDiv>
         </MessiContainer>
       </Row>

@@ -58,8 +58,8 @@ const IndexCard = ({ match }) => {
       title={'축구'}
       bordered={true}
       style={{
-        margin: '3px 5px',
-        width: '11%',
+        margin: '3px 0px',
+        width: '11.1%',
       }}
     >
       <h2>{`${match.homeTeam} VS ${match.awayTeam}`} </h2>
