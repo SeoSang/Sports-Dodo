@@ -190,6 +190,9 @@ const MyLayout = ({ children, me }) => {
       <MainMenu visible={visible} />
       <Background90Div style={{ textAlign: 'center' }}>
         <ContentDiv style={{paddingTop:'50px'}}>{children}</ContentDiv>
+          <footer style={{margin:'1rem'}}>
+            <p>@ 2020 <a>스포츠도도</a></p>
+          </footer>
       </Background90Div>
     </>
   );

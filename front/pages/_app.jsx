@@ -76,9 +76,6 @@ const MyApp = ({ Component, pageProps }) => {
       </Head>
       <MyLayout me={me}>
         <Component {...pageProps} />
-        <footer style={{margin:'1rem', backgroundColor:"white"}}>
-          <p>@ 2020 <a>스포츠도도</a></p>
-        </footer>
       </MyLayout>
     </>
   );
