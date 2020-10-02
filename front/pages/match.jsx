@@ -61,6 +61,7 @@ const getPercent = (home, draw, away) => {
 };
 
 const match = () => {
+  const nowTime = moment().format();
   const router = useRouter();
   const matchid = router.query.matchid;
 
@@ -101,11 +102,11 @@ const match = () => {
   const homeTeam = match?.homeTeam;
   const awayTeam = match?.awayTeam;
 
-  const startTime = match?.startTime;
-  const startTime_1 = moment(startTime).format('MM.DD HH:MM');
+  // const startTime = match?.startTime;
+  const startTime = moment(match?.startTime).format('MM.DD :MM');
 
-  const finishTime = match?.finishTime;
-  const finishTime_1 = moment(finishTime).format('MM.DD HH:MM');
+  // const finishTime = match?.finishTime;
+  // const finishTime_1 = moment(finishTime).format('MM.DD HH:MM');
 
   const goalsHomeTeam = match?.goalsHomeTeam;
   const goalsAwayTeam = match?.goalsAwayTeam;
@@ -119,9 +120,6 @@ const match = () => {
   const home1 = Math.floor((100 / totalPoint) * homeTotalPoint + 10) + '%';
   const home2 = Math.floor((100 / totalPoint) * drawTotalPoint + 10) + '%';
   const home3 = Math.floor((100 / totalPoint) * awayTotalPoint + 10) + '%';
-  console.log(home1);
-  console.log(home2);
-  console.log(home3);
 
   //배당률 전체/
   // testnum.toFixed(0);  소수점 버리기 반올림
@@ -213,9 +211,11 @@ const match = () => {
           height: '100%',
         }}
       >
+        <Row style={{ margin: '3rem' }}>
+          <Row>{round}</Row>
+        </Row>
         <Row
           style={{
-            marginTop: '3rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -241,12 +241,12 @@ const match = () => {
             </Row>
           </Col>
           <Col span={4}>
-            <Row>{round}</Row>
+            {/* <Row>{round}</Row> */}
             <Row>
               <h1>VS</h1>
             </Row>
             <Row>
-              <h4>{startTime_1}</h4>
+              <h4>{startTime}</h4>
             </Row>
 
             {/* 장소 */}
@@ -355,13 +355,13 @@ const match = () => {
             {/* style={{ paddingTop: '2rem' }} */}
             <Radio.Group defaultValue="Home" buttonStyle="solid">
               <Radio.Button value="Home" onChange={handleChooseChange}>
-                홈 승
+                홈 승 {homeOdds}
               </Radio.Button>
               <Radio.Button value="Draw" onChange={handleChooseChange}>
-                홈 무
+                홈 무 {drawOdds}
               </Radio.Button>
               <Radio.Button value="Away" onChange={handleChooseChange}>
-                홈 패
+                홈 패 {awayOdds}
               </Radio.Button>
             </Radio.Group>
           </Row>
