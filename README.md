@@ -6,14 +6,12 @@
 </p>
 
 
-<center>
 <br/>
-
-  승부를 예측하고 포인트를 얻으세요! <br/>  
-  ( Match results and Get points!)
-
+  <p align="center">
+    승부를 예측하고 포인트를 얻으세요! <br>  
+    ( Match results and Get points!)
+  </p>
 <br>
-</center>
 
 
 <p align="center">
