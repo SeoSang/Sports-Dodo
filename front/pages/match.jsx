@@ -104,6 +104,12 @@ const match = () => {
   const awayTotalPoint = bpoint?.battingPoints?.awayTotalPoint;
   const drawTotalPoint = bpoint?.battingPoints?.drawTotalPoint;
   const totalPoint = homeTotalPoint + awayTotalPoint + drawTotalPoint;
+
+  //배당률 비율
+  const home1 = Math.floor((24 / totalPoint) * homeTotalPoint) - 0.01;
+  // console.log(typeof home1);
+  const home2 = Math.floor((24 / totalPoint) * awayTotalPoint) - 0.01;
+  const home3 = Math.floor((24 / totalPoint) * drawTotalPoint) - 0.01;
   //배당률 전체/
   // testnum.toFixed(0);  소수점 버리기 반올림
 
@@ -121,12 +127,12 @@ const match = () => {
       ? (awayOdds * battingpoint).toFixed(2)
       : (drawOdds * battingpoint).toFixed(2);
 
-  const howManyPeopleBatted = bpoint?.howManyPeopleBatted;
+  // const howManyPeopleBatted = bpoint?.howManyPeopleBatted;
 
-  const homeBattingNumber = match?.homeBattingNumber;
-  const awayBattingNumber = match?.awayBattingNumber;
-  const drawBattingNumber = match?.drawBattingNumber;
-  // console.log(homeBattingNumber);
+  // const homeBattingNumber = match?.homeBattingNumber;
+  // const awayBattingNumber = match?.awayBattingNumber;
+  // const drawBattingNumber = match?.drawBattingNumber;
+  // // console.log(homeBattingNumber);
 
   const homeTeamLogoUrl = match?.homeTeamLogoUrl;
   const awayTeamLogoUrl = match?.awayTeamLogoUrl;
@@ -255,9 +261,14 @@ const match = () => {
           <Row>주심 : {referee()}</Row>
         </Row>
         <Row style={{ marginBottom: '1rem' }}>
-          <Col span={10}>{homeTotalPoint} p</Col>
-          <Col span={4}>{drawTotalPoint} p</Col>
-          <Col span={10}>{awayTotalPoint} p</Col>
+          {/* 24/total *a */}
+          <Col span={home1} style={{ backgroundColor: 'gray' }}>
+            {homeTotalPoint} p
+          </Col>
+          <Col span={home2} style={{ backgroundColor: 'red' }}>
+            {drawTotalPoint} p
+          </Col>
+          <Col span={home3}>{awayTotalPoint} p</Col>
         </Row>
         <Row>
           <Col span={10}>
