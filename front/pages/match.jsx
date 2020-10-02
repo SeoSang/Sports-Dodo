@@ -50,6 +50,16 @@ const fetchApi = async (url) => {
   }
 };
 
+const getPercent = (home, draw, away) => {
+  // 계산
+
+  return {
+    homePercent,
+    drawPercent,
+    awayPercent,
+  };
+};
+
 const match = () => {
   const router = useRouter();
   const matchid = router.query.matchid;
@@ -106,9 +116,9 @@ const match = () => {
   const totalPoint = homeTotalPoint + awayTotalPoint + drawTotalPoint;
 
   //배당률 백분율
-  const home1 = Math.floor((100 / totalPoint) * homeTotalPoint) + 'px';
-  const home2 = Math.floor((100 / totalPoint) * awayTotalPoint) + 'px';
-  const home3 = Math.floor((100 / totalPoint) * drawTotalPoint) + 'px';
+  const home1 = Math.floor((100 / totalPoint) * homeTotalPoint) + '%';
+  const home2 = Math.floor((100 / totalPoint) * drawTotalPoint) + '%';
+  const home3 = Math.floor((100 / totalPoint) * awayTotalPoint) + '%';
   console.log(home1);
   console.log(home2);
   console.log(home3);
@@ -272,17 +282,26 @@ const match = () => {
           }}
         >
           {/* 24/total *a */}
-          <Col flex={home1} style={{ backgroundColor: 'gray' }}>
-            {homeTotalPoint} p
-          </Col>
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'nowrap',
+            }}
+          >
+            <div style={{ backgroundColor: 'gray', width: home1 }}>
+              {homeTotalPoint} p
+            </div>
 
-          <Col flex={home2} style={{ backgroundColor: 'red' }}>
-            {drawTotalPoint} p
-          </Col>
+            <div style={{ backgroundColor: 'red', width: home2 }}>
+              {drawTotalPoint} p
+            </div>
 
-          <Col flex={home3} style={{ backgroundColor: 'greenyellow' }}>
-            {awayTotalPoint} p
-          </Col>
+            <div style={{ backgroundColor: 'greenyellow', width: home3 }}>
+              {awayTotalPoint} p
+            </div>
+          </div>
         </Row>
         <Row>
           <Col span={10}>

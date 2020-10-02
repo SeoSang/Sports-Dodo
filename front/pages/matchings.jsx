@@ -68,9 +68,13 @@ function matchings() {
       render(text, record) {
         return {
           props: {
-            style: { color: parseInt(text) > 1 ? '#fab1a0' : '#e84393' },
+            style: { color: parseInt(text) > 1 ? '#c0392b' : '#e84393' },
           },
-          children: <div>{text}</div>,
+          children: (
+            <div>
+              <strong>{text}</strong>
+            </div>
+          ),
         };
       },
       // sorter: (a, b) => a.howManyPeopleBatted - b.howManyPeopleBatted,
