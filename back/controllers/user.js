@@ -79,28 +79,6 @@ exports.login = asyncHandler(async (req, res, next) => {
 });
 
 exports.getUsers = asyncHandler(async (req, res, next) => {
-<<<<<<< HEAD
-  let users = await User.find({})
-    .populate('battings')
-    .populate('')
-    .sort({ point: -1 })
-    .limit(50);
-
-  for (let i = 0; i < users.length; i++) {
-    //calc battings
-    eachPersonBattings = {
-      collectCount: 0,
-      wrongCount: 0,
-    };
-
-    // reduce 로 바꾸셔요.
-    for (let j = 0; j < users[i].battings.length; j++) {
-      if (users[i].battings[j].battingResult === true) {
-        eachPersonBattings.collectCount++;
-      } else if (users[i].battings[j].battingresult === false) {
-        eachPersonBattings.wrongCount++;
-      }
-=======
     let users = await User.find({}).populate('battings')
         .populate('')
         .sort({ point: -1 })
@@ -123,7 +101,6 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
         }
 
         users[i].battings = eachPersonBattings;
->>>>>>> aabe299c121e5d7068a881d41edd474770615cd7
     }
 
     users[i].battings = eachPersonBattings;

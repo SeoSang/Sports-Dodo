@@ -3,7 +3,7 @@ import { Button, Row, Col, Popover, Form, Input, message } from 'antd';
 import { useState } from 'react';
 import { UserOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar/avatar';
-import { Background90Div } from '../styles/styled-components';
+import { Background100Div } from '../styles/styled-components';
 import MainMenu from './MainMenu';
 import login from '../pages/login';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -144,7 +144,15 @@ const MyLayout = ({ children, me }) => {
 
   return (
     <>
-      <TitleBarDiv style={{backgroundColor:"black", margin:'0', position:'fixed', zIndex:'100',width:'100%'}}>
+      <TitleBarDiv
+        style={{
+          backgroundColor: 'black',
+          margin: '0',
+          position: 'fixed',
+          zIndex: '100',
+          width: '100%',
+        }}
+      >
         <Row style={{ height: '50px' }}>
           <Col className="vertical-mid" span={4}>
             <MenuButton onClick={toggleCollapsed}>
@@ -188,9 +196,14 @@ const MyLayout = ({ children, me }) => {
         </Row>
       </TitleBarDiv>
       <MainMenu visible={visible} />
-      <Background90Div style={{ textAlign: 'center' }}>
-        <ContentDiv style={{paddingTop:'50px'}}>{children}</ContentDiv>
-      </Background90Div>
+      <Background100Div style={{ textAlign: 'center' }}>
+        {children}
+        <footer style={{ margin: '1rem' }}>
+          <p>
+            @ 2020 <a>스포츠도도</a>
+          </p>
+        </footer>
+      </Background100Div>
     </>
   );
 };
