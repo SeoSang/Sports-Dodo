@@ -104,6 +104,12 @@ const match = () => {
   const awayTotalPoint = bpoint?.battingPoints?.awayTotalPoint;
   const drawTotalPoint = bpoint?.battingPoints?.drawTotalPoint;
   const totalPoint = homeTotalPoint + awayTotalPoint + drawTotalPoint;
+
+  //배당률 비율
+  const home1 = Math.floor((24 / totalPoint) * homeTotalPoint) - 0.01;
+  // console.log(typeof home1);
+  const home2 = Math.floor((24 / totalPoint) * awayTotalPoint) - 0.01;
+  const home3 = Math.floor((24 / totalPoint) * drawTotalPoint) - 0.01;
   //배당률 전체/
   // testnum.toFixed(0);  소수점 버리기 반올림
 
@@ -121,12 +127,12 @@ const match = () => {
       ? (awayOdds * battingpoint).toFixed(2)
       : (drawOdds * battingpoint).toFixed(2);
 
-  const howManyPeopleBatted = bpoint?.howManyPeopleBatted;
+  // const howManyPeopleBatted = bpoint?.howManyPeopleBatted;
 
-  const homeBattingNumber = match?.homeBattingNumber;
-  const awayBattingNumber = match?.awayBattingNumber;
-  const drawBattingNumber = match?.drawBattingNumber;
-  // console.log(homeBattingNumber);
+  // const homeBattingNumber = match?.homeBattingNumber;
+  // const awayBattingNumber = match?.awayBattingNumber;
+  // const drawBattingNumber = match?.drawBattingNumber;
+  // // console.log(homeBattingNumber);
 
   const homeTeamLogoUrl = match?.homeTeamLogoUrl;
   const awayTeamLogoUrl = match?.awayTeamLogoUrl;
@@ -228,9 +234,6 @@ const match = () => {
             <Row>
               <h4>{startTime_1}</h4>
             </Row>
-            {/* <Row>
-              <h4>{finishTime_1}</h4>
-            </Row> */}
 
             {/* 장소 */}
           </Col>
@@ -257,15 +260,32 @@ const match = () => {
           <Row>{venue}</Row>
           <Row>주심 : {referee()}</Row>
         </Row>
-        <Row>
-          <Col span={10}>{homeTotalPoint} p</Col>
-          <Col span={4}>{drawTotalPoint} p</Col>
-          <Col span={10}>{awayTotalPoint} p</Col>
+        <Row style={{ marginBottom: '1rem' }}>
+          {/* 24/total *a */}
+          <Col span={home1} style={{ backgroundColor: 'gray' }}>
+            {homeTotalPoint} p
+          </Col>
+          <Col span={home2} style={{ backgroundColor: 'red' }}>
+            {drawTotalPoint} p
+          </Col>
+          <Col span={home3}>{awayTotalPoint} p</Col>
         </Row>
         <Row>
-          <Col span={10}>{homeOdds}</Col>
-          <Col span={4}>{drawOdds}</Col>
-          <Col span={10}>{awayOdds}</Col>
+          <Col span={10}>
+            <Button type="primary" danger>
+              {homeOdds}
+            </Button>
+          </Col>
+          <Col span={4}>
+            <Button type="primary" danger>
+              {drawOdds}
+            </Button>
+          </Col>
+          <Col span={10}>
+            <Button type="primary" danger>
+              {awayOdds}
+            </Button>
+          </Col>
         </Row>
         <Divider />
         {/*  새 컴포넌트 만들기 */}
@@ -308,16 +328,21 @@ const match = () => {
         <Divider>배팅한 사람들</Divider>
         {/* 디바이더 사용하기 */}
         <Row align="center">
-          <Col span={11}>1</Col>
+          <Col span={7}>1 승</Col>
           {/* 홈팀 배팅한 사람들 */}
-          <Col span={2}>
+          <Col span={1}>
             <Divider type="vertical" />
           </Col>
-          <Col span={11}>2</Col>
+          <Col span={7}>2 무</Col>
+          <Col span={1}>
+            <Divider type="vertical" />
+          </Col>
+          <Col span={7}>3 패</Col>
         </Row>
       </Row>
     </div>
   );
 };
-
+//match/id 검색
+// user/userid/  >> filter((e)=>e.matchid ===match)   // chooseHomeAwayDraw
 export default match;
