@@ -12,13 +12,19 @@ import {
   MailOutlined,
 } from '@ant-design/icons';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 
 const A = styled.a`
   width: 100%;
 `;
 
+const menuRouter = (router, href) => () => {
+  router.push(`/${href}`);
+};
+
 const MainMenu = ({ visible }) => {
   const [isFold, setFold] = useState(true);
+  const router = useRouter();
   const handleMouseEnter = e => {
     setFold(true);
   };
@@ -50,27 +56,31 @@ const MainMenu = ({ visible }) => {
           }}
         >
           {/* //홈 추가  홈링크 왜 안가지는지 모르겠음*/}
-          <Menu.Item key="0" icon={<HomeOutlined />}>
-            <Link href="/">
-              <A> 홈 </A>
-            </Link>
+          <Menu.Item
+            key="0"
+            icon={<HomeOutlined />}
+            onClick={menuRouter(router, '')}
+          >
+            홈
           </Menu.Item>
           <SubMenu key="sub1" icon={<DesktopOutlined />} title="매칭 보기">
-            <Menu.Item key="1">
-              <Link href="/matchings">
-                <A> 축구 </A>
-              </Link>
+            <Menu.Item key="1" onClick={menuRouter(router, 'matchings')}>
+              축구
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key="2" icon={<ContainerOutlined />}>
-            <Link href="/profile">
-              <A>베팅 내역</A>
-            </Link>
+          <Menu.Item
+            key="2"
+            icon={<ContainerOutlined />}
+            onClick={menuRouter(router, 'profile')}
+          >
+            베팅 내역
           </Menu.Item>
-          <Menu.Item key="3" icon={<PieChartOutlined />}>
-            <Link href="/rankings">
-              <A> 전체 랭킹 </A>
-            </Link>
+          <Menu.Item
+            key="3"
+            icon={<PieChartOutlined />}
+            onClick={menuRouter(router, 'rankings')}
+          >
+            전체 랭킹
           </Menu.Item>
           <Menu.Item key="4" icon={<MailOutlined />}>
             <Link href="https://github.com/SeoSang/Sports-Dodo" target="_blank">

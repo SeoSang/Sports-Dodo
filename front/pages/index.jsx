@@ -73,7 +73,7 @@ const SlideRefDiv = styled.div`
   height: 100%;
   align-items: center;
   transition: all 0.5s ease-in-out;
-  transform: translateX(${(props) => props.tr});
+  transform: translateX(${props => props.tr});
 `;
 
 const MatchTime = styled.div`
@@ -96,15 +96,14 @@ const SliderButtonContainer = styled.div`
   }
 `;
 
-
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(1);
   const slideRef = useRef(null);
   const messiRef = useRef(null);
   const dispatch = useDispatch();
-  const { matchs } = useSelector((state) => state.match);
-  const { rankings } = useSelector((state) => state.ranking);
-  const [show,handleShow] = useState(false);
+  const { matchs } = useSelector(state => state.match);
+  const { rankings } = useSelector(state => state.ranking);
+  const [show, handleShow] = useState(false);
 
   useEffect(() => {
     dispatch({
@@ -115,25 +114,26 @@ const Home = () => {
     });
   }, []);
 
-  useEffect(()=> {
-    window.addEventListener("scroll", () => {
+  useEffect(() => {
+    const scrollFun = () => {
       if (window.scrollY > 100) {
         handleShow(true);
       } else handleShow(false);
-    });
-    return () => {
-      window.removeEventListener("scroll");
     };
-  },[]);
+    window.addEventListener('scroll', scrollFun);
+    return () => {
+      window.removeEventListener('scroll', scrollFun);
+    };
+  }, []);
 
-  const onClickFootball = (e) => {
+  const onClickFootball = e => {
     // 슬라이드 애니메이션
     setCurrentSlide(FOOTBALL_TRANSLATE);
   };
-  const onClickBaseball = (e) => {
+  const onClickBaseball = e => {
     setCurrentSlide(BASEBALL_TRANSLATE);
   };
-  const onClickBasketball = (e) => {
+  const onClickBasketball = e => {
     setCurrentSlide(BASKETBALL_TRANSLATE);
   };
 
@@ -153,38 +153,48 @@ const Home = () => {
           <FlexDiv
             width="100%"
             height="50%"
-            style={{position: 'absolute', opacity: '100%',display:'flex',flexDirection:'column'}}
+            style={{
+              position: 'absolute',
+              opacity: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
           >
-            {show ?
-                <>
-                  <TitleH1 style={{fontSize: '4rem'}}>
-                    매치 리스트를 확인하세요
-                  </TitleH1>
-                </>
-                :
-                <>
-                  <TitleH1 style={{fontSize: '4rem'}}>
-                    당신의 <span style={{color: '#ed1c23'}}>통찰력을</span>{' '}
-                    보여주세요!
-                  </TitleH1>
-                  <Button type='primary' style={{
+            {show ? (
+              <>
+                <TitleH1 style={{ fontSize: '4rem' }}>
+                  매치 리스트를 확인하세요
+                </TitleH1>
+              </>
+            ) : (
+              <>
+                <TitleH1 style={{ fontSize: '4rem' }}>
+                  당신의 <span style={{ color: '#ed1c23' }}>통찰력을</span>{' '}
+                  보여주세요!
+                </TitleH1>
+                <Button
+                  type="primary"
+                  style={{
                     backgroundColor: '#ffff4d',
                     color: 'black',
                     border: 'none',
                     width: '50vh',
                     height: '8vh',
-                    fontSize: '1.7rem'
-                  }}>
-                    <Link href='/matchings'>
+                    fontSize: '1.7rem',
+                  }}
+                >
+                  <Link href="/matchings">
+                    <a>
                       <b>배팅 하러 가기</b>
-                    </Link>
-                  </Button>
-                </>
-            }
+                    </a>
+                  </Link>
+                </Button>
+              </>
+            )}
           </FlexDiv>
         </MessiContainer>
       </Row>
-      <MainRow style={{ height: '100vh' }}>
+      <MainRow>
         <Card
           style={{
             backgroundColor: '#fcfcfc',

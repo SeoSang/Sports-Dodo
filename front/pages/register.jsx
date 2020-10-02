@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FlexDiv, FullDiv } from '../styles/styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Notification from '../components/Notification';
-import { Button, Input, Checkbox, Form, message } from 'antd';
+import { Button, Input, Checkbox, Form, message, Modal } from 'antd';
 import {
   UserOutlined,
   LockOutlined,
@@ -11,6 +11,7 @@ import {
   SmileOutlined,
 } from '@ant-design/icons';
 import { REGISTER_REQUEST } from '../sagas/user';
+import { agreement } from '../src/agreement';
 
 const layout = {
   labelCol: { span: 4 },
@@ -30,6 +31,7 @@ const register = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { isRegistering, isRegisterSuccess } = useSelector(state => state.user);
+  const [agreementVisible, setAgreementVisible] = useState(false);
 
   const { me } = useSelector(state => state.user);
   useEffect(() => {
@@ -177,7 +179,12 @@ const register = () => {
             ]}
           >
             <Checkbox>
-              <a href="" style={{ color: 'blue' }}>
+              <a
+                onClick={() => {
+                  setAgreementVisible(true);
+                }}
+                style={{ color: 'blue' }}
+              >
                 이용약관
               </a>
               에 동의합니다.
@@ -193,6 +200,25 @@ const register = () => {
           </Form.Item>
         </Form>
       </FullDiv>
+      <Modal
+        title="이용약관"
+        visible={agreementVisible}
+        onCancel={e => {
+          setAgreementVisible(false);
+        }}
+        onOk={e => {
+          setAgreementVisible(false);
+        }}
+      >
+        {agreement.split('\n').map(line => {
+          return (
+            <span>
+              {line}
+              <br />
+            </span>
+          );
+        })}
+      </Modal>
     </FlexDiv>
   );
 };
