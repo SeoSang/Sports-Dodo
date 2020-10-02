@@ -68,7 +68,7 @@ function matchings() {
       render(text, record) {
         return {
           props: {
-            style: { background: parseInt(text) > 1 ? 'gray' : 'green' },
+            style: { color: parseInt(text) > 1 ? '#fab1a0' : '#e84393' },
           },
           children: <div>{text}</div>,
         };
@@ -81,7 +81,8 @@ function matchings() {
       key: '_id',
       width: 100,
       align: 'center',
-      render: (_id) => (
+      render: (_id, record) => (
+        //nowTime > record.startTime ? 배팅하기 : 마감되었습니다
         <Link href={{ pathname: 'match', query: { matchid: _id } }}>
           <a>
             <Button type="primary" htmlType="submit" danger>

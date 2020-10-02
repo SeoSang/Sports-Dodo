@@ -34,8 +34,8 @@ a {
 }
 /* matchings.jsx 시간에 따른 색 */
 .red {
-  color: red;
+  background-color: #ff7675;
 }
 .green {
-  color: green;
+  background-color: #00b894;
 }

@@ -228,9 +228,6 @@ const match = () => {
             <Row>
               <h4>{startTime_1}</h4>
             </Row>
-            {/* <Row>
-              <h4>{finishTime_1}</h4>
-            </Row> */}
 
             {/* 장소 */}
           </Col>
@@ -257,15 +254,27 @@ const match = () => {
           <Row>{venue}</Row>
           <Row>주심 : {referee()}</Row>
         </Row>
-        <Row>
+        <Row style={{ marginBottom: '1rem' }}>
           <Col span={10}>{homeTotalPoint} p</Col>
           <Col span={4}>{drawTotalPoint} p</Col>
           <Col span={10}>{awayTotalPoint} p</Col>
         </Row>
         <Row>
-          <Col span={10}>{homeOdds}</Col>
-          <Col span={4}>{drawOdds}</Col>
-          <Col span={10}>{awayOdds}</Col>
+          <Col span={10}>
+            <Button type="primary" danger>
+              {homeOdds}
+            </Button>
+          </Col>
+          <Col span={4}>
+            <Button type="primary" danger>
+              {drawOdds}
+            </Button>
+          </Col>
+          <Col span={10}>
+            <Button type="primary" danger>
+              {awayOdds}
+            </Button>
+          </Col>
         </Row>
         <Divider />
         {/*  새 컴포넌트 만들기 */}
@@ -308,16 +317,21 @@ const match = () => {
         <Divider>배팅한 사람들</Divider>
         {/* 디바이더 사용하기 */}
         <Row align="center">
-          <Col span={11}>1</Col>
+          <Col span={7}>1 승</Col>
           {/* 홈팀 배팅한 사람들 */}
-          <Col span={2}>
+          <Col span={1}>
             <Divider type="vertical" />
           </Col>
-          <Col span={11}>2</Col>
+          <Col span={7}>2 무</Col>
+          <Col span={1}>
+            <Divider type="vertical" />
+          </Col>
+          <Col span={7}>3 패</Col>
         </Row>
       </Row>
     </div>
   );
 };
-
+//match/id 검색
+// user/userid/  >> filter((e)=>e.matchid ===match)   // chooseHomeAwayDraw
 export default match;
