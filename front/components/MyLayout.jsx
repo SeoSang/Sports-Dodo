@@ -200,7 +200,7 @@ const MyLayout = ({ children, me }) => {
         {children}
         <footer style={{ margin: '1rem' }}>
           <p>
-            @ 2020 <a>스포츠도도</a>
+            Copyright (C) 2020. <a>스포츠도도</a>. All rights reserved
           </p>
         </footer>
       </Background100Div>

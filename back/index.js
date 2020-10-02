@@ -58,7 +58,7 @@ app.get('/ping', (req, res, next) => {
 
 
 
-// bringMatchFromAPI('2790', '2020-10-05');
+// bringMatchFromAPI('2790', '2020-10-07');
 // console.log('가져왔엉');
 
 // 미들웨어들
