@@ -69,7 +69,7 @@
 [moongq](https://github.com/moongq)
 
 [SeoSang](https://github.com/SeoSang)
-- Blog : programming119.tistory.com
+- Blog : https://programming119.tistory.com
 - E-mail : ddrrpg@naver.com
 
 [PaaD](https://github.com/Wearenotyourkind)
