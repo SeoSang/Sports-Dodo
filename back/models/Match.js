@@ -5,6 +5,10 @@ var MatchSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    homeTeamIdInFAPI: {
+        type: Number,
+        default: 0
+    },
     homeTeamLogoUrl: {
         type: String,
     },
@@ -14,6 +18,10 @@ var MatchSchema = mongoose.Schema({
     },
     awayTeamLogoUrl: {
         type: String,
+    },
+    awayTeamIdInFAPI: {
+        type: Number,
+        default: 0
     },
     startTime: {
         type: String,

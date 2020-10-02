@@ -93,9 +93,9 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
 
         // reduce 로 바꾸셔요.
         for (let j = 0; j < users[i].battings.length; j++) {
-            if (users[i].battings[j].battingResult = true) {
+            if (users[i].battings[j].battingResult === true) {
                 eachPersonBattings.collectCount++;
-            } else if (users[i].battings[j].battingresult = false) {
+            } else if (users[i].battings[j].battingresult === false) {
                 eachPersonBattings.wrongCount++;
             }
         }
