@@ -6,8 +6,7 @@ import axios from 'axios';
 import { BACKEND_URL } from '../sagas';
 import MatchTest from '../components/MatchTest';
 import Notification from '../components/Notification';
-
-// import userFetch from 'userFetch';
+import { LOAD_BATTING_HISTORY_REQUEST } from '../sagas/batting';
 
 import {
   notification,
@@ -53,7 +52,6 @@ const fetchApi = async (url) => {
 
 const getPercent = (home, draw, away) => {
   // 계산
-
   return {
     homePercent,
     drawPercent,
@@ -62,10 +60,23 @@ const getPercent = (home, draw, away) => {
 };
 
 const match = () => {
+  moment.tz.setDefault('Asia/Seoul');
+  const nowTime = moment().format('MM-DD hh:ss');
+
+  const test = () => {
+    if (nowTime > deadLine) {
+      return '마감';
+    } else {
+      return '배팅';
+    }
+  };
+
   const router = useRouter();
   const matchid = router.query.matchid;
 
   const { me } = useSelector((state) => state.user);
+  const { battingHistory } = useSelector((state) => state.batting);
+
   const dispatch = useDispatch();
   // 소유한 포인트에서 배팅한 포인트를 차감하여 리덕스를 사용해야하나?
 
@@ -80,6 +91,11 @@ const match = () => {
   const [homeImg, setHomeImg] = useState('/images/epl_logo.png');
   const [awayImg, setAwayImg] = useState('/images/epl_logo.png');
 
+  // dispatch({
+  //   type: LOAD_BATTING_HISTORY_REQUEST, data: { matchid },
+  // });
+
+  // console.log(battingHistory);
   useEffect(() => {
     if (!me) {
       // Notification('로그인이 필요합니다!');
@@ -103,8 +119,6 @@ const match = () => {
   const homeTeam = match?.homeTeam;
   const awayTeam = match?.awayTeam;
 
-  moment.tz.setDefault('Asia/Seoul');
-  const nowTime = moment().format();
   const startTime = moment(match?.startTime).format('MM/DD hh:mm');
   const deadLine = moment(startTime)
     .subtract(5, 'minutes')
@@ -185,6 +199,7 @@ const match = () => {
         // <Alert message="배팅 시간이 지났습니다." type="error" showIcon />;
       });
   };
+  // console.log(nowTime > deadLine);
 
   return (
     <div style={{ height: 'calc(100vh - 57px)' }}>
@@ -384,20 +399,9 @@ const match = () => {
             예상 배당 포인트 : {hitOdds} p
           </Row>
           <Row style={{ padding: '1rem' }}>
-            {{ nowTime } > { deadLine } ? (
-              <Button type="primary" danger>
-                마감
-              </Button>
-            ) : (
-              <Button
-                type="primary"
-                htmlType="submit"
-                danger
-                // onClick={Notification('마감 되었습니다!')}
-              >
-                배팅
-              </Button>
-            )}
+            <Button type="primary" danger>
+              {test()}
+            </Button>
           </Row>
         </Form>
         <Divider>배팅한 사람들</Divider>

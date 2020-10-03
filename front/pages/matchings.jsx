@@ -23,6 +23,18 @@ const { Column, ColumnGroup } = Table;
 
 // const limit = 100;
 function matchings() {
+  moment.tz.setDefault('Asia/Seoul');
+  const nowTime = moment().format('MM/DD hh:mm');
+
+  const test = (e) => {
+    if (nowTime > e) {
+      // console.log(e);
+      // console.log(nowTime);
+      return '마감';
+    } else {
+      return '배팅';
+    }
+  };
   const columns = [
     {
       title: 'key',
@@ -130,15 +142,14 @@ function matchings() {
         <Link href={{ pathname: 'match', query: { matchid: _id } }}>
           <a>
             <Button type="primary" htmlType="submit" danger>
-              {nowTime > record.startTime ? '배팅하기' : '마감'}
+              {test(record.startTime)}
             </Button>
           </a>
         </Link>
       ),
     },
   ];
-  moment.tz.setDefault('Asia/Seoul');
-  const nowTime = moment().format();
+
   const { me } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   useEffect(() => {
