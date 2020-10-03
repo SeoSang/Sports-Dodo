@@ -76,14 +76,13 @@ const match = () => {
   const [bpoint, setBpoint] = useState([]);
   const [choose, setChoose] = useState('Home');
   const [battingpoint, setBattingpoint] = useState(10);
-  // const defaultImg = require('../public/images/epl_logo.png');
+
   const [homeImg, setHomeImg] = useState('/images/epl_logo.png');
   const [awayImg, setAwayImg] = useState('/images/epl_logo.png');
 
   useEffect(() => {
     if (!me) {
-      Notification('로그인이 필요합니다!');
-
+      // Notification('로그인이 필요합니다!');
       // <Alert message="로그인이 필요합니다!" type="warning" showIcon closable />;
       // alert('로그인이 필요합니다!');
       // router.push('/');
@@ -198,8 +197,8 @@ const match = () => {
           height: '100%',
         }}
       >
-        <Row style={{ margin: '3rem' }}>
-          <Row>{round}</Row>
+        <Row style={{ margin: '2rem' }}>
+          <strong>{round}</strong>
         </Row>
         <Row
           style={{
@@ -280,15 +279,30 @@ const match = () => {
               justifyContent: 'center',
             }}
           >
-            <div style={{ backgroundColor: '#e55039', width: home1 }}>
+            <div
+              style={{
+                backgroundColor: '#e55039',
+                width: home1,
+              }}
+            >
               {homeTotalPoint} p
             </div>
 
-            <div style={{ backgroundColor: '#4a69bd', width: home2 }}>
+            <div
+              style={{
+                backgroundColor: '#4a69bd',
+                width: home2,
+              }}
+            >
               {drawTotalPoint} p
             </div>
 
-            <div style={{ backgroundColor: '#78e08f', width: home3 }}>
+            <div
+              style={{
+                backgroundColor: '#78e08f',
+                width: home3,
+              }}
+            >
               {awayTotalPoint} p
             </div>
           </div>
@@ -308,7 +322,7 @@ const match = () => {
               flexWrap: 'nowrap',
             }}
           >
-            <Col span={10}>
+            <Col span={7}>
               <Button
                 type="primary"
                 danger
@@ -317,7 +331,7 @@ const match = () => {
                 {homeOdds}
               </Button>
             </Col>
-            <Col span={4}>
+            <Col span={7}>
               <Button
                 type="primary"
                 danger
@@ -326,7 +340,7 @@ const match = () => {
                 {drawOdds}
               </Button>
             </Col>
-            <Col span={10}>
+            <Col span={7}>
               <Button
                 type="primary"
                 danger

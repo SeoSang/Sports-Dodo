@@ -25,11 +25,11 @@ const menuRouter = (router, href) => () => {
 const MainMenu = ({ visible }) => {
   const [isFold, setFold] = useState(true);
   const router = useRouter();
-  const handleMouseEnter = e => {
+  const handleMouseEnter = (e) => {
     setFold(true);
   };
 
-  const handleMouseLeave = e => {
+  const handleMouseLeave = (e) => {
     setFold(false);
   };
 
@@ -83,8 +83,8 @@ const MainMenu = ({ visible }) => {
             전체 랭킹
           </Menu.Item>
           <Menu.Item key="4" icon={<MailOutlined />}>
-            <Link href="https://github.com/SeoSang/Sports-Dodo" target="_blank">
-              소개페이지
+            <Link href="https://github.com/SeoSang/Sports-Dodo">
+              <a target="_blank">소개페이지</a>
             </Link>
           </Menu.Item>
         </Menu>

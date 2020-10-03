@@ -146,7 +146,7 @@ function matchings() {
       ...matchs[i],
       startTime: moment(matchs[i].startTime).format('MM.DD HH:MM'),
       finishTime: moment(matchs[i].finishTime).format('MM.DD HH:MM'),
-      deadLine: moment(matchs[i].startTime).subtract(2, 'd').format(),
+      deadLine: moment(matchs[i].startTime).subtract(1, 'd').format(),
       // 마감시간 설정
       howManyPeopleBatted:
         matchs[i].homeBattingNumber +
@@ -190,7 +190,11 @@ function matchings() {
           pagination={{ pageSize: 5 }}
           // scroll={{ y: 300 }}
           rowClassName={(record, index) =>
-            nowTime > record.deadLine ? 'red' : 'green'
+            nowTime > record.deadLine
+              ? 'red'
+              : nowTime > moment(record.deadLine).subtract(2, 'd').format()
+              ? 'green'
+              : 'blue'
           }
           bordered
         />
