@@ -53,10 +53,10 @@ const fetchApi = async (url) => {
 //   };
 // };
 
-const match = () => {
-  moment.tz.setDefault('Asia/Seoul');
-  const nowTime = moment().format();
+moment.tz.setDefault('Asia/Seoul');
+const nowTime = moment().format();
 
+const match = () => {
   const router = useRouter();
   const matchid = router.query.matchid;
 
