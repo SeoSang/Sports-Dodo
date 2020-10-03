@@ -1,6 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
 import axios from 'axios';
-// import Match from 'Match';
 import { BACKEND_URL } from '../sagas/.';
 import moment from 'moment';
 import Link from 'next/link';
@@ -17,31 +16,32 @@ import SizeContext from 'antd/lib/config-provider/SizeContext';
 import Notification from '../components/Notification';
 require('moment-timezone');
 
-// import { css } from '@emotion/core';
-
-const { Column, ColumnGroup } = Table;
-
 // const limit = 100;
-function matchings() {
-  moment.tz.setDefault('Asia/Seoul');
-  const nowTime = moment().format('MM/DD hh:mm');
+moment.tz.setDefault('Asia/Seoul');
+const time_format = 'MM/DD-hh:mm-A';
+const nowTime = moment().format(time_format);
 
-  const test = (e) => {
-    if (nowTime > e) {
-      // console.log(e);
-      // console.log(nowTime);
-      return '마감';
-    } else {
-      return '배팅';
-    }
-  };
+const battingButton = (startTime, deadLine, deadLine_2) => {
+  if (nowTime > startTime) {
+    // console.log(e);
+    // console.log(nowTime);
+    return '마감';
+  } else if (nowTime > deadLine) {
+    return '마감임박';
+  } else if (nowTime > deadLine_2) {
+    return '2시간 남음';
+  } else {
+    return '배팅';
+  }
+};
+const matchings = () => {
   const columns = [
     {
       title: 'key',
       dataIndex: 'key',
       key: 'key',
       align: 'center',
-      width: 100,
+      width: 50,
     },
     {
       title: 'homeTeam',
@@ -52,7 +52,7 @@ function matchings() {
       render(text, record) {
         return {
           props: {
-            style: { color: '#2d3436' },
+            style: { color: '#2c3e50' },
           },
           children: (
             <div>
@@ -71,7 +71,8 @@ function matchings() {
       render(text, record) {
         return {
           props: {
-            style: { color: '#2d3436' },
+            style: { color: '#9b59b6' },
+            // style: { color: 'red' },
           },
           children: (
             <div>
@@ -86,41 +87,33 @@ function matchings() {
       dataIndex: 'startTime',
       key: 'startTime',
       align: 'center',
-      width: 100,
-      render(text, record) {
+      width: 150,
+      // rowClassName={},
+      render(startTime, record) {
         return {
           props: {
             style: {
-              // color: 13 > 2 ? '#e84118' : '#2d3436',
-              color:
-                record.nowTime >
-                moment(record.deadLine).subtract(2, 'hours').format()
-                  ? '#e84118'
-                  : '#2d3436',
+              // color: nowTime > record.deadLine ? 'red' : 'green',
             },
           },
-          children: <div>{text}</div>,
+          children: (
+            <div>
+              <strong>{startTime}</strong>
+            </div>
+          ),
         };
       },
-      // sorter: (a, b) => a.startTime - b.startTime,
-    },
-    {
-      title: 'finishTime',
-      dataIndex: 'finishTime',
-      key: 'finishTime',
-      align: 'center',
-      width: 100,
     },
     {
       title: '배팅인원',
       dataIndex: 'howManyPeopleBatted',
       key: 'howManyPeopleBatted',
       align: 'center',
-      width: 100,
+      width: 50,
       render(text, record) {
         return {
           props: {
-            style: { color: parseInt(text) > 1 ? '#e84118' : '#353b48' },
+            style: { color: parseInt(text) > 0 ? '#e84118' : '#353b48' },
           },
           children: (
             <div>
@@ -138,11 +131,14 @@ function matchings() {
       width: 100,
       align: 'center',
       render: (_id, record) => (
-        //nowTime > record.startTime ? 배팅하기 : 마감되었습니다
         <Link href={{ pathname: 'match', query: { matchid: _id } }}>
           <a>
             <Button type="primary" htmlType="submit" danger>
-              {test(record.startTime)}
+              {battingButton(
+                record.startTime,
+                record.deadLine,
+                record.deadLine_2
+              )}
             </Button>
           </a>
         </Link>
@@ -190,15 +186,19 @@ function matchings() {
         </Row>
       </Row>
     );
-  console.log(moment.utc().format());
   const matchsData = [];
   for (let i = 0; i < matchs?.length; i++) {
     matchsData.push({
       key: i + 1,
       ...matchs[i],
-      startTime: moment(matchs[i].startTime).format('MM/DD hh:mm'),
-      finishTime: moment(matchs[i].finishTime).format('MM/DD hh:mm'),
-      deadLine: moment(matchs[i].startTime).subtract(5, 'minutes').format(),
+      startTime: moment(matchs[i].startTime).format(time_format),
+      finishTime: moment(matchs[i].finishTime).format(time_format),
+      deadLine: moment(matchs[i].startTime)
+        .subtract(5, 'minutes')
+        .format(time_format),
+      deadLine_2: moment(matchs[i].startTime)
+        .subtract(2, 'hours')
+        .format(time_format),
       // 마감시간 설정
       howManyPeopleBatted:
         matchs[i].homeBattingNumber +
@@ -206,13 +206,17 @@ function matchings() {
         matchs[i].drawBattingNumber,
     });
   }
+
   const matchsHistoryData = [];
   for (let i = 0; i < matchsHistory?.length; i++) {
     matchsHistoryData.push({
       key: i + 1,
       ...matchsHistory[i],
-      startTime: moment(matchsHistory[i].startTime).format('MM/DD hh:mm'),
-      finishTime: moment(matchsHistory[i].finishTime).format('MM/DD hh:mm'),
+      startTime: moment(matchsHistory[i].startTime).format(time_format),
+      finishTime: moment(matchsHistory[i].finishTime).format(time_format),
+      deadLine: moment(matchsHistory[i].startTime)
+        .subtract(5, 'minutes')
+        .format(time_format),
       howManyPeopleBatted:
         matchsHistory[i].homeBattingNumber +
         matchsHistory[i].awayBattingNumber +
@@ -243,7 +247,7 @@ function matchings() {
           rowClassName={(record, index) =>
             nowTime > record.deadLine
               ? 'red'
-              : nowTime > moment(record.deadLine).subtract(1, 'd').format()
+              : nowTime > record.deadLine_2
               ? 'green'
               : 'blue'
           }
@@ -264,6 +268,6 @@ function matchings() {
       </Row>
     </Row>
   );
-}
+};
 
 export default matchings;

@@ -35,52 +35,38 @@ axios.defaults.baseURL = `${BACKEND_URL}/api`;
 require('moment-timezone');
 
 const fetchApi = async (url) => {
-  // let data = [];
   try {
     const { data } = await axios.get(url);
-    //비구조화 할당
-    // data = { ...response.data };
-    // console.log(response.data);
-    // console.log(data);
     return data;
-    // return response.data;
   } catch (e) {
     console.log(e);
     return [];
   }
 };
 
-const getPercent = (home, draw, away) => {
-  // 계산
-  return {
-    homePercent,
-    drawPercent,
-    awayPercent,
-  };
-};
+// const getPercent = (home, draw, away) => {
+//   // 계산
+//   return {
+//     homePercent,
+//     drawPercent,
+//     awayPercent,
+//   };
+// };
 
 const match = () => {
   moment.tz.setDefault('Asia/Seoul');
-  const nowTime = moment().format('MM-DD hh:ss');
-
-  const test = () => {
-    if (nowTime > deadLine) {
-      return '마감';
-    } else {
-      return '배팅';
-    }
-  };
+  const nowTime = moment().format();
 
   const router = useRouter();
   const matchid = router.query.matchid;
 
   const { me } = useSelector((state) => state.user);
   const { battingHistory } = useSelector((state) => state.batting);
-
   const dispatch = useDispatch();
-  // 소유한 포인트에서 배팅한 포인트를 차감하여 리덕스를 사용해야하나?
+  // 리덕스 배팅 내역 부르는거 오류
 
-  const userPoint = me ? me.point : 0;
+  // const userPoint = me ? me.point : 0;
+  const [userPoint, setUserPoint] = useState(0);
   // const [loading, setLoading] = useState(false);
   // const [error, setError] = useState(null);
   const [match, setMatch] = useState(null);
@@ -97,6 +83,7 @@ const match = () => {
 
   // console.log(battingHistory);
   useEffect(() => {
+    setUserPoint(me?.point);
     if (!me) {
       // Notification('로그인이 필요합니다!');
       // <Alert message="로그인이 필요합니다!" type="warning" showIcon closable />;
@@ -120,9 +107,7 @@ const match = () => {
   const awayTeam = match?.awayTeam;
 
   const startTime = moment(match?.startTime).format('MM/DD hh:mm');
-  const deadLine = moment(startTime)
-    .subtract(5, 'minutes')
-    .format('MM/DD hh:mm');
+  const deadLine = moment(match?.startTime).subtract(5, 'minutes').format();
 
   const goalsHomeTeam = match?.goalsHomeTeam;
   const goalsAwayTeam = match?.goalsAwayTeam;
@@ -190,7 +175,6 @@ const match = () => {
         Notification('배팅을 완료 하였습니다!');
         // <Alert message="배팅을 완료 하였습니다." type="success" showIcon />;
         router.reload();
-        // router.push('/matchings');
       })
       .catch((err) => {
         console.log(err);
@@ -199,7 +183,6 @@ const match = () => {
         // <Alert message="배팅 시간이 지났습니다." type="error" showIcon />;
       });
   };
-  // console.log(nowTime > deadLine);
 
   return (
     <div style={{ height: 'calc(100vh - 57px)' }}>
@@ -246,9 +229,9 @@ const match = () => {
             <Row>
               <h4>{startTime}</h4>
             </Row>
-            <Row>
+            {/* <Row>
               <h4>마감시간 {deadLine}</h4>
-            </Row>
+            </Row> */}
 
             {/* 장소 */}
           </Col>
@@ -386,12 +369,9 @@ const match = () => {
           <Row style={{ paddingTop: '1rem' }}>
             <InputNumber
               defaultValue={10}
-              // formatter={(value) => `${value}`}
-              // parser={(value) => value.replace("", "")}
               min={10}
               max={userPoint}
               step={10}
-              // value={battingpoint}
               onChange={handlebattingpointChange}
             />
           </Row>
@@ -399,9 +379,15 @@ const match = () => {
             예상 배당 포인트 : {hitOdds} p
           </Row>
           <Row style={{ padding: '1rem' }}>
-            <Button type="primary" danger>
-              {test()}
-            </Button>
+            {nowTime > deadLine ? (
+              <Button type="primary" danger>
+                마감
+              </Button>
+            ) : (
+              <Button type="primary" danger htmlType="submit">
+                배팅
+              </Button>
+            )}
           </Row>
         </Form>
         <Divider>배팅한 사람들</Divider>
