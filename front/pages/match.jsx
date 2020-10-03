@@ -33,6 +33,7 @@ import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
 axios.defaults.baseURL = `${BACKEND_URL}/api`;
+require('moment-timezone');
 
 const fetchApi = async (url) => {
   // let data = [];
@@ -61,7 +62,6 @@ const getPercent = (home, draw, away) => {
 };
 
 const match = () => {
-  const nowTime = moment().format();
   const router = useRouter();
   const matchid = router.query.matchid;
 
@@ -100,18 +100,15 @@ const match = () => {
     }
   }, [matchid, me]);
 
-  // const idForFAPI = match1?.idForFAPI;
-  // const { idForFAPI } = match1;
-  //비구조화 할당 왜 안돼?
-  console.log(homeImg);
   const homeTeam = match?.homeTeam;
   const awayTeam = match?.awayTeam;
 
-  // const startTime = match?.startTime;
-  const startTime = moment(match?.startTime).format('MM.DD :MM');
-
-  // const finishTime = match?.finishTime;
-  // const finishTime_1 = moment(finishTime).format('MM.DD HH:MM');
+  moment.tz.setDefault('Asia/Seoul');
+  const nowTime = moment().format();
+  const startTime = moment(match?.startTime).format('MM/DD hh:mm');
+  const deadLine = moment(startTime)
+    .subtract(5, 'minutes')
+    .format('MM/DD hh:mm');
 
   const goalsHomeTeam = match?.goalsHomeTeam;
   const goalsAwayTeam = match?.goalsAwayTeam;
@@ -233,6 +230,9 @@ const match = () => {
             </Row>
             <Row>
               <h4>{startTime}</h4>
+            </Row>
+            <Row>
+              <h4>마감시간 {deadLine}</h4>
             </Row>
 
             {/* 장소 */}
@@ -384,9 +384,20 @@ const match = () => {
             예상 배당 포인트 : {hitOdds} p
           </Row>
           <Row style={{ padding: '1rem' }}>
-            <Button type="primary" htmlType="submit" danger>
-              배팅하기
-            </Button>
+            {{ nowTime } > { deadLine } ? (
+              <Button type="primary" danger>
+                마감
+              </Button>
+            ) : (
+              <Button
+                type="primary"
+                htmlType="submit"
+                danger
+                // onClick={Notification('마감 되었습니다!')}
+              >
+                배팅
+              </Button>
+            )}
           </Row>
         </Form>
         <Divider>배팅한 사람들</Divider>

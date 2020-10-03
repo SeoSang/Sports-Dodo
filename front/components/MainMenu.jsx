@@ -84,7 +84,9 @@ const MainMenu = ({ visible }) => {
           </Menu.Item>
           <Menu.Item key="4" icon={<MailOutlined />}>
             <Link href="https://github.com/SeoSang/Sports-Dodo">
-              <a target="_blank">소개페이지</a>
+              <a target="_blank" rel="author">
+                소개페이지
+              </a>
             </Link>
           </Menu.Item>
         </Menu>

@@ -2,12 +2,13 @@ import { notification } from 'antd';
 import React from 'react';
 
 const Notification = (e) => {
-  notification.open({
+  notification.info({
     message: '알람',
     description: e,
-    onClick: () => {
-      console.log('Notification Clicked!');
-    },
+    // bottomRight,
+    // onClick: () => {
+    //   console.log('Notification Clicked!');
+    // },
   });
   return <></>;
 };
