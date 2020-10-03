@@ -257,6 +257,7 @@ function matchings() {
           columns={columns}
           dataSource={matchsHistoryData.slice(0).reverse()} // 현재 시간 이전의 배팅 // 지난배팅
           pagination={{ pageSize: 5 }}
+          rowClassName={(record, index) => 'gray'}
           // scroll={{ x: 50 }}
           bordered
         />
