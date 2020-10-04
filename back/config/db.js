@@ -5,7 +5,7 @@ const connectDB = async () => {
 	let uri;
 
 	if (process.env.NODE_ENV.trim() == 'dev') {
-		uri = process.env.MONGODB_URI_DEV;
+		uri = process.env.MONGODB_URI_DEV;		// change to _DEV
 	} else if (process.env.NODE_ENV.trim() === 'test') {
 		uri = process.env.MONGODB_URI_TEST;
 	}
@@ -14,7 +14,7 @@ const connectDB = async () => {
 		useNewUrlParser: true,
 		useCreateIndex: true,
 		useFindAndModify: false,
-		useUnifiedTopology: true
+		useUnifiedTopology: true,
 	});
 
 	console.log(`MongoDB Connected: ${conn.connection.host}`);

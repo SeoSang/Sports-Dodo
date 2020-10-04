@@ -56,9 +56,12 @@ app.get('/ping', (req, res, next) => {
   res.status(200).json(null);
 });
 
+// const Match = require('./models/Match');
+// const ab = async () => {
+//   await Match.deleteMany({ })
+// }
 
-
-// bringMatchFromAPI('2790', '2020-10-07');
+// bringMatchFromAPI('2790', '2020-10-24');
 // console.log('가져왔엉');
 
 // 미들웨어들

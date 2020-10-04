@@ -14,6 +14,7 @@ var MatchSchema = mongoose.Schema({
     },
     homeInfo: {
         type: mongoose.Schema.Types.Mixed,
+        default: {}
     },
     awayTeam: {
         type: String,
@@ -27,7 +28,8 @@ var MatchSchema = mongoose.Schema({
         default: 0
     },
     awayInfo: {
-        type: Object
+        type: mongoose.Schema.Types.Mixed,
+        default: 0
     },
     startTime: {
         type: String,
