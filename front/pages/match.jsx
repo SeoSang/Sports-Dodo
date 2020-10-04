@@ -7,6 +7,7 @@ import { BACKEND_URL } from '../sagas';
 import MatchTest from '../components/MatchTest';
 import Notification from '../components/Notification';
 import { LOAD_BATTING_HISTORY_REQUEST } from '../sagas/batting';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   notification,
@@ -29,7 +30,6 @@ import {
   FlexDiv,
 } from '../styles/styled-components';
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux';
 
 axios.defaults.baseURL = `${BACKEND_URL}/api`;
 require('moment-timezone');
@@ -44,15 +44,6 @@ const fetchApi = async (url) => {
   }
 };
 
-// const getPercent = (home, draw, away) => {
-//   // 계산
-//   return {
-//     homePercent,
-//     drawPercent,
-//     awayPercent,
-//   };
-// };
-
 moment.tz.setDefault('Asia/Seoul');
 const nowTime = moment().format();
 
@@ -64,7 +55,7 @@ const match = () => {
   const { battingHistory } = useSelector((state) => state.batting);
   const dispatch = useDispatch();
   // 리덕스 배팅 내역 부르는거 오류
-
+  console.log(battingHistory);
   // const userPoint = me ? me.point : 0;
   const [userPoint, setUserPoint] = useState(0);
   // const [loading, setLoading] = useState(false);
@@ -77,12 +68,12 @@ const match = () => {
   const [homeImg, setHomeImg] = useState('/images/epl_logo.png');
   const [awayImg, setAwayImg] = useState('/images/epl_logo.png');
 
-  // dispatch({
-  //   type: LOAD_BATTING_HISTORY_REQUEST, data: { matchid },
-  // });
-
   // console.log(battingHistory);
   useEffect(() => {
+    dispatch({
+      type: LOAD_BATTING_HISTORY_REQUEST,
+      data: matchid,
+    });
     setUserPoint(me?.point);
     if (!me) {
       // Notification('로그인이 필요합니다!');
@@ -163,6 +154,7 @@ const match = () => {
   };
 
   const handleSubmit = () => {
+    const value = { homeTeam, awayTeam, choose, battingPoint };
     axios
       .post(`/match/${matchid}/batting`, {
         homeTeamName: homeTeam,

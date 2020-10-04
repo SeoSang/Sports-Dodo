@@ -21,49 +21,48 @@ moment.tz.setDefault('Asia/Seoul');
 const time_format = 'YYYY/MM/DD-HH:mm A';
 const nowTime = moment().format(time_format);
 
-const tagColor = (startTime, deadLine, deadLine_2, deadLine_24) => {
+const tagColor = (startTime, deadLine, deadLine_1, deadLine_24) => {
   if (nowTime > startTime) {
-    // console.log(e);
     return 'red';
   } else if (nowTime > deadLine) {
     return 'Orange';
-  } else if (nowTime > deadLine_2) {
+  } else if (nowTime > deadLine_1) {
     return 'yellow';
   } else if (nowTime > deadLine_24) {
     return 'green';
   } else {
-    return 'blue';
+    return 'purple';
   }
 };
-const battingTag = (startTime, deadLine, deadLine_2, deadLine_24) => {
+const battingTag = (startTime, deadLine, deadLine_1, deadLine_24) => {
   if (nowTime > startTime) {
     // console.log(e);
     return '마감';
   } else if (nowTime > deadLine) {
     return '마감임박';
-  } else if (nowTime > deadLine_2) {
+  } else if (nowTime > deadLine_1) {
     return '1시간 남음';
   } else if (nowTime > deadLine_24) {
     return '하루 남음';
   } else {
-    return '';
+    return '테스트'; //내용 없으면 태그 쩜 왜 그럴까?
   }
 };
 const matchings = () => {
   const columns = [
-    {
-      title: 'key',
-      dataIndex: 'key',
-      key: 'key',
-      align: 'center',
-      width: 50,
-    },
+    // {
+    //   title: 'key',
+    //   dataIndex: 'key',
+    //   key: 'key',
+    //   align: 'center',
+    //   width: 50,
+    // },
     {
       title: 'homeTeam',
       dataIndex: 'homeTeam',
       key: 'homeTeam',
       align: 'center',
-      width: 200,
+      width: 160,
       render(text, record) {
         return {
           props: {
@@ -82,7 +81,7 @@ const matchings = () => {
       dataIndex: 'awayTeam',
       key: 'awayTeam',
       align: 'center',
-      width: 200,
+      width: 160,
       render(text, record) {
         return {
           props: {
@@ -92,28 +91,6 @@ const matchings = () => {
           children: (
             <div>
               <strong>{text}</strong>
-            </div>
-          ),
-        };
-      },
-    },
-    {
-      title: 'startTime',
-      dataIndex: 'startTime',
-      key: 'startTime',
-      align: 'center',
-      width: 150,
-      // rowClassName={},
-      render(startTime, record) {
-        return {
-          props: {
-            style: {
-              // color: nowTime > record.deadLine ? 'red' : 'green',
-            },
-          },
-          children: (
-            <div>
-              <strong>{startTime}</strong>
             </div>
           ),
         };
@@ -140,6 +117,28 @@ const matchings = () => {
       // sorter: (a, b) => a.howManyPeopleBatted - b.howManyPeopleBatted,
     },
     {
+      title: 'startTime',
+      dataIndex: 'startTime',
+      key: 'startTime',
+      align: 'center',
+      width: 150,
+      // rowClassName={},
+      render(startTime, record) {
+        return {
+          props: {
+            style: {
+              // color: nowTime > record.deadLine ? 'red' : 'green',
+            },
+          },
+          children: (
+            <div>
+              <strong>{startTime}</strong>
+            </div>
+          ),
+        };
+      },
+    },
+    {
       title: '배팅',
       dataIndex: '_id',
       key: '_id',
@@ -156,14 +155,14 @@ const matchings = () => {
               color={tagColor(
                 record.startTime,
                 record.deadLine,
-                record.deadLine_2,
+                record.deadLine_1,
                 record.deadLine_24
               )}
             >
               {battingTag(
                 record.startTime,
                 record.deadLine,
-                record.deadLine_2,
+                record.deadLine_1,
                 record.deadLine_24
               )}
             </Tag>
@@ -223,7 +222,7 @@ const matchings = () => {
       deadLine: moment(matchs[i].startTime)
         .subtract(5, 'minutes')
         .format(time_format),
-      deadLine_2: moment(matchs[i].startTime)
+      deadLine_1: moment(matchs[i].startTime)
         .subtract(1, 'hours')
         .format(time_format),
       deadLine_24: moment(matchs[i].startTime)
@@ -277,7 +276,7 @@ const matchings = () => {
           rowClassName={(record, index) =>
             nowTime > record.deadLine
               ? 'red'
-              : nowTime > record.deadLine_2
+              : nowTime > record.deadLine_1
               ? 'green'
               : 'blue'
           }
