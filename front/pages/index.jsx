@@ -139,7 +139,6 @@ const Home = () => {
 
   const scrollToBottom = () => {
     messiRef.current.scrollIntoView({ behavior: 'smooth' });
-    messiRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -165,7 +164,7 @@ const Home = () => {
                 {show ? (
                   <>
                     <TitleH1 style={{ fontSize: '4rem' }}>
-                      매치 리스트를 확인하세요
+                      <span style={{ color: '#ed1c23' }}>매치 리스트</span>를 확인하세요
                     </TitleH1>
                   </>
                 ) : (
@@ -218,13 +217,13 @@ const Home = () => {
                 {show ? (
                     <>
                       <TitleH1 style={{ fontSize: '4rem' }}>
-                        배팅을 하고 포인트를 얻으세요
+                          <span style={{ color: '#011cac' }}>배팅</span>을 하고 포인트를 얻으세요
                       </TitleH1>
                     </>
                 ) : (
                     <>
                       <TitleH1 style={{ fontSize: '4rem' }}>
-                        실시간 <span style={{ color: '#ed1c23' }}>랭킹을</span>{' '}
+                        실시간 <span style={{ color: '#011cac' }}>랭킹을</span>{' '}
                         확인하세요!
                       </TitleH1>
                       <Button
@@ -238,7 +237,7 @@ const Home = () => {
                             fontSize: '1.7rem',
                           }}
                       >
-                        <Link href="/rankings">
+                        <Link href="/rankings ">
                           <a>
                             <b>랭킹 보러가기</b>
                           </a>

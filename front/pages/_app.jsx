@@ -15,11 +15,11 @@ require('moment-timezone');
 
 const MyApp = ({ Component, pageProps }) => {
   const dispatch = useDispatch();
-  const { me } = useSelector(state => state.user);
+  const { me } = useSelector((state) => state.user);
 
   useEffect(() => {
     const tokenValue = sessionStorage.getItem('sd');
-    console.log('tokenValue => ', tokenValue);
+    // console.log('tokenValue => ', tokenValue);
     if (tokenValue) {
       axios.defaults.headers.common['x-access-token'] = tokenValue;
       axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -81,7 +81,7 @@ const MyApp = ({ Component, pageProps }) => {
   );
 };
 
-MyApp.getInitialProps = context => {
+MyApp.getInitialProps = (context) => {
   // 쿠키로 하는 가능성도 열어놨다.
   // const cookie = new Cookies();
   // const tokenValue = cookie.get('sd');

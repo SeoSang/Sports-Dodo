@@ -7,11 +7,9 @@ import { BACKEND_URL } from '../sagas';
 import MatchTest from '../components/MatchTest';
 import Notification from '../components/Notification';
 import { LOAD_BATTING_HISTORY_REQUEST } from '../sagas/batting';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  notification,
-  Alert,
-  Space,
   Form,
   Input,
   Radio,
@@ -29,12 +27,48 @@ import {
   FlexDiv,
 } from '../styles/styled-components';
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux';
+
+const ProgressBar = styled(FlexDiv)`
+  width: ${props => props.width || 'auto'};
+  background-color: ${props => props.backColor || 'inherit'};
+  padding: 5px;
+  margin-bottom: 1rem;
+  border-radius: 2px;
+`;
+
+const getProgressBarWidth = (h, d, a) => {
+  const total = h + d + a;
+  if (!total) return null;
+  const home = `${Math.floor((h / total) * 80)}%`;
+  const draw = `${Math.floor((d / total) * 80)}%`;
+  const away = `${Math.floor((a / total) * 80)}%`;
+  return {
+    home: home === '0%' ? 'auto' : home,
+    draw: draw === '0%' ? 'auto' : draw,
+    away: away === '0%' ? 'auto' : away,
+  };
+};
+
+const getOdds = (h, d, a, point, where) => {
+  const total = h + d + a + point;
+  if (!total) return null;
+  if (where === 'Home') h += point;
+  if (where === 'Away') a += point;
+  if (where === 'Draw') d += point;
+  const home = h === 0 ? 0 : (total / h).toFixed(2);
+  const draw = d === 0 ? 0 : (total / d).toFixed(2);
+  const away = a === 0 ? 0 : (total / a).toFixed(2);
+  return {
+    home,
+    draw,
+    away,
+  };
+};
 
 axios.defaults.baseURL = `${BACKEND_URL}/api`;
 require('moment-timezone');
 
-const fetchApi = async (url) => {
+const fetchApi = async url => {
   try {
     const { data } = await axios.get(url);
     return data;
@@ -44,15 +78,6 @@ const fetchApi = async (url) => {
   }
 };
 
-// const getPercent = (home, draw, away) => {
-//   // 계산
-//   return {
-//     homePercent,
-//     drawPercent,
-//     awayPercent,
-//   };
-// };
-
 moment.tz.setDefault('Asia/Seoul');
 const nowTime = moment().format();
 
@@ -60,11 +85,11 @@ const match = () => {
   const router = useRouter();
   const matchid = router.query.matchid;
 
-  const { me } = useSelector((state) => state.user);
-  const { battingHistory } = useSelector((state) => state.batting);
+  const { me } = useSelector(state => state.user);
+  const { battingHistory } = useSelector(state => state.batting);
   const dispatch = useDispatch();
   // 리덕스 배팅 내역 부르는거 오류
-
+  console.log(battingHistory);
   // const userPoint = me ? me.point : 0;
   const [userPoint, setUserPoint] = useState(0);
   // const [loading, setLoading] = useState(false);
@@ -72,17 +97,18 @@ const match = () => {
   const [match, setMatch] = useState(null);
   const [bpoint, setBpoint] = useState([]);
   const [choose, setChoose] = useState('Home');
-  const [battingpoint, setBattingpoint] = useState(10);
+  const [battingpoint, setBattingpoint] = useState(0);
+  const [odds, setOdds] = useState({});
 
   const [homeImg, setHomeImg] = useState('/images/epl_logo.png');
   const [awayImg, setAwayImg] = useState('/images/epl_logo.png');
 
-  // dispatch({
-  //   type: LOAD_BATTING_HISTORY_REQUEST, data: { matchid },
-  // });
-
   // console.log(battingHistory);
   useEffect(() => {
+    dispatch({
+      type: LOAD_BATTING_HISTORY_REQUEST,
+      data: matchid,
+    });
     setUserPoint(me?.point);
     if (!me) {
       // Notification('로그인이 필요합니다!');
@@ -94,7 +120,7 @@ const match = () => {
       const match = fetchApi(`/match/${matchid}`);
       const point = fetchApi(`/match/${matchid}/batting`);
 
-      Promise.all([match, point]).then((v) => {
+      Promise.all([match, point]).then(v => {
         setMatch(v[0].data);
         setHomeImg(v[0].data.homeTeamLogoUrl);
         setAwayImg(v[0].data.awayTeamLogoUrl);
@@ -103,11 +129,26 @@ const match = () => {
     }
   }, [matchid, me]);
 
+  // 배당률 계산
+  useEffect(() => {
+    setOdds(
+      getOdds(
+        homeTotalPoint,
+        drawTotalPoint,
+        awayTotalPoint,
+        battingpoint,
+        choose
+      )
+    );
+  }, [bpoint, battingpoint, choose]);
+
   const homeTeam = match?.homeTeam;
   const awayTeam = match?.awayTeam;
 
   const startTime = moment(match?.startTime).format('MM/DD hh:mm');
-  const deadLine = moment(match?.startTime).subtract(5, 'minutes').format();
+  const deadLine = moment(match?.startTime)
+    .subtract(5, 'minutes')
+    .format();
 
   const goalsHomeTeam = match?.goalsHomeTeam;
   const goalsAwayTeam = match?.goalsAwayTeam;
@@ -115,29 +156,22 @@ const match = () => {
   const homeTotalPoint = bpoint?.battingPoints?.homeTotalPoint;
   const awayTotalPoint = bpoint?.battingPoints?.awayTotalPoint;
   const drawTotalPoint = bpoint?.battingPoints?.drawTotalPoint;
-  const totalPoint = homeTotalPoint + awayTotalPoint + drawTotalPoint;
 
-  //배당률 백분율
-  const home1 = Math.floor((100 / totalPoint) * homeTotalPoint + 10) + '%';
-  const home2 = Math.floor((100 / totalPoint) * drawTotalPoint + 10) + '%';
-  const home3 = Math.floor((100 / totalPoint) * awayTotalPoint + 10) + '%';
-
+  const percents = getProgressBarWidth(
+    homeTotalPoint,
+    drawTotalPoint,
+    awayTotalPoint
+  );
   //배당률 전체/
   // testnum.toFixed(0);  소수점 버리기 반올림
 
-  const homeOdds =
-    homeTotalPoint === 0 ? 0 : (totalPoint / homeTotalPoint).toFixed(2);
-  const awayOdds =
-    awayTotalPoint === 0 ? 0 : (totalPoint / awayTotalPoint).toFixed(2);
-  const drawOdds =
-    drawTotalPoint === 0 ? 0 : (totalPoint / drawTotalPoint).toFixed(2);
   //적중률
   const hitOdds =
     choose === 'Home'
-      ? (homeOdds * battingpoint).toFixed(2)
+      ? (odds?.home * battingpoint).toFixed(2)
       : choose === 'Away'
-      ? (awayOdds * battingpoint).toFixed(2)
-      : (drawOdds * battingpoint).toFixed(2);
+      ? (odds?.away * battingpoint).toFixed(2)
+      : (odds?.draw * battingpoint).toFixed(2);
 
   const round = match?.round;
   // const referee = if;
@@ -150,19 +184,22 @@ const match = () => {
   };
   const venue = match?.venue;
 
-  const handleChooseChange = (e) => {
+  const handleChooseChange = e => {
     setChoose(e.target.value);
   };
 
-  const handlebattingpointChange = (e) => {
+  const handlebattingpointChange = e => {
     if (e > userPoint) {
-      Notification('가진 포인트보다 배팅을 많이 했습니다.');
-    } else {
-      setBattingpoint(e);
+      return Notification('가진 포인트보다 배팅을 많이 했습니다.');
     }
+    if (e % 10 !== 0) {
+      return Notification('10p의 단위로 베팅이 가능합니다.');
+    }
+    setBattingpoint(e);
   };
 
   const handleSubmit = () => {
+    const value = { homeTeam, awayTeam, choose, battingPoint };
     axios
       .post(`/match/${matchid}/batting`, {
         homeTeamName: homeTeam,
@@ -170,13 +207,13 @@ const match = () => {
         chooseHomeAwayDraw: choose,
         battingPoint: battingpoint,
       })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         Notification('배팅을 완료 하였습니다!');
         // <Alert message="배팅을 완료 하였습니다." type="success" showIcon />;
         router.reload();
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         Notification('배팅에 오류가 발생 하였습니다!');
         router.reload();
@@ -258,97 +295,56 @@ const match = () => {
           <Row>{venue}</Row>
           <Row>주심 : {referee()}</Row>
         </Row>
-        <Row
-          style={{
-            marginBottom: '1rem',
-            display: 'flex',
-            alignContent: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {/* 24/total *a */}
+        <FlexDiv width="100%" direction="column">
+          <FlexDiv>
+            <h3>베팅상황</h3>
+          </FlexDiv>
+          <FlexDiv wrap="nowrap" width="80%" direction="row">
+            <ProgressBar width={percents?.home} backColor="#51adcf">
+              홈 : {homeTotalPoint} p
+            </ProgressBar>
+            <ProgressBar width={percents?.draw} backColor="#a5ecd7">
+              무 : {drawTotalPoint} p
+            </ProgressBar>
+            <ProgressBar width={percents?.away} backColor="#e8ffc1">
+              원정 : {awayTotalPoint} p
+            </ProgressBar>
+          </FlexDiv>
+          <FlexDiv>
+            <h3>배당률</h3>
+          </FlexDiv>
           <div
             style={{
               width: '30%',
               display: 'flex',
               flexDirection: 'row',
               flexWrap: 'nowrap',
-              alignContent: 'center',
               justifyContent: 'center',
-            }}
-          >
-            <div
-              style={{
-                backgroundColor: '#e55039',
-                width: home1,
-              }}
-            >
-              {homeTotalPoint} p
-            </div>
-
-            <div
-              style={{
-                backgroundColor: '#4a69bd',
-                width: home2,
-              }}
-            >
-              {drawTotalPoint} p
-            </div>
-
-            <div
-              style={{
-                backgroundColor: '#78e08f',
-                width: home3,
-              }}
-            >
-              {awayTotalPoint} p
-            </div>
-          </div>
-        </Row>
-        <Row
-          style={{
-            display: 'flex',
-            alignContent: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <div
-            style={{
-              width: '30%',
-              display: 'flex',
-              flexDirection: 'row',
-              flexWrap: 'nowrap',
+              marginBottom: '1rem',
             }}
           >
             <Col span={7}>
-              <Button
-                type="primary"
-                danger
-                style={{ backgroundColor: '#e55039' }}
-              >
-                {homeOdds}
+              <Button danger style={{ backgroundColor: '#51adcf' }}>
+                {odds?.home}
+              </Button>
+            </Col>
+            <Col span={7}>
+              <Button danger style={{ backgroundColor: '#a5ecd7' }}>
+                {odds?.draw}
               </Button>
             </Col>
             <Col span={7}>
               <Button
-                type="primary"
                 danger
-                style={{ backgroundColor: '#4a69bd' }}
+                style={{ backgroundColor: '#e8ffc1' }}
+                color="black"
               >
-                {drawOdds}
-              </Button>
-            </Col>
-            <Col span={7}>
-              <Button
-                type="primary"
-                danger
-                style={{ backgroundColor: '#78e08f' }}
-              >
-                {awayOdds}
+                {odds?.away}
               </Button>
             </Col>
           </div>
-        </Row>
+          <p>* 베팅하시는 포인트에 따라 배당률이 달라질 수 있습니다.</p>
+        </FlexDiv>
         <Divider />
         {/*  새 컴포넌트 만들기 */}
         <Form onFinish={handleSubmit}>
@@ -356,19 +352,20 @@ const match = () => {
             {/* style={{ paddingTop: '2rem' }} */}
             <Radio.Group defaultValue="Home" buttonStyle="solid">
               <Radio.Button value="Home" onChange={handleChooseChange}>
-                홈 승 {homeOdds}
+                홈 승 {odds?.home}
               </Radio.Button>
               <Radio.Button value="Draw" onChange={handleChooseChange}>
-                홈 무 {drawOdds}
+                홈 무 {odds?.draw}
               </Radio.Button>
               <Radio.Button value="Away" onChange={handleChooseChange}>
-                홈 패 {awayOdds}
+                홈 패 {odds?.away}
               </Radio.Button>
             </Radio.Group>
           </Row>
           <Row style={{ paddingTop: '1rem' }}>
             <InputNumber
-              defaultValue={10}
+              defaultValue={0}
+              value={battingpoint}
               min={10}
               max={userPoint}
               step={10}
@@ -377,6 +374,10 @@ const match = () => {
           </Row>
           <Row style={{ paddingTop: '1rem' }}>
             예상 배당 포인트 : {hitOdds} p
+          </Row>
+          <Row>
+            * 추후 다른 유저들의 베팅 결과에 따라 받는 포인트는 달라질 수
+            있습니다.
           </Row>
           <Row style={{ padding: '1rem' }}>
             {nowTime > deadLine ? (
