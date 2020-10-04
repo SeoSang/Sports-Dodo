@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { Row, Col, Avatar, Alert, notification, Card} from 'antd';
+import { Row, Col, Avatar, Alert, notification, Card } from 'antd';
 import { wrapper } from '../store';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { LOAD_USER_REQUEST } from '../sagas/user';
-import { useRouter, useDispatch } from 'next/dist/client/router';
+import { LOAD_USER_REQUEST, LOAD_BATTING_USER_REQUEST } from '../sagas/user';
+import { useRouter } from 'next/dist/client/router';
+import { useSelector, useDispatch } from 'react-redux';
 import Notification from '../components/Notification';
 import ProfileBattingLine from '../components/ProfileBattingLine';
 
@@ -28,12 +28,17 @@ const BattingsCard = styled.div`
 //유저 api 검색
 
 const profile = () => {
+  const { me, battingUser } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+
+  const router = useRouter();
+  const userid = router.query.userid;
   // const dispatch = useDispatch();
 
-  const { me } = useSelector((state) => state.user);
+  // const { battingUser } = useSelector((state) => state.user);
   // console.log(me);
   //me.id 값을 검색
-  const router = useRouter();
 
   useEffect(() => {
     if (!me) {
@@ -44,23 +49,50 @@ const profile = () => {
     }
     // dispatch({ type: LOAD_BATTING_HISTORY_REQUEST, data : me.id });
   }, [me]);
+  useEffect(() => {
+    dispatch({ type: LOAD_BATTING_USER_REQUEST, data: userid });
+  }, []);
   // const { battings, rank } = useSelector((state) => state.batting);  //  유저의 배팅내역 전체
   // matchResult battingResult resultPoint chooseHomeAwayDraw battingPoint createdAt
   return (
     <>
-      <Row style={{ marginBottom: '20px', display:'flex', flexDirection:'row', alignItems:'flex-end'}}>
+      <Row
+        style={{
+          marginBottom: '20px',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'flex-end',
+        }}
+      >
         <Col span={14} style={profileCardStyle}>
-            <Col span={8}>
-              <Avatar size={100} src="/images/profile.jpg" />
-            </Col>
-            <Col span={16}>
-              <h2><b>{me?.name}</b></h2>
-              <h2><b>포인트 : </b>{me?.point}점</h2>
-            </Col>
+          <Col span={8}>
+            <Avatar size={100} src="/images/profile.jpg" />
+          </Col>
+          <Col span={16}>
+            <h2>
+              <b>{battingUser?.name}</b>
+            </h2>
+            <h2>
+              <b>포인트 : </b>
+              {battingUser?.point}점
+            </h2>
+          </Col>
         </Col>
         <Col span={16}>
-          <Card style={{borderRadius:'50%',width:'10%',height:'10%', backgroundColor:'#c8d6e5', textAlign:'center',boxShadow: '1px 1px 1px 1px gray'}}>
-            <h2><b>랭킹 : </b>{me?.rank}위</h2>
+          <Card
+            style={{
+              borderRadius: '50%',
+              width: '10%',
+              height: '10%',
+              backgroundColor: '#c8d6e5',
+              textAlign: 'center',
+              boxShadow: '1px 1px 1px 1px gray',
+            }}
+          >
+            <h2>
+              <b>랭킹 : </b>
+              {battingUser?.rank}위
+            </h2>
           </Card>
         </Col>
       </Row>
@@ -86,7 +118,7 @@ const profile = () => {
             </Col>
           </Row>
           {/* api/user/{me.id} */}
-          {me?.battings?.map((batting) => (
+          {battingUser?.battings?.map((batting) => (
             <ProfileBattingLine batting={batting}></ProfileBattingLine>
           ))}
         </Row>

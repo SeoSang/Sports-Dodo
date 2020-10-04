@@ -96,6 +96,7 @@ const reducer = (state = initialState, action) => {
         // draft.isRegistering = false;
         // draft.isRegisterSuccess = true;
         draft.battingUser = action.data.data;
+        draft.battingUser.rank = action.data.rank;
         break;
       case LOAD_BATTING_USER_FAILURE:
         draft.battingUser = null;

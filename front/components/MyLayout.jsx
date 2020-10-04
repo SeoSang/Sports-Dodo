@@ -43,7 +43,7 @@ const MenuButton = styled.a`
   }
 `;
 
-const MyProfile = me => {
+const MyProfile = (me) => {
   const dispatch = useDispatch();
   const onClickLogout = () => {
     try {
@@ -63,8 +63,10 @@ const MyProfile = me => {
       <p>Point : {me?.point}p</p>
       <p>랭킹 : {me?.rank ? me.rank : 0}위</p>
       <Button style={{ margin: '5px' }}>
-        <Link href="./profile">
+        {/* <Link href="./profile"> */}
+        <Link href={{ pathname: 'profile', query: { userid: me?.id } }}>
           <a>자세히</a>
+          {/* 내프로필 */}
         </Link>
       </Button>
       <Button onClick={onClickLogout} style={{ margin: '5px' }}>

@@ -1,5 +1,6 @@
 import { Col, Row } from 'antd';
 import React from 'react';
+import Link from 'next/link';
 import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
 import match from '../pages/match';
@@ -18,7 +19,10 @@ const BattingUserList = ({ data }) => {
   return (
     <Row>
       <Row style={{ fontSize: '1px', marginBottom: '5em' }}>
-        {data.userid} / {battingUser?.nickname} / {data.battingPoint}p
+        <Link href={{ pathname: 'profile', query: { userid: data.userid } }}>
+          <a>{battingUser?.nickname}</a>
+        </Link>
+        / {data.battingPoint}p{/* {data.userid} */}
       </Row>
     </Row>
   );

@@ -19,9 +19,9 @@ const ProfileBattingLine = ({ batting }) => {
     // 인덱스 같이 보내면 전체 경기 불러옴
   }, [batting]);
 
-  const match = matchs?.filter((match) => match._id === batting.match);
+  const match = matchs?.filter((match) => match?._id === batting?.match);
   // console.log(match[0]?.homeTeam);
-  //
+  // console.log(match);
   return (
     <Row>
       <Col span={8}>

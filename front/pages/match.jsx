@@ -337,7 +337,7 @@ const match = () => {
             </Row>
             <Row>
               {/* <h4>{goalsAwayTeam}</h4> */}
-              {/* 추후 수정 */}
+              {/*  */}
             </Row>
           </Col>
         </Row>
