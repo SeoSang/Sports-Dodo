@@ -12,6 +12,9 @@ import {
   REGISTER_FAILURE,
   SET_TOKEN,
   LOG_OUT,
+  LOAD_BATTING_USER_REQUEST,
+  LOAD_BATTING_USER_SUCCESS,
+  LOAD_BATTING_USER_FAILURE,
 } from '../sagas/user';
 
 export const initialState = {
@@ -24,6 +27,9 @@ export const initialState = {
   loginErrorReason: '',
   registerErrorReason: '',
   token: null,
+  battingUser: null,
+  isLoadingUser: false,
+  isLoadSuccess: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -78,6 +84,24 @@ const reducer = (state = initialState, action) => {
       case REGISTER_FAILURE:
         draft.isRegistering = false;
         draft.registerErrorReason = action.error;
+        break;
+
+      case LOAD_BATTING_USER_REQUEST:
+        draft.battingUser = null;
+
+        // draft.isRegistering = true;
+        // draft.isRegisterSuccess = false;
+        break;
+      case LOAD_BATTING_USER_SUCCESS:
+        // draft.isRegistering = false;
+        // draft.isRegisterSuccess = true;
+        draft.battingUser = action.data.data;
+        break;
+      case LOAD_BATTING_USER_FAILURE:
+        draft.battingUser = null;
+
+        // draft.isRegistering = false;
+        // draft.registerErrorReason = action.error;
         break;
       default:
         break;

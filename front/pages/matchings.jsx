@@ -21,35 +21,6 @@ moment.tz.setDefault('Asia/Seoul');
 const time_format = 'YYYY/MM/DD-HH:mm A';
 const nowTime = moment().format(time_format);
 
-const tagColor = (startTime, deadLine, deadLine_1, deadLine_24) => {
-  if (nowTime > startTime) {
-    // console.log(e);
-    return 'red';
-  } else if (nowTime > deadLine) {
-    return 'Orange';
-  } else if (nowTime > deadLine_1) {
-    return 'yellow';
-  } else if (nowTime > deadLine_24) {
-    return 'green';
-  } else {
-    return 'purple';
-  }
-};
-const battingTag = (startTime, deadLine, deadLine_1, deadLine_24) => {
-  if (nowTime > startTime) {
-    // console.log(e);
-    return '마감';
-  } else if (nowTime > deadLine) {
-    return '마감임박';
-  } else if (nowTime > deadLine_1) {
-    return '1시간 남음';
-  } else if (nowTime > deadLine_24) {
-    return '하루 남음';
-  } else {
-    return '테스트'; //내용 없으면 태그 쩜 왜 그럴까?
-  }
-};
-
 const testTag = (startTime, finishTime) => {
   if (nowTime > startTime && nowTime < finishTime) {
     // console.log(e); startTime < nowTime < finishTime
@@ -95,7 +66,7 @@ const matchings = () => {
       render(text, record) {
         return {
           props: {
-            style: { color: '#9b59b6' },
+            style: { color: '#4b0763' },
             // style: { color: 'red' },
           },
           children: (
@@ -152,7 +123,7 @@ const matchings = () => {
       title: '배팅',
       dataIndex: '_id',
       key: '_id',
-      width: 120,
+      width: 100,
       align: 'center',
       render: (_id, record) => (
         <Link href={{ pathname: 'match', query: { matchid: _id } }}>
@@ -290,13 +261,7 @@ const matchings = () => {
           dataSource={matchsData} // 현재 시간 이후의 배팅 // 진행 중
           pagination={{ pageSize: 5 }}
           // scroll={{ y: 300 }}
-          rowClassName={(record, index) =>
-            nowTime > record.deadLine
-              ? 'red'
-              : nowTime > record.deadLine_1
-              ? 'green'
-              : 'blue'
-          }
+          rowClassName="currentBattingRowTable"
           bordered
         />
         <Row>
@@ -307,7 +272,7 @@ const matchings = () => {
           columns={columns}
           dataSource={matchsHistoryData.slice(0).reverse()} // 현재 시간 이전의 배팅 // 지난배팅
           pagination={{ pageSize: 5 }}
-          rowClassName={(record, index) => 'gray'}
+          rowClassName={(record, index) => 'prevBattingRowTable'}
           // scroll={{ x: 50 }}
           bordered
         />

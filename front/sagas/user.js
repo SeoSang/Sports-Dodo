@@ -14,6 +14,10 @@ export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
 export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
 export const SET_TOKEN = 'SET_TOKEN';
 
+export const LOAD_BATTING_USER_REQUEST = 'LOAD_BATTING_USER_REQUEST';
+export const LOAD_BATTING_USER_SUCCESS = 'LOAD_BATTING_USER_SUCCESS';
+export const LOAD_BATTING_USER_FAILURE = 'LOAD_BATTING_USER_FAILURE';
+
 axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
 function loginAPI(loginData) {
@@ -108,7 +112,36 @@ function* loadUser(action) {
 function* watchLoadUser() {
   yield takeLatest(LOAD_USER_REQUEST, loadUser);
 }
+function loadBattingUserAPI(userData) {
+  return axios.get(`/user/${userData}`);
+}
+
+function* loadBattingUser(action) {
+  try {
+    const result = yield call(loadBattingUserAPI, action.data);
+    yield put({
+      // put -> Action 실행
+      type: LOAD_BATTING_USER_SUCCESS,
+      data: result.data,
+    });
+  } catch (e) {
+    console.error(e);
+    yield put({
+      type: LOAD_BATTING_USER_FAILURE,
+      error: e,
+    });
+  }
+}
+
+function* watchLoadBattingUser() {
+  yield takeLatest(LOAD_BATTING_USER_REQUEST, loadBattingUser);
+}
 
 export default function* userSaga() {
-  yield all([fork(watchLogin), fork(watchRegister), fork(watchLoadUser)]);
+  yield all([
+    fork(watchLogin),
+    fork(watchRegister),
+    fork(watchLoadUser),
+    fork(watchLoadBattingUser),
+  ]);
 }

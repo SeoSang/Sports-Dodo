@@ -33,16 +33,11 @@ a {
   transform: translate(-50%, 0%);
 }
 /* matchings.jsx 시간에 따른 색 */
-.red {
-  background-color: #ff7675;
+
+.currentBattingRowTable {
+  background-color: #c7ad8f;
 }
-.green {
-  background-color: #00b894;
-}
-.blue {
-  background-color: #74b9ff;
-}
-.gray {
+.prevBattingRowTable {
   background-color: #95a5a6;
 }
 

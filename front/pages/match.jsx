@@ -293,14 +293,18 @@ const match = () => {
               <h2>{homeTeam}</h2>
             </Row>
             <Row>
-              <h4>11승 1무 3패</h4>
+              <h4>
+                {match?.homeInfo?.matchs?.wins?.total}승{' '}
+                {match?.homeInfo?.matchs?.draws?.total}무{' '}
+                {match?.homeInfo?.matchs?.loses?.total}패
+              </h4>
             </Row>
             <Row>
-              <h4>{goalsHomeTeam}</h4>
+              {/* <h4>{goalsHomeTeam}</h4> */}
+              {/* 추후에 수정 */}
             </Row>
           </Col>
           <Col span={4}>
-            {/* <Row>{round}</Row> */}
             <Row>
               <h1>VS</h1>
             </Row>
@@ -325,10 +329,15 @@ const match = () => {
               <h2>{awayTeam}</h2>
             </Row>
             <Row>
-              <h4>16승 0무 0패</h4>
+              <h4>
+                {match?.awayInfo?.matchs?.wins?.total}승{' '}
+                {match?.awayInfo?.matchs?.draws?.total}무{' '}
+                {match?.awayInfo?.matchs?.loses?.total}패
+              </h4>
             </Row>
             <Row>
-              <h4>{goalsAwayTeam}</h4>
+              {/* <h4>{goalsAwayTeam}</h4> */}
+              {/* 추후 수정 */}
             </Row>
           </Col>
         </Row>
