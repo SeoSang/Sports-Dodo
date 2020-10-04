@@ -37,7 +37,7 @@ const MainMenu = ({ visible }) => {
     <div
       style={{
         zIndex: 100,
-        position: 'absolute',
+        position: 'fixed',
         top: '50px',
         width: 256,
       }}
@@ -82,13 +82,13 @@ const MainMenu = ({ visible }) => {
           >
             전체 랭킹
           </Menu.Item>
-          <Menu.Item key="4" icon={<MailOutlined />}>
-            <Link href="https://github.com/SeoSang/Sports-Dodo">
-              <a target="_blank" rel="author">
-                소개페이지
-              </a>
-            </Link>
-          </Menu.Item>
+            <Menu.Item key="4" icon={<MailOutlined />}>
+                <Link href="https://github.com/SeoSang/Sports-Dodo">
+                    <a target="_blank" rel="author">
+                        소개페이지
+                    </a>
+                </Link>
+            </Menu.Item>
         </Menu>
       ) : (
         <div

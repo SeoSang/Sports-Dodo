@@ -238,7 +238,7 @@ const Home = () => {
                             fontSize: '1.7rem',
                           }}
                       >
-                        <Link href="/rankings">
+                        <Link href="/rankings ">
                           <a>
                             <b>랭킹 보러가기</b>
                           </a>
