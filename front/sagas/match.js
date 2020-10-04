@@ -21,7 +21,7 @@ function loadMatchsAPI(index) {
   const limit = 100; // 받을 개수
 
   if (index === 1) {
-    return axios.get(`/match?limit=${limit}`);
+    return axios.get(`/match?limit=1000`);
     // index가 1인경우 전체 경기 부름
   }
   return axios.get(`/match?startTime[gt]=${nowTime}&limit=${limit}`);

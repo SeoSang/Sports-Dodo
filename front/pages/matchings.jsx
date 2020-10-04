@@ -15,6 +15,7 @@ import { Table, Tag, Space, Button, Row, Col, Empty, Spin, Result } from 'antd';
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
 import SizeContext from 'antd/lib/config-provider/SizeContext';
 import Notification from '../components/Notification';
+require('moment-timezone');
 
 // import { css } from '@emotion/core';
 
@@ -36,6 +37,18 @@ function matchings() {
       key: 'homeTeam',
       align: 'center',
       width: 200,
+      render(text, record) {
+        return {
+          props: {
+            style: { color: '#2d3436' },
+          },
+          children: (
+            <div>
+              <strong>{text}</strong>
+            </div>
+          ),
+        };
+      },
     },
     {
       title: 'awayTeam',
@@ -43,6 +56,18 @@ function matchings() {
       key: 'awayTeam',
       align: 'center',
       width: 200,
+      render(text, record) {
+        return {
+          props: {
+            style: { color: '#2d3436' },
+          },
+          children: (
+            <div>
+              <strong>{text}</strong>
+            </div>
+          ),
+        };
+      },
     },
     {
       title: 'startTime',
@@ -50,6 +75,21 @@ function matchings() {
       key: 'startTime',
       align: 'center',
       width: 100,
+      render(text, record) {
+        return {
+          props: {
+            style: {
+              // color: 13 > 2 ? '#e84118' : '#2d3436',
+              color:
+                record.nowTime >
+                moment(record.deadLine).subtract(2, 'hours').format()
+                  ? '#e84118'
+                  : '#2d3436',
+            },
+          },
+          children: <div>{text}</div>,
+        };
+      },
       // sorter: (a, b) => a.startTime - b.startTime,
     },
     {
@@ -68,9 +108,13 @@ function matchings() {
       render(text, record) {
         return {
           props: {
-            style: { color: parseInt(text) > 1 ? '#fab1a0' : '#e84393' },
+            style: { color: parseInt(text) > 1 ? '#e84118' : '#353b48' },
           },
-          children: <div>{text}</div>,
+          children: (
+            <div>
+              <strong>{text}</strong>
+            </div>
+          ),
         };
       },
       // sorter: (a, b) => a.howManyPeopleBatted - b.howManyPeopleBatted,
@@ -86,13 +130,14 @@ function matchings() {
         <Link href={{ pathname: 'match', query: { matchid: _id } }}>
           <a>
             <Button type="primary" htmlType="submit" danger>
-              배팅하기
+              {nowTime > record.startTime ? '배팅하기' : '마감'}
             </Button>
           </a>
         </Link>
       ),
     },
   ];
+  moment.tz.setDefault('Asia/Seoul');
   const nowTime = moment().format();
   const { me } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -134,15 +179,15 @@ function matchings() {
         </Row>
       </Row>
     );
-
+  console.log(moment.utc().format());
   const matchsData = [];
   for (let i = 0; i < matchs?.length; i++) {
     matchsData.push({
       key: i + 1,
       ...matchs[i],
-      startTime: moment(matchs[i].startTime).format('MM.DD HH:MM'),
-      finishTime: moment(matchs[i].finishTime).format('MM.DD HH:MM'),
-      deadLine: moment(matchs[i].startTime).subtract(2, 'd').format(),
+      startTime: moment(matchs[i].startTime).format('MM/DD hh:mm'),
+      finishTime: moment(matchs[i].finishTime).format('MM/DD hh:mm'),
+      deadLine: moment(matchs[i].startTime).subtract(5, 'minutes').format(),
       // 마감시간 설정
       howManyPeopleBatted:
         matchs[i].homeBattingNumber +
@@ -155,8 +200,8 @@ function matchings() {
     matchsHistoryData.push({
       key: i + 1,
       ...matchsHistory[i],
-      startTime: moment(matchsHistory[i].startTime).format('MM.DD HH:MM'),
-      finishTime: moment(matchsHistory[i].finishTime).format('MM.DD HH:MM'),
+      startTime: moment(matchsHistory[i].startTime).format('MM/DD hh:mm'),
+      finishTime: moment(matchsHistory[i].finishTime).format('MM/DD hh:mm'),
       howManyPeopleBatted:
         matchsHistory[i].homeBattingNumber +
         matchsHistory[i].awayBattingNumber +
@@ -164,7 +209,6 @@ function matchings() {
     });
   }
 
-  // console.log(test1 > test2);
   return (
     <Row
       style={{
@@ -186,7 +230,11 @@ function matchings() {
           pagination={{ pageSize: 5 }}
           // scroll={{ y: 300 }}
           rowClassName={(record, index) =>
-            nowTime > record.deadLine ? 'red' : 'green'
+            nowTime > record.deadLine
+              ? 'red'
+              : nowTime > moment(record.deadLine).subtract(1, 'd').format()
+              ? 'green'
+              : 'blue'
           }
           bordered
         />

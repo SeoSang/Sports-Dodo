@@ -10,9 +10,6 @@ import Notification from '../components/Notification';
 // import userFetch from 'userFetch';
 
 import {
-  notification,
-  Alert,
-  Space,
   Form,
   Input,
   Radio,
@@ -53,7 +50,24 @@ const getProgressBarWidth = (h, d, a) => {
   };
 };
 
+const getOdds = (h, d, a, point, where) => {
+  const total = h + d + a + point;
+  if (!total) return null;
+  if (where === 'Home') h += point;
+  if (where === 'Away') a += point;
+  if (where === 'Draw') d += point;
+  const home = h === 0 ? 0 : (total / h).toFixed(2);
+  const draw = d === 0 ? 0 : (total / d).toFixed(2);
+  const away = a === 0 ? 0 : (total / a).toFixed(2);
+  return {
+    home,
+    draw,
+    away,
+  };
+};
+
 axios.defaults.baseURL = `${BACKEND_URL}/api`;
+require('moment-timezone');
 
 const fetchApi = async url => {
   // let data = [];
@@ -85,11 +99,15 @@ const match = () => {
   const [match, setMatch] = useState(null);
   const [bpoint, setBpoint] = useState([]);
   const [choose, setChoose] = useState('Home');
-  const [battingpoint, setBattingpoint] = useState(10);
+  const [battingpoint, setBattingpoint] = useState(0);
+  const [odds, setOdds] = useState({});
+
+  const [homeImg, setHomeImg] = useState('/images/epl_logo.png');
+  const [awayImg, setAwayImg] = useState('/images/epl_logo.png');
 
   useEffect(() => {
     if (!me) {
-      Notification('로그인이 필요합니다!');
+      // Notification('로그인이 필요합니다!');
       // <Alert message="로그인이 필요합니다!" type="warning" showIcon closable />;
       // alert('로그인이 필요합니다!');
       // router.push('/');
@@ -100,23 +118,35 @@ const match = () => {
 
       Promise.all([match, point]).then(v => {
         setMatch(v[0].data);
+        setHomeImg(v[0].data.homeTeamLogoUrl);
+        setAwayImg(v[0].data.awayTeamLogoUrl);
         setBpoint(v[1]);
       });
     }
   }, [matchid, me]);
 
-  // const idForFAPI = match1?.idForFAPI;
-  // const { idForFAPI } = match1;
-  //비구조화 할당 왜 안돼?
-  // console.log(idForFAPI);
+  // 배당률 계산
+  useEffect(() => {
+    setOdds(
+      getOdds(
+        homeTotalPoint,
+        drawTotalPoint,
+        awayTotalPoint,
+        battingpoint,
+        choose
+      )
+    );
+  }, [bpoint, battingpoint, choose]);
+
   const homeTeam = match?.homeTeam;
   const awayTeam = match?.awayTeam;
 
-  const startTime = match?.startTime;
-  const startTime_1 = moment(startTime).format('MM.DD HH:MM');
-
-  const finishTime = match?.finishTime;
-  const finishTime_1 = moment(finishTime).format('MM.DD HH:MM');
+  moment.tz.setDefault('Asia/Seoul');
+  const nowTime = moment().format();
+  const startTime = moment(match?.startTime).format('MM/DD hh:mm');
+  const deadLine = moment(startTime)
+    .subtract(5, 'minutes')
+    .format('MM/DD hh:mm');
 
   const goalsHomeTeam = match?.goalsHomeTeam;
   const goalsAwayTeam = match?.goalsAwayTeam;
@@ -124,40 +154,22 @@ const match = () => {
   const homeTotalPoint = bpoint?.battingPoints?.homeTotalPoint;
   const awayTotalPoint = bpoint?.battingPoints?.awayTotalPoint;
   const drawTotalPoint = bpoint?.battingPoints?.drawTotalPoint;
-  const totalPoint = homeTotalPoint + awayTotalPoint + drawTotalPoint;
 
   const percents = getProgressBarWidth(
     homeTotalPoint,
     drawTotalPoint,
     awayTotalPoint
   );
-  console.log(percents);
   //배당률 전체/
   // testnum.toFixed(0);  소수점 버리기 반올림
 
-  const homeOdds =
-    homeTotalPoint === 0 ? 0 : (totalPoint / homeTotalPoint).toFixed(2);
-  const awayOdds =
-    awayTotalPoint === 0 ? 0 : (totalPoint / awayTotalPoint).toFixed(2);
-  const drawOdds =
-    drawTotalPoint === 0 ? 0 : (totalPoint / drawTotalPoint).toFixed(2);
   //적중률
   const hitOdds =
     choose === 'Home'
-      ? (homeOdds * battingpoint).toFixed(2)
+      ? (odds?.home * battingpoint).toFixed(2)
       : choose === 'Away'
-      ? (awayOdds * battingpoint).toFixed(2)
-      : (drawOdds * battingpoint).toFixed(2);
-
-  // const howManyPeopleBatted = bpoint?.howManyPeopleBatted;
-
-  // const homeBattingNumber = match?.homeBattingNumber;
-  // const awayBattingNumber = match?.awayBattingNumber;
-  // const drawBattingNumber = match?.drawBattingNumber;
-  // // console.log(homeBattingNumber);
-
-  const homeTeamLogoUrl = match?.homeTeamLogoUrl;
-  const awayTeamLogoUrl = match?.awayTeamLogoUrl;
+      ? (odds?.away * battingpoint).toFixed(2)
+      : (odds?.draw * battingpoint).toFixed(2);
 
   const round = match?.round;
   // const referee = if;
@@ -170,26 +182,18 @@ const match = () => {
   };
   const venue = match?.venue;
 
-  // console.log(match);
-
-  const homeTeamImg = homeTeamLogoUrl
-    ? homeTeamLogoUrl
-    : 'http://asq.kr/CGXdlkoUJHiq';
-
-  const awayTeamImg = awayTeamLogoUrl
-    ? awayTeamLogoUrl
-    : 'http://asq.kr/BDy9XSTWw0sf';
-
   const handleChooseChange = e => {
     setChoose(e.target.value);
   };
 
   const handlebattingpointChange = e => {
     if (e > userPoint) {
-      Notification('가진 포인트보다 배팅을 많이 했습니다.');
-    } else {
-      setBattingpoint(e);
+      return Notification('가진 포인트보다 배팅을 많이 했습니다.');
     }
+    if (e % 10 !== 0) {
+      return Notification('10p의 단위로 베팅이 가능합니다.');
+    }
+    setBattingpoint(e);
   };
 
   const handleSubmit = () => {
@@ -204,11 +208,13 @@ const match = () => {
         console.log(res);
         Notification('배팅을 완료 하였습니다!');
         // <Alert message="배팅을 완료 하였습니다." type="success" showIcon />;
-        router.push('/matchings');
+        router.reload();
+        // router.push('/matchings');
       })
       .catch(err => {
         console.log(err);
         Notification('배팅에 오류가 발생 하였습니다!');
+        router.reload();
         // <Alert message="배팅 시간이 지났습니다." type="error" showIcon />;
       });
   };
@@ -221,9 +227,11 @@ const match = () => {
           height: '100%',
         }}
       >
+        <Row style={{ margin: '2rem' }}>
+          <strong>{round}</strong>
+        </Row>
         <Row
           style={{
-            marginTop: '3rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -234,7 +242,7 @@ const match = () => {
             <Row>
               <Avatar
                 size={100}
-                src={homeTeamImg}
+                src={homeImg}
                 style={{ backgroundColor: 'white' }}
               />
             </Row>
@@ -249,12 +257,15 @@ const match = () => {
             </Row>
           </Col>
           <Col span={4}>
-            <Row>{round}</Row>
+            {/* <Row>{round}</Row> */}
             <Row>
               <h1>VS</h1>
             </Row>
             <Row>
-              <h4>{startTime_1}</h4>
+              <h4>{startTime}</h4>
+            </Row>
+            <Row>
+              <h4>마감시간 {deadLine}</h4>
             </Row>
 
             {/* 장소 */}
@@ -263,7 +274,7 @@ const match = () => {
             <Row>
               <Avatar
                 size={100}
-                src={awayTeamImg}
+                src={awayImg}
                 style={{ backgroundColor: 'white' }}
               />
             </Row>
@@ -283,10 +294,8 @@ const match = () => {
           <Row>주심 : {referee()}</Row>
         </Row>
         <FlexDiv width="100%" direction="column">
-          <FlexDiv width="60%" direction="row">
-            <FlexDiv>
-              <h3>베팅상황</h3>
-            </FlexDiv>
+          <FlexDiv>
+            <h3>베팅상황</h3>
           </FlexDiv>
           <FlexDiv wrap="nowrap" width="80%" direction="row">
             <ProgressBar width={percents?.home} backColor="#51adcf">
@@ -299,24 +308,41 @@ const match = () => {
               원정 : {awayTotalPoint} p
             </ProgressBar>
           </FlexDiv>
+          <FlexDiv>
+            <h3>배당률</h3>
+          </FlexDiv>
+          <div
+            style={{
+              width: '30%',
+              display: 'flex',
+              flexDirection: 'row',
+              flexWrap: 'nowrap',
+              justifyContent: 'center',
+              marginBottom: '1rem',
+            }}
+          >
+            <Col span={7}>
+              <Button danger style={{ backgroundColor: '#51adcf' }}>
+                {odds?.home}
+              </Button>
+            </Col>
+            <Col span={7}>
+              <Button danger style={{ backgroundColor: '#a5ecd7' }}>
+                {odds?.draw}
+              </Button>
+            </Col>
+            <Col span={7}>
+              <Button
+                danger
+                style={{ backgroundColor: '#e8ffc1' }}
+                color="black"
+              >
+                {odds?.away}
+              </Button>
+            </Col>
+          </div>
+          <p>* 베팅하시는 포인트에 따라 배당률이 달라질 수 있습니다.</p>
         </FlexDiv>
-        <Row>
-          <Col span={10}>
-            <Button type="primary" danger>
-              {homeOdds}
-            </Button>
-          </Col>
-          <Col span={4}>
-            <Button type="primary" danger>
-              {drawOdds}
-            </Button>
-          </Col>
-          <Col span={10}>
-            <Button type="primary" danger>
-              {awayOdds}
-            </Button>
-          </Col>
-        </Row>
         <Divider />
         {/*  새 컴포넌트 만들기 */}
         <Form onFinish={handleSubmit}>
@@ -324,19 +350,20 @@ const match = () => {
             {/* style={{ paddingTop: '2rem' }} */}
             <Radio.Group defaultValue="Home" buttonStyle="solid">
               <Radio.Button value="Home" onChange={handleChooseChange}>
-                홈 승
+                홈 승 {odds?.home}
               </Radio.Button>
               <Radio.Button value="Draw" onChange={handleChooseChange}>
-                홈 무
+                홈 무 {odds?.draw}
               </Radio.Button>
               <Radio.Button value="Away" onChange={handleChooseChange}>
-                홈 패
+                홈 패 {odds?.away}
               </Radio.Button>
             </Radio.Group>
           </Row>
           <Row style={{ paddingTop: '1rem' }}>
             <InputNumber
-              defaultValue={10}
+              defaultValue={0}
+              value={battingpoint}
               // formatter={(value) => `${value}`}
               // parser={(value) => value.replace("", "")}
               min={10}
@@ -349,10 +376,26 @@ const match = () => {
           <Row style={{ paddingTop: '1rem' }}>
             예상 배당 포인트 : {hitOdds} p
           </Row>
+          <Row>
+            * 추후 다른 유저들의 베팅 결과에 따라 받는 포인트는 달라질 수
+            있습니다.
+          </Row>
           <Row style={{ padding: '1rem' }}>
-            <Button type="primary" htmlType="submit" danger>
-              배팅하기
-            </Button>
+            {{ nowTime } > { deadLine } ? (
+              <Button type="primary" danger>
+                마감
+              </Button>
+            ) : (
+              <div>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  // onClick={Notification('마감 되었습니다!')}
+                >
+                  배팅
+                </Button>
+              </div>
+            )}
           </Row>
         </Form>
         <Divider>배팅한 사람들</Divider>
