@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Row, Col, Popover, Form, Input, message } from 'antd';
+import { Button, Row, Col, Popover, Form, Input, message, Divider } from 'antd';
 import { useState } from 'react';
 import { UserOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import Avatar from 'antd/lib/avatar/avatar';
-import { Background90Div } from '../styles/styled-components';
+import { Background100Div } from '../styles/styled-components';
 import MainMenu from './MainMenu';
 import login from '../pages/login';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -92,49 +92,6 @@ const NullProfile = (
     </div>
   </div>
 );
-// const TestProfile = (me) => (
-//   <div>
-//     <h2>로그인이</h2>
-//     <h2>필요합니다</h2>
-//     <div>
-//       <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
-//         <Form.Item
-//           label="이메일"
-//           name="email"
-//           rules={[{ required: true, message: '이메일을 입력해주세요!' }]}
-//         >
-//           <Input
-//             prefix={<UserOutlined className="site-form-item-icon" />}
-//             placeholder="E-mail"
-//           />
-//         </Form.Item>
-
-//         <Form.Item
-//           label="비밀번호"
-//           name="password"
-//           rules={[
-//             {
-//               required: true,
-//               message: 'Please input your password!',
-//             },
-//           ]}
-//         >
-//           <Input
-//             prefix={<LockOutlined className="site-form-item-icon" />}
-//             type="password"
-//             placeholder="Password"
-//           />
-//         </Form.Item>
-//       </Form>
-//     </div>
-//   </div>
-// );
-
-// const onFinish = (values) => {
-//   // dispatch({ type: LOG_IN_REQUEST, data: values });
-//   <login email={values.email} password={values.password} />;
-// };
-// const onFinishFailed = (values) => {};
 
 const MyLayout = ({ children, me }) => {
   const [visible, setVisible] = useState(false);
@@ -144,7 +101,15 @@ const MyLayout = ({ children, me }) => {
 
   return (
     <>
-      <TitleBarDiv style={{backgroundColor:"black", margin:'0', position:'fixed', zIndex:'100',width:'100%'}}>
+      <TitleBarDiv
+        style={{
+          backgroundColor: 'black',
+          margin: '0',
+          position: 'fixed',
+          zIndex: '100',
+          width: '100%',
+        }}
+      >
         <Row style={{ height: '50px' }}>
           <Col className="vertical-mid" span={4}>
             <MenuButton onClick={toggleCollapsed}>
@@ -188,9 +153,15 @@ const MyLayout = ({ children, me }) => {
         </Row>
       </TitleBarDiv>
       <MainMenu visible={visible} />
-      <Background90Div style={{ textAlign: 'center' }}>
-        <ContentDiv style={{paddingTop:'50px'}}>{children}</ContentDiv>
-      </Background90Div>
+      <Background100Div style={{ textAlign: 'center' }}>
+        {children}
+        <Divider></Divider>
+        <footer style={{ padding: '1rem' }}>
+          <p>
+            Copyright (C) 2020. <a>스포츠도도</a>. All rights reserved
+          </p>
+        </footer>
+      </Background100Div>
     </>
   );
 };

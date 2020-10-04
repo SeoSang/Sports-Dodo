@@ -1,6 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
 import axios from 'axios';
-// import Match from 'Match';
 import { BACKEND_URL } from '../sagas/.';
 import moment from 'moment';
 import Link from 'next/link';
@@ -14,22 +13,50 @@ import { Table, Tag, Space, Button, Row, Col, Empty, Spin, Result } from 'antd';
 
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
 import SizeContext from 'antd/lib/config-provider/SizeContext';
-import MatchTest from '../components/MatchTest';
 import Notification from '../components/Notification';
-
-// import { css } from '@emotion/core';
-
-const { Column, ColumnGroup } = Table;
+require('moment-timezone');
 
 // const limit = 100;
-function matchings() {
+moment.tz.setDefault('Asia/Seoul');
+const time_format = 'YYYY/MM/DD-HH:mm A';
+const nowTime = moment().format(time_format);
+
+const tagColor = (startTime, deadLine, deadLine_2, deadLine_24) => {
+  if (nowTime > startTime) {
+    // console.log(e);
+    return 'red';
+  } else if (nowTime > deadLine) {
+    return 'Orange';
+  } else if (nowTime > deadLine_2) {
+    return 'yellow';
+  } else if (nowTime > deadLine_24) {
+    return 'green';
+  } else {
+    return 'blue';
+  }
+};
+const battingTag = (startTime, deadLine, deadLine_2, deadLine_24) => {
+  if (nowTime > startTime) {
+    // console.log(e);
+    return '마감';
+  } else if (nowTime > deadLine) {
+    return '마감임박';
+  } else if (nowTime > deadLine_2) {
+    return '1시간 남음';
+  } else if (nowTime > deadLine_24) {
+    return '하루 남음';
+  } else {
+    return '';
+  }
+};
+const matchings = () => {
   const columns = [
     {
       title: 'key',
       dataIndex: 'key',
       key: 'key',
       align: 'center',
-      width: 100,
+      width: 50,
     },
     {
       title: 'homeTeam',
@@ -37,6 +64,18 @@ function matchings() {
       key: 'homeTeam',
       align: 'center',
       width: 200,
+      render(text, record) {
+        return {
+          props: {
+            style: { color: '#2c3e50' },
+          },
+          children: (
+            <div>
+              <strong>{text}</strong>
+            </div>
+          ),
+        };
+      },
     },
     {
       title: 'awayTeam',
@@ -44,42 +83,90 @@ function matchings() {
       key: 'awayTeam',
       align: 'center',
       width: 200,
+      render(text, record) {
+        return {
+          props: {
+            style: { color: '#9b59b6' },
+            // style: { color: 'red' },
+          },
+          children: (
+            <div>
+              <strong>{text}</strong>
+            </div>
+          ),
+        };
+      },
     },
     {
       title: 'startTime',
       dataIndex: 'startTime',
       key: 'startTime',
       align: 'center',
-      width: 100,
-      // sorter: (a, b) => a.startTime - b.startTime,
-    },
-    {
-      title: 'finishTime',
-      dataIndex: 'finishTime',
-      key: 'finishTime',
-      align: 'center',
-      width: 100,
+      width: 150,
+      // rowClassName={},
+      render(startTime, record) {
+        return {
+          props: {
+            style: {
+              // color: nowTime > record.deadLine ? 'red' : 'green',
+            },
+          },
+          children: (
+            <div>
+              <strong>{startTime}</strong>
+            </div>
+          ),
+        };
+      },
     },
     {
       title: '배팅인원',
       dataIndex: 'howManyPeopleBatted',
       key: 'howManyPeopleBatted',
       align: 'center',
-      width: 100,
+      width: 50,
+      render(text, record) {
+        return {
+          props: {
+            style: { color: parseInt(text) > 0 ? '#e84118' : '#353b48' },
+          },
+          children: (
+            <div>
+              <strong>{text}</strong>
+            </div>
+          ),
+        };
+      },
       // sorter: (a, b) => a.howManyPeopleBatted - b.howManyPeopleBatted,
     },
     {
       title: '배팅',
       dataIndex: '_id',
       key: '_id',
-      width: 100,
+      width: 120,
       align: 'center',
-      render: (_id) => (
+      render: (_id, record) => (
         <Link href={{ pathname: 'match', query: { matchid: _id } }}>
           <a>
             <Button type="primary" htmlType="submit" danger>
-              배팅하기
+              배팅
             </Button>
+            <Tag
+              style={{ marginLeft: '1rem' }}
+              color={tagColor(
+                record.startTime,
+                record.deadLine,
+                record.deadLine_2,
+                record.deadLine_24
+              )}
+            >
+              {battingTag(
+                record.startTime,
+                record.deadLine,
+                record.deadLine_2,
+                record.deadLine_24
+              )}
+            </Tag>
           </a>
         </Link>
       ),
@@ -87,10 +174,6 @@ function matchings() {
   ];
 
   const { me } = useSelector((state) => state.user);
-
-  // 시작 시간 5분전 마감
-  // 종료 시간 후 경기종료
-
   const dispatch = useDispatch();
   useEffect(() => {
     if (!me) {
@@ -130,27 +213,40 @@ function matchings() {
         </Row>
       </Row>
     );
-
   const matchsData = [];
   for (let i = 0; i < matchs?.length; i++) {
     matchsData.push({
       key: i + 1,
       ...matchs[i],
-      startTime: moment(matchs[i].startTime).format('MM.DD HH:MM'),
-      finishTime: moment(matchs[i].finishTime).format('MM.DD HH:MM'),
+      startTime: moment(matchs[i].startTime).format(time_format),
+      finishTime: moment(matchs[i].finishTime).format(time_format),
+      deadLine: moment(matchs[i].startTime)
+        .subtract(5, 'minutes')
+        .format(time_format),
+      deadLine_2: moment(matchs[i].startTime)
+        .subtract(1, 'hours')
+        .format(time_format),
+      deadLine_24: moment(matchs[i].startTime)
+        .subtract(1, 'd')
+        .format(time_format),
+      // 마감시간 설정
       howManyPeopleBatted:
         matchs[i].homeBattingNumber +
         matchs[i].awayBattingNumber +
         matchs[i].drawBattingNumber,
     });
   }
+
   const matchsHistoryData = [];
   for (let i = 0; i < matchsHistory?.length; i++) {
     matchsHistoryData.push({
       key: i + 1,
       ...matchsHistory[i],
-      startTime: moment(matchsHistory[i].startTime).format('MM.DD HH:MM'),
-      finishTime: moment(matchsHistory[i].finishTime).format('MM.DD HH:MM'),
+      startTime: moment(matchsHistory[i].startTime).format(time_format),
+      finishTime: moment(matchsHistory[i].finishTime).format(time_format),
+      deadLine: moment(matchsHistory[i].startTime)
+        .subtract(5, 'minutes')
+        .format(time_format),
       howManyPeopleBatted:
         matchsHistory[i].homeBattingNumber +
         matchsHistory[i].awayBattingNumber +
@@ -175,11 +271,15 @@ function matchings() {
         <Table
           style={{ backgroundColor: 'white' }}
           columns={columns}
-          dataSource={matchsData.slice(0).reverse()} // 현재 시간 이후의 배팅 // 진행 중
+          dataSource={matchsData} // 현재 시간 이후의 배팅 // 진행 중
           pagination={{ pageSize: 5 }}
-          scroll={{ y: 300 }}
+          // scroll={{ y: 300 }}
           rowClassName={(record, index) =>
-            record.startTime > 50 ? 'red' : 'green'
+            nowTime > record.deadLine
+              ? 'red'
+              : nowTime > record.deadLine_2
+              ? 'green'
+              : 'blue'
           }
           bordered
         />
@@ -191,12 +291,13 @@ function matchings() {
           columns={columns}
           dataSource={matchsHistoryData.slice(0).reverse()} // 현재 시간 이전의 배팅 // 지난배팅
           pagination={{ pageSize: 5 }}
+          rowClassName={(record, index) => 'gray'}
           // scroll={{ x: 50 }}
           bordered
         />
       </Row>
     </Row>
   );
-}
+};
 
 export default matchings;

@@ -30,7 +30,7 @@ const BattingsCard = styled.div`
 const profile = () => {
   // const dispatch = useDispatch();
 
-  const { me } = useSelector(state => state.user);
+  const { me } = useSelector((state) => state.user);
   // console.log(me);
   //me.id 값을 검색
   const router = useRouter();
@@ -85,7 +85,7 @@ const profile = () => {
             </Col>
           </Row>
           {/* api/user/{me.id} */}
-          {me?.battings?.map(batting => (
+          {me?.battings?.map((batting) => (
             <ProfileBattingLine batting={batting}></ProfileBattingLine>
           ))}
         </Row>
