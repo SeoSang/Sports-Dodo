@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Row, Col, Avatar, Alert, notification } from 'antd';
+import { Row, Col, Avatar, Alert, notification, Card} from 'antd';
 import { wrapper } from '../store';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
@@ -48,20 +48,21 @@ const profile = () => {
   // matchResult battingResult resultPoint chooseHomeAwayDraw battingPoint createdAt
   return (
     <>
-      <Row style={{ marginBottom: '20px' }}>
+      <Row style={{ marginBottom: '20px', display:'flex', flexDirection:'row', alignItems:'flex-end'}}>
         <Col span={14} style={profileCardStyle}>
-          <Row>
             <Col span={8}>
               <Avatar size={100} src="/images/profile.jpg" />
             </Col>
             <Col span={16}>
-              <h2>{me?.name}</h2>
-              <h2>포인트 : {me?.point}점</h2>
-              <h2>랭킹 : {me?.rank}위</h2>
+              <h2><b>{me?.name}</b></h2>
+              <h2><b>포인트 : </b>{me?.point}점</h2>
             </Col>
-          </Row>
         </Col>
-        <Col span={10}></Col>
+        <Col span={16}>
+          <Card style={{borderRadius:'50%',width:'10%',height:'10%', backgroundColor:'#c8d6e5', textAlign:'center',boxShadow: '1px 1px 1px 1px gray'}}>
+            <h2><b>랭킹 : </b>{me?.rank}위</h2>
+          </Card>
+        </Col>
       </Row>
       <BattingsCard>
         <Row>

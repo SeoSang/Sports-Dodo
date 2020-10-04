@@ -21,6 +21,7 @@ import {
   InputNumber,
   Button,
   Divider,
+  message,
 } from 'antd';
 import { FlexDiv } from '../styles/styled-components';
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
@@ -53,7 +54,12 @@ const getProgressBarWidth = (h, d, a) => {
 
 const getOdds = (h, d, a, point, where) => {
   const total = h + d + a + point;
-  if (!total) return null;
+  if (!total)
+    return {
+      home: '미정',
+      draw: '미정',
+      away: '미정',
+    };
   if (where === 'Home') h += point;
   if (where === 'Away') a += point;
   if (where === 'Draw') d += point;
@@ -224,27 +230,36 @@ const match = () => {
     setBattingpoint(e);
   };
 
-  const handleSubmit = () => {
-    const value = { homeTeam, awayTeam, choose, battingPoint };
-    axios
-      .post(`/match/${matchid}/batting`, {
-        homeTeamName: homeTeam,
-        awayTeamName: awayTeam,
-        chooseHomeAwayDraw: choose,
-        battingPoint: battingpoint,
-      })
-      .then((res) => {
-        console.log(res);
-        Notification('배팅을 완료 하였습니다!');
-        // <Alert message="배팅을 완료 하였습니다." type="success" showIcon />;
-        router.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-        Notification('배팅에 오류가 발생 하였습니다!');
-        router.reload();
-        // <Alert message="배팅 시간이 지났습니다." type="error" showIcon />;
-      });
+  const handleSubmit = async () => {
+    if (battingpoint === 0) {
+      return message.error('0 포인트는 베팅할 수 없습니다!');
+    }
+    try {
+      await axios
+        .post(`/match/${matchid}/batting`, {
+          homeTeamName: homeTeam,
+          awayTeamName: awayTeam,
+          chooseHomeAwayDraw: choose,
+          battingPoint: battingpoint,
+        })
+        .then((res) => {
+          console.log(res);
+          Notification('배팅을 완료 하였습니다!');
+          // <Alert message="배팅을 완료 하였습니다." type="success" showIcon />;
+          router.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+          Notification('배팅에 오류가 발생 하였습니다!');
+          router.reload();
+          // <Alert message="배팅 시간이 지났습니다." type="error" showIcon />;
+        });
+      Notification('배팅을 완료 하였습니다!');
+      router.reload();
+    } catch (e) {
+      message.error(e.response.data ? e.response.data.error : '오류 발생!');
+    }
+    console.log('submit 끝');
   };
 
   return (
@@ -378,13 +393,13 @@ const match = () => {
             {/* style={{ paddingTop: '2rem' }} */}
             <Radio.Group defaultValue="Home" buttonStyle="solid">
               <Radio.Button value="Home" onChange={handleChooseChange}>
-                홈 승 {odds?.home}
+                홈 승
               </Radio.Button>
               <Radio.Button value="Draw" onChange={handleChooseChange}>
-                홈 무 {odds?.draw}
+                홈 무
               </Radio.Button>
               <Radio.Button value="Away" onChange={handleChooseChange}>
-                홈 패 {odds?.away}
+                홈 패
               </Radio.Button>
             </Radio.Group>
           </Row>
@@ -392,7 +407,7 @@ const match = () => {
             <InputNumber
               defaultValue={0}
               value={battingpoint}
-              min={10}
+              min={0}
               max={userPoint}
               step={10}
               onChange={handlebattingpointChange}
