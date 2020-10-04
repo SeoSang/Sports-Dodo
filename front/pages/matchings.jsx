@@ -49,6 +49,15 @@ const battingTag = (startTime, deadLine, deadLine_1, deadLine_24) => {
     return '테스트'; //내용 없으면 태그 쩜 왜 그럴까?
   }
 };
+
+const testTag = (startTime, finishTime) => {
+  if (nowTime > startTime && nowTime < finishTime) {
+    // console.log(e); startTime < nowTime < finishTime
+    return ' 게임 중';
+  } else {
+    return ''; //내용 없으면 태그 쩜 왜 그럴까?
+  }
+};
 const matchings = () => {
   const columns = [
     // {
@@ -147,26 +156,33 @@ const matchings = () => {
       align: 'center',
       render: (_id, record) => (
         <Link href={{ pathname: 'match', query: { matchid: _id } }}>
-          <a>
+          <a className="battingTag">
             <Button type="primary" htmlType="submit" danger>
               배팅
             </Button>
-            <Tag
-              style={{ marginLeft: '1rem' }}
-              color={tagColor(
-                record.startTime,
-                record.deadLine,
-                record.deadLine_1,
-                record.deadLine_24
-              )}
-            >
-              {battingTag(
-                record.startTime,
-                record.deadLine,
-                record.deadLine_1,
-                record.deadLine_24
-              )}
-            </Tag>
+            {nowTime > record.startTime ? (
+              <Tag style={{ marginLeft: '1em' }} color="#ff1e00">
+                마감
+              </Tag>
+            ) : nowTime > record.deadLine ? (
+              <Tag style={{ marginLeft: '1em' }} color="#e04612">
+                마감 5분 전
+              </Tag>
+            ) : nowTime > record.deadLine_1 ? (
+              <Tag style={{ marginLeft: '1em' }} color="#e08312">
+                마감 1시간 전
+              </Tag>
+            ) : nowTime > record.deadLine_24 ? (
+              <Tag style={{ marginLeft: '1em' }} color="#00bfa6">
+                마감 하루 전
+              </Tag>
+            ) : null}
+
+            {nowTime > record.startTime && nowTime < record.finishTime ? (
+              <Tag style={{ marginLeft: '1em' }} color="#8c00bf">
+                게임 중
+              </Tag>
+            ) : null}
           </a>
         </Link>
       ),
