@@ -6,7 +6,7 @@ export const FlexDiv = styled.div`
   flex-direction: ${props => props.direction || 'row'};
   justify-content: ${props => props.justify || 'center'};
   align-items: ${props => props.align || 'center'};
-  flex-wrap: wrap;
+  flex-wrap: ${props => props.wrap || 'wrap'};
   background-color: ${props => props.backgroundColor || 'auto'};
   height: ${props => props.height || 'auto'};
   width: ${props => props.width || 'auto'};

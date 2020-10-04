@@ -32,9 +32,30 @@ import {
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
+const ProgressBar = styled(FlexDiv)`
+  width: ${props => props.width || 'auto'};
+  background-color: ${props => props.backColor || 'inherit'};
+  padding: 5px;
+  margin-bottom: 1rem;
+  border-radius: 2px;
+`;
+
+const getProgressBarWidth = (h, d, a) => {
+  const total = h + d + a;
+  if (!total) return null;
+  const home = `${Math.floor((h / total) * 80)}%`;
+  const draw = `${Math.floor((d / total) * 80)}%`;
+  const away = `${Math.floor((a / total) * 80)}%`;
+  return {
+    home: home === '0%' ? 'auto' : home,
+    draw: draw === '0%' ? 'auto' : draw,
+    away: away === '0%' ? 'auto' : away,
+  };
+};
+
 axios.defaults.baseURL = `${BACKEND_URL}/api`;
 
-const fetchApi = async (url) => {
+const fetchApi = async url => {
   // let data = [];
   try {
     const { data } = await axios.get(url);
@@ -54,7 +75,7 @@ const match = () => {
   const router = useRouter();
   const matchid = router.query.matchid;
 
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector(state => state.user);
   const dispatch = useDispatch();
   // 소유한 포인트에서 배팅한 포인트를 차감하여 리덕스를 사용해야하나?
 
@@ -77,7 +98,7 @@ const match = () => {
       const match = fetchApi(`/match/${matchid}`);
       const point = fetchApi(`/match/${matchid}/batting`);
 
-      Promise.all([match, point]).then((v) => {
+      Promise.all([match, point]).then(v => {
         setMatch(v[0].data);
         setBpoint(v[1]);
       });
@@ -105,11 +126,12 @@ const match = () => {
   const drawTotalPoint = bpoint?.battingPoints?.drawTotalPoint;
   const totalPoint = homeTotalPoint + awayTotalPoint + drawTotalPoint;
 
-  //배당률 비율
-  const home1 = Math.floor((24 / totalPoint) * homeTotalPoint) - 0.01;
-  // console.log(typeof home1);
-  const home2 = Math.floor((24 / totalPoint) * awayTotalPoint) - 0.01;
-  const home3 = Math.floor((24 / totalPoint) * drawTotalPoint) - 0.01;
+  const percents = getProgressBarWidth(
+    homeTotalPoint,
+    drawTotalPoint,
+    awayTotalPoint
+  );
+  console.log(percents);
   //배당률 전체/
   // testnum.toFixed(0);  소수점 버리기 반올림
 
@@ -158,11 +180,11 @@ const match = () => {
     ? awayTeamLogoUrl
     : 'http://asq.kr/BDy9XSTWw0sf';
 
-  const handleChooseChange = (e) => {
+  const handleChooseChange = e => {
     setChoose(e.target.value);
   };
 
-  const handlebattingpointChange = (e) => {
+  const handlebattingpointChange = e => {
     if (e > userPoint) {
       Notification('가진 포인트보다 배팅을 많이 했습니다.');
     } else {
@@ -178,13 +200,13 @@ const match = () => {
         chooseHomeAwayDraw: choose,
         battingPoint: battingpoint,
       })
-      .then((res) => {
+      .then(res => {
         console.log(res);
         Notification('배팅을 완료 하였습니다!');
         // <Alert message="배팅을 완료 하였습니다." type="success" showIcon />;
         router.push('/matchings');
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         Notification('배팅에 오류가 발생 하였습니다!');
         // <Alert message="배팅 시간이 지났습니다." type="error" showIcon />;
@@ -260,16 +282,24 @@ const match = () => {
           <Row>{venue}</Row>
           <Row>주심 : {referee()}</Row>
         </Row>
-        <Row style={{ marginBottom: '1rem' }}>
-          {/* 24/total *a */}
-          <Col span={home1} style={{ backgroundColor: 'gray' }}>
-            {homeTotalPoint} p
-          </Col>
-          <Col span={home2} style={{ backgroundColor: 'red' }}>
-            {drawTotalPoint} p
-          </Col>
-          <Col span={home3}>{awayTotalPoint} p</Col>
-        </Row>
+        <FlexDiv width="100%" direction="column">
+          <FlexDiv width="60%" direction="row">
+            <FlexDiv>
+              <h3>베팅상황</h3>
+            </FlexDiv>
+          </FlexDiv>
+          <FlexDiv wrap="nowrap" width="80%" direction="row">
+            <ProgressBar width={percents?.home} backColor="#51adcf">
+              홈 : {homeTotalPoint} p
+            </ProgressBar>
+            <ProgressBar width={percents?.draw} backColor="#a5ecd7">
+              무 : {drawTotalPoint} p
+            </ProgressBar>
+            <ProgressBar width={percents?.away} backColor="#e8ffc1">
+              원정 : {awayTotalPoint} p
+            </ProgressBar>
+          </FlexDiv>
+        </FlexDiv>
         <Row>
           <Col span={10}>
             <Button type="primary" danger>
