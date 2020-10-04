@@ -23,7 +23,7 @@ const menuRouter = (router, href) => () => {
 };
 
 const MainMenu = ({ visible }) => {
-  const [isFold, setFold] = useState(true);
+  const [isFold, setFold] = useState(false);
   const router = useRouter();
   const handleMouseEnter = (e) => {
     setFold(true);
