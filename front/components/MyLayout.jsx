@@ -94,7 +94,7 @@ const NullProfile = (
 );
 
 const MyLayout = ({ children, me }) => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const toggleCollapsed = () => {
     setVisible(!visible);
   };
