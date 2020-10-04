@@ -1,4 +1,14 @@
-import { List, Row, Col, Card, Progress, Button, Layout, BackTop,Carousel } from 'antd';
+import {
+  List,
+  Row,
+  Col,
+  Card,
+  Progress,
+  Button,
+  Layout,
+  BackTop,
+  Carousel,
+} from 'antd';
 import { dummy_main_rankings } from '../src/dummy';
 import {
   FlexDiv,
@@ -138,8 +148,9 @@ const Home = () => {
   };
 
   const scrollToBottom = () => {
-    messiRef.current.scrollIntoView({ behavior: 'smooth' });
-    messiRef.current.scrollIntoView({ behavior: 'smooth' });
+    messiRef.current.scrollIntoView({
+      behavior: 'smooth',
+    });
   };
 
   return (
@@ -202,49 +213,49 @@ const Home = () => {
           <Row style={{ zIndex: 20 }}>
             <MessiContainer onClick={scrollToBottom}>
               <img
-                  style={{ width: '100%', height: '50%', opacity: '50%' }}
-                  src="/images/son.jpg"
+                style={{ width: '100%', height: '50%', opacity: '50%' }}
+                src="/images/son.jpg"
               />
               <FlexDiv
-                  width="100%"
-                  height="50%"
-                  style={{
-                    position: 'absolute',
-                    opacity: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
+                width="100%"
+                height="50%"
+                style={{
+                  position: 'absolute',
+                  opacity: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
               >
                 {show ? (
-                    <>
-                      <TitleH1 style={{ fontSize: '4rem' }}>
-                        배팅을 하고 포인트를 얻으세요
-                      </TitleH1>
-                    </>
+                  <>
+                    <TitleH1 style={{ fontSize: '4rem' }}>
+                      배팅을 하고 포인트를 얻으세요
+                    </TitleH1>
+                  </>
                 ) : (
-                    <>
-                      <TitleH1 style={{ fontSize: '4rem' }}>
-                        실시간 <span style={{ color: '#ed1c23' }}>랭킹을</span>{' '}
-                        확인하세요!
-                      </TitleH1>
-                      <Button
-                          type="primary"
-                          style={{
-                            backgroundColor: '#ffff4d',
-                            color: 'black',
-                            border: 'none',
-                            width: '50vh',
-                            height: '8vh',
-                            fontSize: '1.7rem',
-                          }}
-                      >
-                        <Link href="/rankings">
-                          <a>
-                            <b>랭킹 보러가기</b>
-                          </a>
-                        </Link>
-                      </Button>
-                    </>
+                  <>
+                    <TitleH1 style={{ fontSize: '4rem' }}>
+                      실시간 <span style={{ color: '#ed1c23' }}>랭킹을</span>{' '}
+                      확인하세요!
+                    </TitleH1>
+                    <Button
+                      type="primary"
+                      style={{
+                        backgroundColor: '#ffff4d',
+                        color: 'black',
+                        border: 'none',
+                        width: '50vh',
+                        height: '8vh',
+                        fontSize: '1.7rem',
+                      }}
+                    >
+                      <Link href="/rankings">
+                        <a>
+                          <b>랭킹 보러가기</b>
+                        </a>
+                      </Link>
+                    </Button>
+                  </>
                 )}
               </FlexDiv>
             </MessiContainer>
@@ -253,6 +264,8 @@ const Home = () => {
       </Carousel>
 
       <MainRow>
+        <div ref={messiRef}></div>
+
         <Card
           style={{
             backgroundColor: '#fcfcfc',
@@ -342,8 +355,6 @@ const Home = () => {
           </Row>
         </LowerDiv>
       </MainRow>
-
-      <div style={{ float: 'left', clear: 'both' }} ref={messiRef}></div>
     </>
   );
 };
