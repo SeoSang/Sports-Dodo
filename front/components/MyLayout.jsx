@@ -142,6 +142,7 @@ const MyLayout = ({ children, me }) => {
               content={me ? MyProfile(me) : NullProfile}
               title="내 정보"
               trigger="click"
+              placement="bottom"
             >
               <Avatar
                 shape="square"

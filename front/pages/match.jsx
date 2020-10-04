@@ -202,30 +202,23 @@ const match = () => {
     setBattingpoint(e);
   };
 
-  const handleSubmit = () => {
-    const value = { homeTeam, awayTeam, choose };
+  const handleSubmit = async () => {
     if (battingpoint === 0) {
       return message.error('0 포인트는 베팅할 수 없습니다!');
     }
-    axios
-      .post(`/match/${matchid}/batting`, {
+    try {
+      await axios.post(`/match/${matchid}/batting`, {
         homeTeamName: homeTeam,
         awayTeamName: awayTeam,
         chooseHomeAwayDraw: choose,
         battingPoint: battingpoint,
-      })
-      .then(res => {
-        console.log(res);
-        Notification('배팅을 완료 하였습니다!');
-        // <Alert message="배팅을 완료 하였습니다." type="success" showIcon />;
-        router.reload();
-      })
-      .catch(err => {
-        console.log(err);
-        Notification('배팅에 오류가 발생 하였습니다!');
-        router.reload();
-        // <Alert message="배팅 시간이 지났습니다." type="error" showIcon />;
       });
+      Notification('배팅을 완료 하였습니다!');
+      router.reload();
+    } catch (e) {
+      message.error(e.response.data ? e.response.data.error : '오류 발생!');
+    }
+    console.log('submit 끝');
   };
 
   return (
