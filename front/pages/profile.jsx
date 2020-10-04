@@ -23,37 +23,23 @@ const BattingsCard = styled.div`
   margin: 0 1rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;
-
-// http://localhost:1337/api/user/5f55f6af32e4e943e89b6894
-//유저 api 검색
-
 const profile = () => {
   const { me, battingUser } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
-
   const router = useRouter();
   const userid = router.query.userid;
-  // const dispatch = useDispatch();
-
-  // const { battingUser } = useSelector((state) => state.user);
-  // console.log(me);
-  //me.id 값을 검색
-
   useEffect(() => {
     if (!me) {
       Notification('로그인이 필요합니다!');
       // <Alert message="로그인이 필요합니다!" type="warning" showIcon closable />;
-      // alert('로그인이 필요합니다!');
-      router.push('/');
+      // router.push('/');
     }
-    // dispatch({ type: LOAD_BATTING_HISTORY_REQUEST, data : me.id });
   }, [me]);
+
   useEffect(() => {
     dispatch({ type: LOAD_BATTING_USER_REQUEST, data: userid });
   }, []);
-  // const { battings, rank } = useSelector((state) => state.batting);  //  유저의 배팅내역 전체
-  // matchResult battingResult resultPoint chooseHomeAwayDraw battingPoint createdAt
   return (
     <>
       <Row

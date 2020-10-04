@@ -83,7 +83,7 @@ const matchings = () => {
       key: 'howManyPeopleBatted',
       align: 'center',
       width: 50,
-      render(text, record) {
+      render: (text, record) => {
         return {
           props: {
             style: { color: parseInt(text) > 0 ? '#e84118' : '#353b48' },
@@ -104,13 +104,13 @@ const matchings = () => {
       align: 'center',
       width: 150,
       // rowClassName={},
-      render(startTime, record) {
+      render: (startTime, record) => {
         return {
-          props: {
-            style: {
-              // color: nowTime > record.deadLine ? 'red' : 'green',
-            },
-          },
+          // props: {
+          //   style: {
+          //     // color: nowTime > record.deadLine ? 'red' : 'green',
+          //   },
+          // },
           children: (
             <div>
               <strong>{startTime}</strong>
@@ -125,38 +125,40 @@ const matchings = () => {
       key: '_id',
       width: 100,
       align: 'center',
-      render: (_id, record) => (
-        <Link href={{ pathname: 'match', query: { matchid: _id } }}>
-          <a className="battingTag">
-            <Button type="primary" htmlType="submit" danger>
-              배팅
-            </Button>
-            {nowTime > record.startTime ? (
-              <Tag style={{ marginLeft: '1em' }} color="#ff1e00">
-                마감
-              </Tag>
-            ) : nowTime > record.deadLine ? (
-              <Tag style={{ marginLeft: '1em' }} color="#e04612">
-                마감 5분 전
-              </Tag>
-            ) : nowTime > record.deadLine_1 ? (
-              <Tag style={{ marginLeft: '1em' }} color="#e08312">
-                마감 1시간 전
-              </Tag>
-            ) : nowTime > record.deadLine_24 ? (
-              <Tag style={{ marginLeft: '1em' }} color="#00bfa6">
-                마감 하루 전
-              </Tag>
-            ) : null}
+      render: (_id, record) => {
+        return (
+          <Link href={{ pathname: 'match', query: { matchid: _id } }}>
+            <a>
+              <Button type="primary" htmlType="submit" danger>
+                배팅
+              </Button>
+              {nowTime > record.startTime ? (
+                <Tag style={{ marginLeft: '1em' }} color="#ff1e00">
+                  마감
+                </Tag>
+              ) : nowTime > record.deadLine ? (
+                <Tag style={{ marginLeft: '1em' }} color="#e04612">
+                  마감 5분 전
+                </Tag>
+              ) : nowTime > record.deadLine_1 ? (
+                <Tag style={{ marginLeft: '1em' }} color="#e08312">
+                  마감 1시간 전
+                </Tag>
+              ) : nowTime > record.deadLine_24 ? (
+                <Tag style={{ marginLeft: '1em' }} color="#00bfa6">
+                  마감 하루 전
+                </Tag>
+              ) : null}
 
-            {nowTime > record.startTime && nowTime < record.finishTime ? (
-              <Tag style={{ marginLeft: '1em' }} color="#8c00bf">
-                게임 중
-              </Tag>
-            ) : null}
-          </a>
-        </Link>
-      ),
+              {nowTime > record.startTime && nowTime < record.finishTime ? (
+                <Tag style={{ marginLeft: '1em' }} color="#8c00bf">
+                  게임 중
+                </Tag>
+              ) : null}
+            </a>
+          </Link>
+        );
+      },
     },
   ];
 
@@ -186,17 +188,7 @@ const matchings = () => {
         <Row>로딩 중</Row>
         <Row>
           {/* <Table columns={columns} /> */}
-          <Result
-            status="warning"
-            title="경기를 불러오지 못하였습니다!"
-            // extra={
-            //   <Button type="primary" key="console">
-            //     Go Console
-            //   </Button>
-            // }
-          />
-          {/* <Spin /> */}
-          {/* <Empty /> */}
+          <Result status="warning" title="경기를 불러오지 못하였습니다!" />
         </Row>
       </Row>
     );

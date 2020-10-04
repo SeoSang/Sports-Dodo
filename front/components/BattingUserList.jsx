@@ -22,7 +22,7 @@ const BattingUserList = ({ data }) => {
         <Link href={{ pathname: 'profile', query: { userid: data.userid } }}>
           <a>{battingUser?.nickname}</a>
         </Link>
-        / {data.battingPoint}p{/* {data.userid} */}
+        / {data.battingPoint}p
       </Row>
     </Row>
   );

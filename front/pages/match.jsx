@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import styled from 'styled-components';
@@ -10,7 +9,6 @@ import Notification from '../components/Notification';
 import { LOAD_BATTING_HISTORY_REQUEST } from '../sagas/batting';
 import { useDispatch, useSelector } from 'react-redux';
 import BattingUserList from '../components/BattingUserList';
-
 import {
   Form,
   Input,
@@ -335,10 +333,10 @@ const match = () => {
                 {match?.awayInfo?.matchs?.loses?.total}패
               </h4>
             </Row>
-            <Row>
-              {/* <h4>{goalsAwayTeam}</h4> */}
-              {/*  */}
-            </Row>
+            {/* <Row> */}
+            {/* <h4>{goalsAwayTeam}</h4> */}
+            {/* c */}
+            {/* </Row> */}
           </Col>
         </Row>
         <Row style={{ marginBottom: '2rem' }}>
@@ -447,7 +445,7 @@ const match = () => {
           <Col span={7}>
             <Row style={{ marginBottom: '1rem' }}>Home</Row>
             {dividedHistory?.home?.map((data, i) => (
-              <BattingUserList key={`home${i}`} data={data}></BattingUserList>
+              <BattingUserList key={`home${i}`} data={data} />
             ))}
           </Col>
           {/* 홈팀 배팅한 사람들 */}
@@ -457,7 +455,7 @@ const match = () => {
           <Col span={7}>
             <Row style={{ marginBottom: '1rem' }}>Draw</Row>
             {dividedHistory?.draw?.map((data, i) => (
-              <BattingUserList key={`home${i}`} data={data}></BattingUserList>
+              <BattingUserList key={`home${i}`} data={data} />
             ))}
           </Col>
           <Col span={1}>
@@ -466,7 +464,7 @@ const match = () => {
           <Col span={7}>
             <Row style={{ marginBottom: '1rem' }}>Away</Row>
             {dividedHistory?.away?.map((data, i) => (
-              <BattingUserList key={`home${i}`} data={data}></BattingUserList>
+              <BattingUserList key={`home${i}`} data={data} />
             ))}
           </Col>
         </Row>
