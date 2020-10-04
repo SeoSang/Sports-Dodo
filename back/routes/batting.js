@@ -22,7 +22,7 @@ router
     .get(getBattings);
 
 router
-    .route('/for-a-match/:id')
+    .route('/for-a-match/:id') // api/batting/for-a-match/메치아이디
     .get(getBattingForAMatch);
 
 router

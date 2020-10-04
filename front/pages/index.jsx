@@ -1,4 +1,4 @@
-import { List, Row, Col, Card, Progress, Button, Layout, BackTop } from 'antd';
+import { List, Row, Col, Card, Progress, Button, Layout, BackTop,Carousel } from 'antd';
 import { dummy_main_rankings } from '../src/dummy';
 import {
   FlexDiv,
@@ -116,7 +116,7 @@ const Home = () => {
 
   useEffect(() => {
     const scrollFun = () => {
-      if (window.scrollY > 100) {
+      if (window.scrollY > 60) {
         handleShow(true);
       } else handleShow(false);
     };
@@ -144,56 +144,114 @@ const Home = () => {
 
   return (
     <>
-      <Row style={{ zIndex: 20 }}>
-        <MessiContainer onClick={scrollToBottom}>
-          <img
-            style={{ width: '100%', height: '50%', opacity: '50%' }}
-            src="/images/messi.jpg"
-          />
-          <FlexDiv
-            width="100%"
-            height="50%"
-            style={{
-              position: 'absolute',
-              opacity: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
-            {show ? (
-              <>
-                <TitleH1 style={{ fontSize: '4rem' }}>
-                  매치 리스트를 확인하세요
-                </TitleH1>
-              </>
-            ) : (
-              <>
-                <TitleH1 style={{ fontSize: '4rem' }}>
-                  당신의 <span style={{ color: '#ed1c23' }}>통찰력을</span>{' '}
-                  보여주세요!
-                </TitleH1>
-                <Button
-                  type="primary"
+      <Carousel autoplay>
+        <div>
+          <Row style={{ zIndex: 20 }}>
+            <MessiContainer onClick={scrollToBottom}>
+              <img
+                style={{ width: '100%', height: '50%', opacity: '50%' }}
+                src="/images/messi.jpg"
+              />
+              <FlexDiv
+                width="100%"
+                height="50%"
+                style={{
+                  position: 'absolute',
+                  opacity: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                {show ? (
+                  <>
+                    <TitleH1 style={{ fontSize: '4rem' }}>
+                      매치 리스트를 확인하세요
+                    </TitleH1>
+                  </>
+                ) : (
+                  <>
+                    <TitleH1 style={{ fontSize: '4rem' }}>
+                      당신의 <span style={{ color: '#ed1c23' }}>통찰력을</span>{' '}
+                      보여주세요!
+                    </TitleH1>
+                    <Button
+                      type="primary"
+                      style={{
+                        backgroundColor: '#ffff4d',
+                        color: 'black',
+                        border: 'none',
+                        width: '50vh',
+                        height: '8vh',
+                        fontSize: '1.7rem',
+                      }}
+                    >
+                      <Link href="/matchings">
+                        <a>
+                          <b>배팅 하러 가기</b>
+                        </a>
+                      </Link>
+                    </Button>
+                  </>
+                )}
+              </FlexDiv>
+            </MessiContainer>
+          </Row>
+        </div>
+
+        <div>
+          <Row style={{ zIndex: 20 }}>
+            <MessiContainer onClick={scrollToBottom}>
+              <img
+                  style={{ width: '100%', height: '50%', opacity: '50%' }}
+                  src="/images/son.jpg"
+              />
+              <FlexDiv
+                  width="100%"
+                  height="50%"
                   style={{
-                    backgroundColor: '#ffff4d',
-                    color: 'black',
-                    border: 'none',
-                    width: '50vh',
-                    height: '8vh',
-                    fontSize: '1.7rem',
+                    position: 'absolute',
+                    opacity: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
                   }}
-                >
-                  <Link href="/matchings">
-                    <a>
-                      <b>배팅 하러 가기</b>
-                    </a>
-                  </Link>
-                </Button>
-              </>
-            )}
-          </FlexDiv>
-        </MessiContainer>
-      </Row>
+              >
+                {show ? (
+                    <>
+                      <TitleH1 style={{ fontSize: '4rem' }}>
+                        배팅을 하고 포인트를 얻으세요
+                      </TitleH1>
+                    </>
+                ) : (
+                    <>
+                      <TitleH1 style={{ fontSize: '4rem' }}>
+                        실시간 <span style={{ color: '#ed1c23' }}>랭킹을</span>{' '}
+                        확인하세요!
+                      </TitleH1>
+                      <Button
+                          type="primary"
+                          style={{
+                            backgroundColor: '#ffff4d',
+                            color: 'black',
+                            border: 'none',
+                            width: '50vh',
+                            height: '8vh',
+                            fontSize: '1.7rem',
+                          }}
+                      >
+                        <Link href="/rankings">
+                          <a>
+                            <b>랭킹 보러가기</b>
+                          </a>
+                        </Link>
+                      </Button>
+                    </>
+                )}
+              </FlexDiv>
+            </MessiContainer>
+          </Row>
+        </div>
+      </Carousel>
+
       <MainRow>
         <Card
           style={{

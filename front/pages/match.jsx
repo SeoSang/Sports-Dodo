@@ -6,8 +6,8 @@ import axios from 'axios';
 import { BACKEND_URL } from '../sagas';
 import MatchTest from '../components/MatchTest';
 import Notification from '../components/Notification';
-
-// import userFetch from 'userFetch';
+import { LOAD_BATTING_HISTORY_REQUEST } from '../sagas/batting';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Form,
@@ -27,7 +27,6 @@ import {
   FlexDiv,
 } from '../styles/styled-components';
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux';
 
 const ProgressBar = styled(FlexDiv)`
   width: ${props => props.width || 'auto'};
@@ -70,30 +69,29 @@ axios.defaults.baseURL = `${BACKEND_URL}/api`;
 require('moment-timezone');
 
 const fetchApi = async url => {
-  // let data = [];
   try {
     const { data } = await axios.get(url);
-    //비구조화 할당
-    // data = { ...response.data };
-    // console.log(response.data);
-    // console.log(data);
     return data;
-    // return response.data;
   } catch (e) {
     console.log(e);
     return [];
   }
 };
 
+moment.tz.setDefault('Asia/Seoul');
+const nowTime = moment().format();
+
 const match = () => {
   const router = useRouter();
   const matchid = router.query.matchid;
 
   const { me } = useSelector(state => state.user);
+  const { battingHistory } = useSelector(state => state.batting);
   const dispatch = useDispatch();
-  // 소유한 포인트에서 배팅한 포인트를 차감하여 리덕스를 사용해야하나?
-
-  const userPoint = me ? me.point : 0;
+  // 리덕스 배팅 내역 부르는거 오류
+  console.log(battingHistory);
+  // const userPoint = me ? me.point : 0;
+  const [userPoint, setUserPoint] = useState(0);
   // const [loading, setLoading] = useState(false);
   // const [error, setError] = useState(null);
   const [match, setMatch] = useState(null);
@@ -105,7 +103,13 @@ const match = () => {
   const [homeImg, setHomeImg] = useState('/images/epl_logo.png');
   const [awayImg, setAwayImg] = useState('/images/epl_logo.png');
 
+  // console.log(battingHistory);
   useEffect(() => {
+    dispatch({
+      type: LOAD_BATTING_HISTORY_REQUEST,
+      data: matchid,
+    });
+    setUserPoint(me?.point);
     if (!me) {
       // Notification('로그인이 필요합니다!');
       // <Alert message="로그인이 필요합니다!" type="warning" showIcon closable />;
@@ -141,12 +145,10 @@ const match = () => {
   const homeTeam = match?.homeTeam;
   const awayTeam = match?.awayTeam;
 
-  moment.tz.setDefault('Asia/Seoul');
-  const nowTime = moment().format();
   const startTime = moment(match?.startTime).format('MM/DD hh:mm');
-  const deadLine = moment(startTime)
+  const deadLine = moment(match?.startTime)
     .subtract(5, 'minutes')
-    .format('MM/DD hh:mm');
+    .format();
 
   const goalsHomeTeam = match?.goalsHomeTeam;
   const goalsAwayTeam = match?.goalsAwayTeam;
@@ -197,6 +199,7 @@ const match = () => {
   };
 
   const handleSubmit = () => {
+    const value = { homeTeam, awayTeam, choose, battingPoint };
     axios
       .post(`/match/${matchid}/batting`, {
         homeTeamName: homeTeam,
@@ -209,7 +212,6 @@ const match = () => {
         Notification('배팅을 완료 하였습니다!');
         // <Alert message="배팅을 완료 하였습니다." type="success" showIcon />;
         router.reload();
-        // router.push('/matchings');
       })
       .catch(err => {
         console.log(err);
@@ -264,9 +266,9 @@ const match = () => {
             <Row>
               <h4>{startTime}</h4>
             </Row>
-            <Row>
+            {/* <Row>
               <h4>마감시간 {deadLine}</h4>
-            </Row>
+            </Row> */}
 
             {/* 장소 */}
           </Col>
@@ -364,12 +366,9 @@ const match = () => {
             <InputNumber
               defaultValue={0}
               value={battingpoint}
-              // formatter={(value) => `${value}`}
-              // parser={(value) => value.replace("", "")}
               min={10}
               max={userPoint}
               step={10}
-              // value={battingpoint}
               onChange={handlebattingpointChange}
             />
           </Row>
@@ -381,20 +380,14 @@ const match = () => {
             있습니다.
           </Row>
           <Row style={{ padding: '1rem' }}>
-            {{ nowTime } > { deadLine } ? (
+            {nowTime > deadLine ? (
               <Button type="primary" danger>
                 마감
               </Button>
             ) : (
-              <div>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  // onClick={Notification('마감 되었습니다!')}
-                >
-                  배팅
-                </Button>
-              </div>
+              <Button type="primary" danger htmlType="submit">
+                배팅
+              </Button>
             )}
           </Row>
         </Form>

@@ -14,10 +14,10 @@ export const LOAD_MATCHS_HISTORY_REQUEST = 'LOAD_MATCHS_HISTORY_REQUEST';
 export const LOAD_MATCHS_HISTORY_SUCCESS = 'LOAD_MATCHS_HISTORY_SUCCESS';
 export const LOAD_MATCHS_HISTORY_FAILURE = 'LOAD_MATCHS_HISTORY_FAILURE';
 
+const nowTime = moment().format();
 function loadMatchsAPI(index) {
   // index 파라미터를 받아오는데 없다면 디폴트로 -1로 쓴다
   //근데 index 왜쓰는거지?
-  const nowTime = moment().format();
   const limit = 100; // 받을 개수
 
   if (index === 1) {
@@ -50,7 +50,7 @@ function* watchLoadMatchs() {
 }
 ///
 function loadMatchsHistoryAPI(index) {
-  const nowTime = moment().format();
+  // const nowTime = moment().format();
   const limit = 9999;
   // if (index == -1) {
   //   return axios.get(`/match`);
