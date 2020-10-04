@@ -76,18 +76,6 @@ const fetchApi = async (url) => {
     return [];
   }
 };
-const testComponent = (data) => {
-  // const data = props.data1;
-  data.map((e) => {
-    return (
-      <div>
-        <div>{e.user}</div>
-        <div>{e.chooseHomeAwayDraw}</div>
-        <div>{e.point}</div>
-      </div>
-    );
-  });
-};
 
 const divideHistory = (bat_history) => {
   const object = {
@@ -130,15 +118,11 @@ const match = () => {
   const [choose, setChoose] = useState('Home');
   const [battingpoint, setBattingpoint] = useState(0);
   const [odds, setOdds] = useState({});
-  const [dividedHistory, setDividedHistory] = useState({});
 
   const [homeImg, setHomeImg] = useState('/images/epl_logo.png');
   const [awayImg, setAwayImg] = useState('/images/epl_logo.png');
 
-  const [homeHistory, setHomeHistory] = useState('');
-  const [drawHistory, setDrawHistory] = useState('');
-  const [awayHistory, setAwayHistory] = useState('');
-  // console.log(battingHistory[0].chooseHomeAwayDraw);
+  const [dividedHistory, setDividedHistory] = useState({});
 
   useEffect(() => {
     dispatch({
@@ -437,6 +421,7 @@ const match = () => {
         {/* 디바이더 사용하기 */}
         <Row align="center">
           <Col span={7}>
+            <Row style={{ marginBottom: '1rem' }}>Home</Row>
             {dividedHistory?.home?.map((data, i) => (
               <BattingUserList key={`home${i}`} data={data}></BattingUserList>
             ))}
@@ -446,6 +431,7 @@ const match = () => {
             <Divider type="vertical" />
           </Col>
           <Col span={7}>
+            <Row style={{ marginBottom: '1rem' }}>Draw</Row>
             {dividedHistory?.draw?.map((data, i) => (
               <BattingUserList key={`home${i}`} data={data}></BattingUserList>
             ))}
@@ -454,6 +440,7 @@ const match = () => {
             <Divider type="vertical" />
           </Col>
           <Col span={7}>
+            <Row style={{ marginBottom: '1rem' }}>Away</Row>
             {dividedHistory?.away?.map((data, i) => (
               <BattingUserList key={`home${i}`} data={data}></BattingUserList>
             ))}

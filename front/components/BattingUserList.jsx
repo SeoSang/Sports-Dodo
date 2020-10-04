@@ -9,11 +9,11 @@ import { useEffect } from 'react';
 
 const BattingUserList = ({ data }) => {
   return (
-    <div>
-      <div style={{ fontSize: '1px' }}>
-        {data.userid} {data.chooseHomeAwayDraw} {data.battingPoint}
-      </div>
-    </div>
+    <Row>
+      <Row style={{ fontSize: '1px', marginBottom: '5em' }}>
+        {data.userid} {data.battingPoint}p
+      </Row>
+    </Row>
   );
 };
 export default BattingUserList;
