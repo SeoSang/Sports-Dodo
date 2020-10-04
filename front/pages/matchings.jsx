@@ -18,20 +18,35 @@ require('moment-timezone');
 
 // const limit = 100;
 moment.tz.setDefault('Asia/Seoul');
-const time_format = 'MM/DD-hh:mm-A';
+const time_format = 'YYYY/MM/DD-HH:mm A';
 const nowTime = moment().format(time_format);
 
-const battingButton = (startTime, deadLine, deadLine_2) => {
+const tagColor = (startTime, deadLine, deadLine_2, deadLine_24) => {
   if (nowTime > startTime) {
     // console.log(e);
-    // console.log(nowTime);
+    return 'red';
+  } else if (nowTime > deadLine) {
+    return 'Orange';
+  } else if (nowTime > deadLine_2) {
+    return 'yellow';
+  } else if (nowTime > deadLine_24) {
+    return 'green';
+  } else {
+    return 'blue';
+  }
+};
+const battingTag = (startTime, deadLine, deadLine_2, deadLine_24) => {
+  if (nowTime > startTime) {
+    // console.log(e);
     return '마감';
   } else if (nowTime > deadLine) {
     return '마감임박';
   } else if (nowTime > deadLine_2) {
-    return '2시간 남음';
+    return '1시간 남음';
+  } else if (nowTime > deadLine_24) {
+    return '하루 남음';
   } else {
-    return '배팅';
+    return '';
   }
 };
 const matchings = () => {
@@ -128,18 +143,30 @@ const matchings = () => {
       title: '배팅',
       dataIndex: '_id',
       key: '_id',
-      width: 100,
+      width: 120,
       align: 'center',
       render: (_id, record) => (
         <Link href={{ pathname: 'match', query: { matchid: _id } }}>
           <a>
             <Button type="primary" htmlType="submit" danger>
-              {battingButton(
+              배팅
+            </Button>
+            <Tag
+              style={{ marginLeft: '1rem' }}
+              color={tagColor(
                 record.startTime,
                 record.deadLine,
-                record.deadLine_2
+                record.deadLine_2,
+                record.deadLine_24
               )}
-            </Button>
+            >
+              {battingTag(
+                record.startTime,
+                record.deadLine,
+                record.deadLine_2,
+                record.deadLine_24
+              )}
+            </Tag>
           </a>
         </Link>
       ),
@@ -197,7 +224,10 @@ const matchings = () => {
         .subtract(5, 'minutes')
         .format(time_format),
       deadLine_2: moment(matchs[i].startTime)
-        .subtract(2, 'hours')
+        .subtract(1, 'hours')
+        .format(time_format),
+      deadLine_24: moment(matchs[i].startTime)
+        .subtract(1, 'd')
         .format(time_format),
       // 마감시간 설정
       howManyPeopleBatted:
