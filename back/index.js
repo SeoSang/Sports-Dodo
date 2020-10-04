@@ -61,7 +61,7 @@ app.get('/ping', (req, res, next) => {
 //   await Match.deleteMany({ })
 // }
 
-// bringMatchFromAPI('2790', '2020-10-24');
+bringMatchFromAPI('2790', '2020-10-24');
 // console.log('가져왔엉');
 
 // 미들웨어들
