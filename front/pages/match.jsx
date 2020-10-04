@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import styled from 'styled-components';
@@ -8,6 +9,7 @@ import MatchTest from '../components/MatchTest';
 import Notification from '../components/Notification';
 import { LOAD_BATTING_HISTORY_REQUEST } from '../sagas/batting';
 import { useDispatch, useSelector } from 'react-redux';
+import BattingUserList from '../components/BattingUserList';
 
 import {
   Form,
@@ -20,17 +22,17 @@ import {
   Button,
   Divider,
 } from 'antd';
-import {
-  UpperDiv,
-  LowerDiv,
-  SportCategories,
-  FlexDiv,
-} from '../styles/styled-components';
+import { FlexDiv } from '../styles/styled-components';
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
 
+axios.defaults.baseURL = `${BACKEND_URL}/api`;
+require('moment-timezone');
+moment.tz.setDefault('Asia/Seoul');
+const nowTime = moment().format();
+
 const ProgressBar = styled(FlexDiv)`
-  width: ${props => props.width || 'auto'};
-  background-color: ${props => props.backColor || 'inherit'};
+  width: ${(props) => props.width || 'auto'};
+  background-color: ${(props) => props.backColor || 'inherit'};
   padding: 5px;
   margin-bottom: 1rem;
   border-radius: 2px;
@@ -65,10 +67,7 @@ const getOdds = (h, d, a, point, where) => {
   };
 };
 
-axios.defaults.baseURL = `${BACKEND_URL}/api`;
-require('moment-timezone');
-
-const fetchApi = async url => {
+const fetchApi = async (url) => {
   try {
     const { data } = await axios.get(url);
     return data;
@@ -77,19 +76,51 @@ const fetchApi = async url => {
     return [];
   }
 };
+const testComponent = (data) => {
+  // const data = props.data1;
+  data.map((e) => {
+    return (
+      <div>
+        <div>{e.user}</div>
+        <div>{e.chooseHomeAwayDraw}</div>
+        <div>{e.point}</div>
+      </div>
+    );
+  });
+};
 
-moment.tz.setDefault('Asia/Seoul');
-const nowTime = moment().format();
+const divideHistory = (bat_history) => {
+  const object = {
+    home: [],
+    draw: [],
+    away: [],
+  };
+  bat_history?.map((e) => {
+    const array = {
+      userid: e?.user,
+      chooseHomeAwayDraw: e?.chooseHomeAwayDraw,
+      battingPoint: e?.battingPoint,
+    };
+    // data.push(array);
+    e?.chooseHomeAwayDraw === 'Home'
+      ? object.home.push(array)
+      : // ? setHomeHistory(...(e?.user, e?.chooseHomeAwayDraw, e?.battingPoint))
+      e?.chooseHomeAwayDraw === 'Draw'
+      ? object.draw.push(array)
+      : object.away.push(array);
+  });
+  return object;
+};
 
 const match = () => {
   const router = useRouter();
   const matchid = router.query.matchid;
 
-  const { me } = useSelector(state => state.user);
-  const { battingHistory } = useSelector(state => state.batting);
+  const { me } = useSelector((state) => state.user);
+  const { battingHistory } = useSelector((state) => state.batting);
   const dispatch = useDispatch();
   // 리덕스 배팅 내역 부르는거 오류
-  console.log(battingHistory);
+  // console.log(battingHistory);
   // const userPoint = me ? me.point : 0;
   const [userPoint, setUserPoint] = useState(0);
   // const [loading, setLoading] = useState(false);
@@ -99,16 +130,29 @@ const match = () => {
   const [choose, setChoose] = useState('Home');
   const [battingpoint, setBattingpoint] = useState(0);
   const [odds, setOdds] = useState({});
+  const [dividedHistory, setDividedHistory] = useState({});
 
   const [homeImg, setHomeImg] = useState('/images/epl_logo.png');
   const [awayImg, setAwayImg] = useState('/images/epl_logo.png');
 
-  // console.log(battingHistory);
+  const [homeHistory, setHomeHistory] = useState('');
+  const [drawHistory, setDrawHistory] = useState('');
+  const [awayHistory, setAwayHistory] = useState('');
+  // console.log(battingHistory[0].chooseHomeAwayDraw);
+
   useEffect(() => {
     dispatch({
       type: LOAD_BATTING_HISTORY_REQUEST,
       data: matchid,
     });
+  }, []);
+
+  useEffect(() => {
+    setDividedHistory(divideHistory(battingHistory));
+  }, [battingHistory]);
+
+  // console.log(data1)
+  useEffect(() => {
     setUserPoint(me?.point);
     if (!me) {
       // Notification('로그인이 필요합니다!');
@@ -120,7 +164,7 @@ const match = () => {
       const match = fetchApi(`/match/${matchid}`);
       const point = fetchApi(`/match/${matchid}/batting`);
 
-      Promise.all([match, point]).then(v => {
+      Promise.all([match, point]).then((v) => {
         setMatch(v[0].data);
         setHomeImg(v[0].data.homeTeamLogoUrl);
         setAwayImg(v[0].data.awayTeamLogoUrl);
@@ -146,9 +190,7 @@ const match = () => {
   const awayTeam = match?.awayTeam;
 
   const startTime = moment(match?.startTime).format('MM/DD hh:mm');
-  const deadLine = moment(match?.startTime)
-    .subtract(5, 'minutes')
-    .format();
+  const deadLine = moment(match?.startTime).subtract(5, 'minutes').format();
 
   const goalsHomeTeam = match?.goalsHomeTeam;
   const goalsAwayTeam = match?.goalsAwayTeam;
@@ -184,11 +226,11 @@ const match = () => {
   };
   const venue = match?.venue;
 
-  const handleChooseChange = e => {
+  const handleChooseChange = (e) => {
     setChoose(e.target.value);
   };
 
-  const handlebattingpointChange = e => {
+  const handlebattingpointChange = (e) => {
     if (e > userPoint) {
       return Notification('가진 포인트보다 배팅을 많이 했습니다.');
     }
@@ -207,13 +249,13 @@ const match = () => {
         chooseHomeAwayDraw: choose,
         battingPoint: battingpoint,
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         Notification('배팅을 완료 하였습니다!');
         // <Alert message="배팅을 완료 하였습니다." type="success" showIcon />;
         router.reload();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         Notification('배팅에 오류가 발생 하였습니다!');
         router.reload();
@@ -394,16 +436,28 @@ const match = () => {
         <Divider>배팅한 사람들</Divider>
         {/* 디바이더 사용하기 */}
         <Row align="center">
-          <Col span={7}>1 승</Col>
+          <Col span={7}>
+            {dividedHistory?.home?.map((data, i) => (
+              <BattingUserList key={`home${i}`} data={data}></BattingUserList>
+            ))}
+          </Col>
           {/* 홈팀 배팅한 사람들 */}
           <Col span={1}>
             <Divider type="vertical" />
           </Col>
-          <Col span={7}>2 무</Col>
+          <Col span={7}>
+            {dividedHistory?.draw?.map((data, i) => (
+              <BattingUserList key={`home${i}`} data={data}></BattingUserList>
+            ))}
+          </Col>
           <Col span={1}>
             <Divider type="vertical" />
           </Col>
-          <Col span={7}>3 패</Col>
+          <Col span={7}>
+            {dividedHistory?.away?.map((data, i) => (
+              <BattingUserList key={`home${i}`} data={data}></BattingUserList>
+            ))}
+          </Col>
         </Row>
       </Row>
     </div>

@@ -23,6 +23,7 @@ const nowTime = moment().format(time_format);
 
 const tagColor = (startTime, deadLine, deadLine_1, deadLine_24) => {
   if (nowTime > startTime) {
+    // console.log(e);
     return 'red';
   } else if (nowTime > deadLine) {
     return 'Orange';
@@ -62,7 +63,7 @@ const matchings = () => {
       dataIndex: 'homeTeam',
       key: 'homeTeam',
       align: 'center',
-      width: 160,
+      width: 200,
       render(text, record) {
         return {
           props: {
@@ -81,7 +82,7 @@ const matchings = () => {
       dataIndex: 'awayTeam',
       key: 'awayTeam',
       align: 'center',
-      width: 160,
+      width: 200,
       render(text, record) {
         return {
           props: {

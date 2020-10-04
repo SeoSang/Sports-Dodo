@@ -63,7 +63,7 @@ const reducer = (state = initialState, action) => {
       case LOAD_BATTING_HISTORY_SUCCESS:
         draft.isLoadingBattingHistory = false;
         draft.isLoadedBatting = true;
-        draft.battingHistory = action.data;
+        draft.battingHistory = action.data.data;
         break;
       case LOAD_BATTING_HISTORY_FAILURE:
         draft.isLoadingBattingHistory = false;

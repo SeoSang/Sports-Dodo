@@ -21,10 +21,10 @@ function loadMatchsAPI(index) {
   const limit = 100; // 받을 개수
 
   if (index === 1) {
-    return axios.get(`/match?limit=1000`);
+    return axios.get(`/match`);
     // index가 1인경우 전체 경기 부름
   }
-  return axios.get(`/match?startTime[gt]=${nowTime}&limit=${limit}`);
+  return axios.get(`/match?startTime[gt]=${nowTime}`);
 }
 
 function* loadMatchs(action) {
@@ -57,7 +57,7 @@ function loadMatchsHistoryAPI(index) {
   // }
   return axios.get(
     // `/match/${matchid}/batting`
-    `/match?startTime[lt]=${nowTime}&limit=${limit}`
+    `/match?startTime[lt]=${nowTime}`
   );
 }
 
