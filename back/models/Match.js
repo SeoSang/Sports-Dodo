@@ -101,7 +101,7 @@ var MatchSchema = mongoose.Schema({
 
 MatchSchema.pre('save', async function (next) {
     startTime = new Date(this.startTime);
-    startTime = startTime.setMinutes(startTime.getMinutes() + 110);
+    startTime = startTime.setHours(startTime.getHours() + 11);
     startTime = new Date(startTime);
     this.finishTime = startTime.toISOString();
     next();

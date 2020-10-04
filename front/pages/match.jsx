@@ -19,6 +19,7 @@ import {
   InputNumber,
   Button,
   Divider,
+  message,
 } from 'antd';
 import {
   UpperDiv,
@@ -51,7 +52,12 @@ const getProgressBarWidth = (h, d, a) => {
 
 const getOdds = (h, d, a, point, where) => {
   const total = h + d + a + point;
-  if (!total) return null;
+  if (!total)
+    return {
+      home: '미정',
+      draw: '미정',
+      away: '미정',
+    };
   if (where === 'Home') h += point;
   if (where === 'Away') a += point;
   if (where === 'Draw') d += point;
@@ -89,7 +95,6 @@ const match = () => {
   const { battingHistory } = useSelector(state => state.batting);
   const dispatch = useDispatch();
   // 리덕스 배팅 내역 부르는거 오류
-  console.log(battingHistory);
   // const userPoint = me ? me.point : 0;
   const [userPoint, setUserPoint] = useState(0);
   // const [loading, setLoading] = useState(false);
@@ -103,7 +108,6 @@ const match = () => {
   const [homeImg, setHomeImg] = useState('/images/epl_logo.png');
   const [awayImg, setAwayImg] = useState('/images/epl_logo.png');
 
-  // console.log(battingHistory);
   useEffect(() => {
     dispatch({
       type: LOAD_BATTING_HISTORY_REQUEST,
@@ -199,7 +203,10 @@ const match = () => {
   };
 
   const handleSubmit = () => {
-    const value = { homeTeam, awayTeam, choose, battingPoint };
+    const value = { homeTeam, awayTeam, choose };
+    if (battingpoint === 0) {
+      return message.error('0 포인트는 베팅할 수 없습니다!');
+    }
     axios
       .post(`/match/${matchid}/batting`, {
         homeTeamName: homeTeam,
@@ -352,13 +359,13 @@ const match = () => {
             {/* style={{ paddingTop: '2rem' }} */}
             <Radio.Group defaultValue="Home" buttonStyle="solid">
               <Radio.Button value="Home" onChange={handleChooseChange}>
-                홈 승 {odds?.home}
+                홈 승
               </Radio.Button>
               <Radio.Button value="Draw" onChange={handleChooseChange}>
-                홈 무 {odds?.draw}
+                홈 무
               </Radio.Button>
               <Radio.Button value="Away" onChange={handleChooseChange}>
-                홈 패 {odds?.away}
+                홈 패
               </Radio.Button>
             </Radio.Group>
           </Row>
@@ -366,7 +373,7 @@ const match = () => {
             <InputNumber
               defaultValue={0}
               value={battingpoint}
-              min={10}
+              min={0}
               max={userPoint}
               step={10}
               onChange={handlebattingpointChange}

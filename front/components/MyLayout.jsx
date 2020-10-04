@@ -138,7 +138,7 @@ const MyLayout = ({ children, me }) => {
             span={4}
           >
             <Popover
-              className="cursor-point"
+              className="cursor-point profile-popover"
               content={me ? MyProfile(me) : NullProfile}
               title="내 정보"
               trigger="click"

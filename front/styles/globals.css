@@ -45,3 +45,11 @@ a {
 .gray {
   background-color: #95a5a6;
 }
+
+.ant-popover.ant-popover-placement-bottom {
+  position: fixed;
+}
+
+/* .profile-popover {
+  position: fixed;
+} */
