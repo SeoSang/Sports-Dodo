@@ -101,6 +101,7 @@ const divideHistory = (bat_history) => {
       ? object.draw.push(array)
       : object.away.push(array);
   });
+  console.log(object);
   return object;
 };
 
@@ -127,7 +128,7 @@ const match = () => {
   const [awayImg, setAwayImg] = useState('/images/epl_logo.png');
 
   const [dividedHistory, setDividedHistory] = useState({});
-
+  //한 매치에 대한 히스토리
   useEffect(() => {
     dispatch({
       type: LOAD_BATTING_HISTORY_REQUEST,
@@ -139,7 +140,7 @@ const match = () => {
     setDividedHistory(divideHistory(battingHistory));
   }, [battingHistory]);
 
-  // console.log(data1)
+  // console.log(battingHistory);
   useEffect(() => {
     setUserPoint(me?.point);
     if (!me) {
@@ -455,7 +456,7 @@ const match = () => {
           <Col span={7}>
             <Row style={{ marginBottom: '1rem' }}>Draw</Row>
             {dividedHistory?.draw?.map((data, i) => (
-              <BattingUserList key={`home${i}`} data={data} />
+              <BattingUserList key={`draw${i}`} data={data} />
             ))}
           </Col>
           <Col span={1}>
@@ -464,7 +465,7 @@ const match = () => {
           <Col span={7}>
             <Row style={{ marginBottom: '1rem' }}>Away</Row>
             {dividedHistory?.away?.map((data, i) => (
-              <BattingUserList key={`home${i}`} data={data} />
+              <BattingUserList key={`away${i}`} data={data} />
             ))}
           </Col>
         </Row>

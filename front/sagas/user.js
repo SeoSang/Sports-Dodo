@@ -112,15 +112,15 @@ function* loadUser(action) {
 function* watchLoadUser() {
   yield takeLatest(LOAD_USER_REQUEST, loadUser);
 }
-function loadBattingUserAPI(userData) {
-  return axios.get(`/user/${userData}`);
+function loadBattingUserAPI(userid) {
+  const userid_1 = userid;
+  return axios.get(`/user/${userid_1}`);
 }
 
 function* loadBattingUser(action) {
   try {
     const result = yield call(loadBattingUserAPI, action.data);
     yield put({
-      // put -> Action 실행
       type: LOAD_BATTING_USER_SUCCESS,
       data: result.data,
     });

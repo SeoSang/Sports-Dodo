@@ -30,6 +30,7 @@ export const initialState = {
   battingUser: null,
   isLoadingUser: false,
   isLoadSuccess: false,
+  loadingbattingUserErrorReason: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -85,24 +86,22 @@ const reducer = (state = initialState, action) => {
         draft.isRegistering = false;
         draft.registerErrorReason = action.error;
         break;
-
       case LOAD_BATTING_USER_REQUEST:
+        draft.isLoadingUser = true;
+        draft.isLoadSuccess = false;
         draft.battingUser = null;
-
-        // draft.isRegistering = true;
-        // draft.isRegisterSuccess = false;
         break;
       case LOAD_BATTING_USER_SUCCESS:
-        // draft.isRegistering = false;
-        // draft.isRegisterSuccess = true;
+        draft.isLoadingUser = false;
+        draft.isLoadSuccess = true;
         draft.battingUser = action.data.data;
         draft.battingUser.rank = action.data.rank;
         break;
       case LOAD_BATTING_USER_FAILURE:
+        draft.isLoadingUser = false;
+        draft.isLoadSuccess = false;
+        draft.loadingbattingUserErrorReason = action.error;
         draft.battingUser = null;
-
-        // draft.isRegistering = false;
-        // draft.registerErrorReason = action.error;
         break;
       default:
         break;

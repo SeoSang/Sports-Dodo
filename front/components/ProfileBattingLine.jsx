@@ -2,6 +2,9 @@ import { Col, Row } from 'antd';
 import React from 'react';
 import moment from 'moment';
 
+require('moment-timezone');
+moment.tz.setDefault('Asia/Seoul');
+
 const ProfileBattingLine = ({ batting }) => {
   // console.log(batting);
   return (

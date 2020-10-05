@@ -23,7 +23,7 @@ const RankingLine = ({ _id, rank, point, nickname, battings }) => {
         %
       </Col>
       <Col span={4}>
-        <Link href={{ pathname: 'userprofile', query: { userId: _id } }}>
+        <Link href={{ pathname: 'profile', query: { userid: _id } }}>
           <a>
             <Button>자세히 보기</Button>
           </a>
