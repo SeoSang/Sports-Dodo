@@ -164,7 +164,7 @@ const matchings = () => {
                 type="primary"
                 htmlType="submit"
                 danger
-                style={{ marginLeft: '10px' }}
+                // style={{ marginLeft: '5px' }}
               >
                 배팅
               </Button>

@@ -20,6 +20,7 @@ import {
   Button,
   Divider,
   message,
+  Image,
 } from 'antd';
 import { FlexDiv } from '../styles/styled-components';
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
@@ -126,6 +127,7 @@ const match = () => {
 
   const [homeImg, setHomeImg] = useState('/images/epl_logo.png');
   const [awayImg, setAwayImg] = useState('/images/epl_logo.png');
+  const fullScreenImg = '../public/images/epl_emblems_collection.jpg';
 
   const [dividedHistory, setDividedHistory] = useState({});
   //한 매치에 대한 히스토리
@@ -262,11 +264,11 @@ const match = () => {
   };
 
   return (
-    <div style={{ height: 'calc(100vh - 57px)' }}>
+    <div className="imgTest">
       <Row
         style={{
-          backgroundColor: 'white',
           height: '100%',
+          backgroundColor: 'rgba( 255, 255, 255, 0.8 )',
         }}
       >
         <Row style={{ margin: '2rem' }}>
