@@ -55,7 +55,7 @@ const matchings = () => {
       title: 'homeTeam',
       dataIndex: 'homeTeam',
       key: 'homeTeam',
-      align: 'center',
+      align: 'right',
       width: 200,
       render(text, record) {
         return {
@@ -64,15 +64,16 @@ const matchings = () => {
           },
           children: (
             <div>
+              <strong>{text}</strong>
               <Avatar
                 size={40}
                 src={record.homeTeamLogoUrl}
                 style={{
-                  backgroundColor: 'rgba( 255, 255, 255, 0.7)',
-                  marginRight: '10px',
+                  backgroundColor: 'transparent',
+                  // backgroundColor: 'rgba( 255, 255, 255, 0.7)',
+                  marginLeft: '10px',
                 }}
               />
-              <strong>{text}</strong>
             </div>
           ),
         };
@@ -82,12 +83,13 @@ const matchings = () => {
       title: 'awayTeam',
       dataIndex: 'awayTeam',
       key: 'awayTeam',
-      align: 'center',
+      align: 'left',
       width: 200,
       render(text, record) {
         return {
           props: {
-            style: { color: '#4b0763' },
+            style: { color: '#2c3e50' },
+            // style: { color: '#4b0763' },
             // style: { color: 'red' },
           },
           children: (
@@ -96,7 +98,7 @@ const matchings = () => {
                 size={40}
                 src={record.awayTeamLogoUrl}
                 style={{
-                  backgroundColor: 'rgba( 255, 255, 255, 0.7)',
+                  backgroundColor: 'transparent',
                   marginRight: '10px',
                 }}
               />
@@ -135,11 +137,11 @@ const matchings = () => {
       // rowClassName={},
       render: (startTime, record) => {
         return {
-          // props: {
-          //   style: {
-          //     // color: nowTime > record.deadLine ? 'red' : 'green',
-          //   },
-          // },
+          props: {
+            style: {
+              color: '#4b0763',
+            },
+          },
           children: (
             <div>
               <strong>{startTime}</strong>
@@ -153,12 +155,17 @@ const matchings = () => {
       dataIndex: '_id',
       key: '_id',
       width: 100,
-      align: 'center',
+      align: 'left',
       render: (_id, record) => {
         return (
           <Link href={{ pathname: 'match', query: { matchid: _id } }}>
             <a>
-              <Button type="primary" htmlType="submit" danger>
+              <Button
+                type="primary"
+                htmlType="submit"
+                danger
+                style={{ marginLeft: '10px' }}
+              >
                 배팅
               </Button>
               {nowTime > record.startTime ? (
