@@ -9,7 +9,18 @@ import {
   LOAD_MATCHS_HISTORY_REQUEST,
 } from '../sagas/match';
 
-import { Table, Tag, Space, Button, Row, Col, Empty, Spin, Result } from 'antd';
+import {
+  Table,
+  Tag,
+  Space,
+  Button,
+  Row,
+  Col,
+  Empty,
+  Spin,
+  Result,
+  Avatar,
+} from 'antd';
 
 import { AlignCenterOutlined, SyncOutlined } from '@ant-design/icons';
 import SizeContext from 'antd/lib/config-provider/SizeContext';
@@ -38,6 +49,8 @@ const matchings = () => {
     //   align: 'center',
     //   width: 50,
     // },
+    //homeTeamLogoUrl
+    //awayTeamLogoUrl
     {
       title: 'homeTeam',
       dataIndex: 'homeTeam',
@@ -51,6 +64,14 @@ const matchings = () => {
           },
           children: (
             <div>
+              <Avatar
+                size={40}
+                src={record.homeTeamLogoUrl}
+                style={{
+                  backgroundColor: 'rgba( 255, 255, 255, 0.7)',
+                  marginRight: '10px',
+                }}
+              />
               <strong>{text}</strong>
             </div>
           ),
@@ -71,6 +92,14 @@ const matchings = () => {
           },
           children: (
             <div>
+              <Avatar
+                size={40}
+                src={record.awayTeamLogoUrl}
+                style={{
+                  backgroundColor: 'rgba( 255, 255, 255, 0.7)',
+                  marginRight: '10px',
+                }}
+              />
               <strong>{text}</strong>
             </div>
           ),

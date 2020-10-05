@@ -29,7 +29,7 @@ const cookie = new Cookies();
 
 const login = () => {
   const { isLoginSuccess, isLoggingIn, token, me } = useSelector(
-    state => state.user
+    (state) => state.user
   );
   useEffect(() => {
     if (me && !isLoginSuccess) {
@@ -51,11 +51,11 @@ const login = () => {
     // return () => clearTimeout(timer);
   }, [isLoginSuccess, isLoggingIn, token]);
 
-  const onFinish = values => {
+  const onFinish = (values) => {
     dispatch({ type: LOG_IN_REQUEST, data: values });
   };
 
-  const onFinishFailed = values => {};
+  const onFinishFailed = (values) => {};
 
   const onClickTest = async () => {
     const result = await axios.get(`${BACKEND_URL}/ping`);
