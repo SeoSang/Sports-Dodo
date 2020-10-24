@@ -9,6 +9,9 @@ const connectDB = async () => {
 	} else if (process.env.NODE_ENV.trim() === 'test') {
 		uri = process.env.MONGODB_URI_TEST;
 	}
+	if (process.env.NODE_ENV.trim() === 'pro') {
+		uri = process.env.MONGODB_URI_DEV;
+	}
 
 	const conn = await mongoose.connect(uri, {
 		useNewUrlParser: true,
