@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import { Button } from 'antd';
 
 export const FlexDiv = styled.div`
-  display: ${props => props.flex || 'flex'};
-  flex-direction: ${props => props.direction || 'row'};
-  justify-content: ${props => props.justify || 'center'};
-  align-items: ${props => props.align || 'center'};
-  flex-wrap: wrap;
-  background-color: ${props => props.backgroundColor || 'auto'};
-  height: ${props => props.height || 'auto'};
-  width: ${props => props.width || 'auto'};
+  display: ${(props) => props.flex || 'flex'};
+  flex-direction: ${(props) => props.direction || 'row'};
+  justify-content: ${(props) => props.justify || 'center'};
+  align-items: ${(props) => props.align || 'center'};
+  flex-wrap: ${(props) => props.wrap || 'wrap'};
+  background-color: ${(props) => props.backgroundColor || 'auto'};
+  height: ${(props) => props.height || 'auto'};
+  width: ${(props) => props.width || 'auto'};
 `;
 
 // _app 에서 쓰임
@@ -22,14 +22,14 @@ export const TitleBarDiv = styled.div`
 
 export const ContentDiv = styled.div`
   background-color: #e8e8e8;
-  min-height: 90vh;
+  min-height: 100vh;
   border: 1px solid white;
 `;
 
 // 기타
-export const Background90Div = styled.div`
-  min-height: 90vh;
-  padding: 0vh;
+export const Background100Div = styled.div`
+  padding-top: 50px;
+  height: calc(100vh - 50px);
   background-color: white;
 `;
 export const UpperDiv = styled.div`
@@ -50,7 +50,7 @@ export const LowerDiv = styled.div`
 export const FullDiv = styled.div`
   padding: 3px;
   margin: 1vh 3vw;
-  height: 70vh;
+  width: 80vw;
   background-color: #dcdcdc;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: center;

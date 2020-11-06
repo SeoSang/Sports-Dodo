@@ -2,12 +2,15 @@ import { Col, Row } from 'antd';
 import React from 'react';
 import moment from 'moment';
 
+require('moment-timezone');
+moment.tz.setDefault('Asia/Seoul');
+
 const ProfileBattingLine = ({ batting }) => {
   return (
     <Row>
       <Col span={8}>
         <h3>
-          {batting.homeTeamName} VS {batting.awayTeamName}
+          {batting?.homeTeamName} VS {batting?.awayTeamName}
         </h3>
       </Col>
       <Col span={8}>
@@ -19,7 +22,7 @@ const ProfileBattingLine = ({ batting }) => {
         <h3>+{batting.battingResult ? batting.resultPoint : 0} P </h3>
       </Col>
       <Col span={4}>
-        <h3>{moment.format(batting.createdAt)}</h3>
+        <h3>{moment(batting.createdAt).format('YY-MM-DD HH:MM')}</h3>
       </Col>
     </Row>
   );

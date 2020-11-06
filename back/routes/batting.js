@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const { Router } = require('express');
 const router = Router({ mergeParams: true });
 const {
@@ -36,4 +37,49 @@ router
         deleteBatting
     );
 
+=======
+const { Router } = require('express');
+const router = Router({ mergeParams: true });
+const {
+    createBatting,
+    getBattings,
+    getBatting,
+    editBatting,
+    deleteBatting,
+    getBattingForAMatch
+} = require('../controllers/batting');
+const { protect, checkIsOnwerThisBatting } = require('../middlewares/auth');
+const {
+    timeCheckerCreate,
+    timeCheckerUpdateDelete,
+    checkHasEnoughPointForCreate,
+    checkHasEnoughPointForUpdate,
+} = require('../middlewares/battingRestriction');
+
+router
+    .route('/')
+    .post(protect, timeCheckerCreate, checkHasEnoughPointForCreate, createBatting) // ! timeChecker TEST CODE
+    .get(getBattings);
+
+router
+    .route('/for-a-match/:id') // api/batting/for-a-match/메치아이디
+    .get(getBattingForAMatch);
+
+router
+    .route('/:id')
+    .get(getBatting)
+    .put(
+        protect,
+        checkIsOnwerThisBatting,
+        checkHasEnoughPointForUpdate,
+        editBatting
+    ) // update 시작하면 포인트 다시 돌려줘야함.. 프론트에서 하면 되나
+    .delete(
+        protect,
+        checkIsOnwerThisBatting,
+        timeCheckerUpdateDelete,
+        deleteBatting
+    );
+
+>>>>>>> e0a8ce48c0a0fb86312e71d8a46d8eac64cbe2da
 module.exports = router;

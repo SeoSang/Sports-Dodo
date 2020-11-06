@@ -32,3 +32,35 @@ a {
   left: 50%;
   transform: translate(-50%, 0%);
 }
+/* matchings.jsx 시간에 따른 색 */
+
+.currentBattingRowTable {
+  background-color: #c7ad8f;
+}
+.prevBattingRowTable {
+  background-color: #95a5a6;
+}
+
+/* .ant-popover.ant-popover-placement-bottom {
+  position: fixed;
+} */
+.ant-popover {
+  position: fixed !important;
+}
+
+/* .profile-popover {
+  position: fixed;
+} */
+.imgTest {
+  background-image: url('../public/images/epl_emblems_collection.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: calc(100vh - 57px);
+  /* background-color: rgba(255, 255, 255, 0.5); */
+  /* opacity: 0.5; */
+  /* z-index: 1; */
+}
+
+/* style={{
+  height: 'calc(100vh - 57px)',
+}} */

@@ -1,4 +1,4 @@
-import { List, Row, Col, Card, Progress, Button, Layout, BackTop } from 'antd';
+import { List, Row, Col, Card } from 'antd';
 import { dummy_main_rankings } from '../src/dummy';
 import {
   FlexDiv,
@@ -9,10 +9,10 @@ import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOAD_MAIN_MATCHS_REQUEST } from '../sagas/match';
-import moment from 'moment';
 import { LOAD_RANKINGS_REQUEST } from '../sagas/ranking';
 import IndexCard from '../components/IndexCard';
 import NoMatchCard from '../components/NoMatchCard';
+import IndexPhotos from '../components/IndexPhotos';
 
 const FOOTBALL_TRANSLATE = '-0';
 const BASEBALL_TRANSLATE = '-33.3%';
@@ -41,29 +41,6 @@ export const UpperCol = styled(Col)`
     // height: 60vh;
     font-size: 80%;
   }
-`;
-
-const TitleH1 = styled.h1`
-  font-size: 6rem;
-  font-weight: 700;
-  @media (max-width: 1300px) {
-    font-size: 4.8rem;
-  }
-  @media (max-width: 1000px) {
-    font-size: 3.7rem;
-  }
-  @media (max-width: 780px) {
-    font-size: 2.5rem;
-  }
-`;
-
-const MessiContainer = styled.div`
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  cursor: pointer;
-  width: 100%;
-  height: 20%;
 `;
 
 const SlideRefDiv = styled.div`
@@ -102,6 +79,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const { matchs } = useSelector((state) => state.match);
   const { rankings } = useSelector((state) => state.ranking);
+  const [show, handleShow] = useState(false);
 
   useEffect(() => {
     dispatch({
@@ -110,6 +88,18 @@ const Home = () => {
     dispatch({
       type: LOAD_MAIN_MATCHS_REQUEST,
     });
+  }, []);
+
+  useEffect(() => {
+    const scrollFun = () => {
+      if (window.scrollY > 60) {
+        handleShow(true);
+      } else handleShow(false);
+    };
+    window.addEventListener('scroll', scrollFun);
+    return () => {
+      window.removeEventListener('scroll', scrollFun);
+    };
   }, []);
 
   const onClickFootball = (e) => {
@@ -123,32 +113,18 @@ const Home = () => {
     setCurrentSlide(BASKETBALL_TRANSLATE);
   };
 
-  const scrollToBottom = () => {
-    messiRef.current.scrollIntoView({ behavior: 'smooth' });
-    messiRef.current.scrollIntoView({ behavior: 'smooth' });
+  const scrollToRef = () => {
+    messiRef.current.scrollIntoView({
+      behavior: 'smooth',
+    });
   };
 
   return (
     <>
-      <Row style={{ zIndex: 20 }}>
-        <MessiContainer onClick={scrollToBottom}>
-          <img
-            style={{ width: '100%', height: '50%', opacity: '50%' }}
-            src="/images/messi.jpg"
-          ></img>
-          <FlexDiv
-            width="100%"
-            height="50%"
-            style={{ position: 'absolute', opacity: '100%' }}
-          >
-            <TitleH1>
-              당신의 <span style={{ color: '#931a25' }}>통찰력을</span>{' '}
-              보여주세요!
-            </TitleH1>
-          </FlexDiv>
-        </MessiContainer>
-      </Row>
-      <MainRow style={{ height: '100vh' }}>
+      <IndexPhotos show={show} scrollToRef={scrollToRef}></IndexPhotos>
+      <MainRow>
+        <div ref={messiRef}></div>
+
         <Card
           style={{
             backgroundColor: '#fcfcfc',
@@ -238,8 +214,6 @@ const Home = () => {
           </Row>
         </LowerDiv>
       </MainRow>
-
-      <div style={{ float: 'left', clear: 'both' }} ref={messiRef}></div>
     </>
   );
 };

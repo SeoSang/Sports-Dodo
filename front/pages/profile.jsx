@@ -1,56 +1,84 @@
 import React, { useEffect } from 'react';
-import { Row, Col, Avatar, Alert, notification } from 'antd';
+import { Row, Col, Avatar, Alert, notification, Card } from 'antd';
 import { wrapper } from '../store';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { LOAD_USER_REQUEST } from '../sagas/user';
+import { LOAD_USER_REQUEST, LOAD_BATTING_USER_REQUEST } from '../sagas/user';
 import { useRouter } from 'next/dist/client/router';
+import { useSelector, useDispatch } from 'react-redux';
 import Notification from '../components/Notification';
+import ProfileBattingLine from '../components/ProfileBattingLine';
 
 const profileCardStyle = {
   backgroundColor: '#c8d6e5',
-  margin: '2px',
+  margin: '1rem',
   padding: '5px',
+  borderRadius: '10px',
   boxShadow:
     '0 9px 8px 1px rgba(0, 0, 0, 0.2), 0 6px 20px 1px rgba(0, 0, 0, 0.19)',
 };
 
 const BattingsCard = styled.div`
-  background-color: #fdcb6e;
+  background-color: #f6f6f6;
+  border-radius: 10px;
+  margin: 0 1rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;
-
-// http://localhost:1337/api/user/5f55f6af32e4e943e89b6894
-//유저 api 검색
-
 const profile = () => {
-  const { me } = useSelector((state) => state.user);
-  const router = useRouter();
+  const { me, battingUser } = useSelector((state) => state.user);
 
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const userid = router.query.userid;
   useEffect(() => {
     if (!me) {
       Notification('로그인이 필요합니다!');
-      // <Alert message="로그인이 필요합니다!" type="warning" showIcon closable />;
-      // alert('로그인이 필요합니다!');
-      router.push('/');
     }
   }, [me]);
+
+  useEffect(() => {
+    dispatch({ type: LOAD_BATTING_USER_REQUEST, data: userid });
+  }, []);
   return (
     <>
-      <Row style={{ marginBottom: '20px' }}>
+      <Row
+        style={{
+          marginBottom: '20px',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'flex-end',
+        }}
+      >
         <Col span={14} style={profileCardStyle}>
-          <Row>
-            <Col span={8}>
-              <Avatar size={100} src="/images/profile.jpg" />
-            </Col>
-            <Col span={16}>
-              <h2>{me?.name}</h2>
-              <h2>포인트 : {me?.point}점</h2>
-              <h2>랭킹 : {me?.rank}위</h2>
-            </Col>
-          </Row>
+          <Col span={8}>
+            <Avatar size={100} src="/images/profile.jpg" />
+          </Col>
+          <Col span={16}>
+            <h2>
+              <b>{battingUser?.name}</b>
+            </h2>
+            <h2>
+              <b>포인트 : </b>
+              {battingUser?.point}점
+            </h2>
+          </Col>
         </Col>
-        <Col span={10}></Col>
+        <Col span={16}>
+          <Card
+            style={{
+              borderRadius: '50%',
+              width: '10%',
+              height: '10%',
+              backgroundColor: '#c8d6e5',
+              textAlign: 'center',
+              boxShadow: '1px 1px 1px 1px gray',
+            }}
+          >
+            <h2>
+              <b>랭킹 : </b>
+              {battingUser?.rank}위
+            </h2>
+          </Card>
+        </Col>
       </Row>
       <BattingsCard>
         <Row>
@@ -73,7 +101,8 @@ const profile = () => {
               <h2>날짜</h2>
             </Col>
           </Row>
-          {me?.battings?.map((batting) => (
+          {/* api/user/{me.id} */}
+          {battingUser?.battings?.map((batting) => (
             <ProfileBattingLine batting={batting}></ProfileBattingLine>
           ))}
         </Row>

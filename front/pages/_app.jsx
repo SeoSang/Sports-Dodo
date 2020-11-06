@@ -4,12 +4,10 @@ import Link from 'next/link';
 
 import MyLayout from '../components/MyLayout';
 import axios from 'axios';
-import { Cookies } from 'react-cookie';
 import { wrapper } from '../store';
 import { useEffect } from 'react';
 import { LOAD_USER_REQUEST } from '../sagas/user';
 import moment from 'moment';
-import { LOAD_MAIN_MATCHS_REQUEST } from '../sagas/match';
 import { useDispatch, useSelector } from 'react-redux';
 require('moment-timezone');
 
@@ -19,7 +17,7 @@ const MyApp = ({ Component, pageProps }) => {
 
   useEffect(() => {
     const tokenValue = sessionStorage.getItem('sd');
-    console.log('tokenValue => ', tokenValue);
+    // console.log('tokenValue => ', tokenValue);
     if (tokenValue) {
       axios.defaults.headers.common['x-access-token'] = tokenValue;
       axios.defaults.headers.common['Content-Type'] = 'application/json';

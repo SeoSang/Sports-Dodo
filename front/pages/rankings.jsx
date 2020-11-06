@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Row, Col } from 'antd';
 import styled from 'styled-components';
-import MatchLine from '../components/MatchLine';
 import { useSelector, useDispatch } from 'react-redux';
 import { LOAD_RANKINGS_REQUEST } from '../sagas/ranking';
 import RankingLine from '../components/RankingLine';

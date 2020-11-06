@@ -5,8 +5,16 @@ var MatchSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    homeTeamIdInFAPI: {
+        type: Number,
+        default: 0
+    },
     homeTeamLogoUrl: {
         type: String,
+    },
+    homeInfo: {
+        type: mongoose.Schema.Types.Mixed,
+        default: {}
     },
     awayTeam: {
         type: String,
@@ -14,6 +22,14 @@ var MatchSchema = mongoose.Schema({
     },
     awayTeamLogoUrl: {
         type: String,
+    },
+    awayTeamIdInFAPI: {
+        type: Number,
+        default: 0
+    },
+    awayInfo: {
+        type: mongoose.Schema.Types.Mixed,
+        default: 0
     },
     startTime: {
         type: String,
@@ -85,7 +101,7 @@ var MatchSchema = mongoose.Schema({
 
 MatchSchema.pre('save', async function (next) {
     startTime = new Date(this.startTime);
-    startTime = startTime.setMinutes(startTime.getMinutes() + 110);
+    startTime = startTime.setHours(startTime.getHours() + 11);
     startTime = new Date(startTime);
     this.finishTime = startTime.toISOString();
     next();
