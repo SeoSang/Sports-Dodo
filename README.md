@@ -38,6 +38,29 @@ URL : [스포츠도도!](https://sports-dodo.vercel.app/)
 
 ![랭킹화면](./src/ranking.png)
 
+## Tech Used
+
+<br/>
+
+### Backend
+
+- Architecture : Node js & Express
+- DB : Mongo DB
+- Testing : Mocha, chai
+
+### Frontend
+
+- Architecture : React & Next JS
+- State Management : Redux & immer, Redux-saga
+- Design : Antd, styled-component
+
+### ETC
+
+- Sports API Connection
+- Real-Time Updated Data by Scheduling
+- JWT Authentication
+- Global-State management
+
 ## Author
 
 [ehgks0000](https://github.com/ehgks0000)
